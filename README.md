@@ -20,5 +20,4 @@
 
 # Index
 * [MVP List](https://github.com/Stodtmeister/If-This---Then-That/wiki/MVP-List)
-* [Schema](https://github.com/Stodtmeister/If-This---Then-That/wiki/Schema
-)
+* [Schema](https://github.com/Stodtmeister/If-This---Then-That/wiki/Schema)
