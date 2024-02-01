@@ -4,6 +4,7 @@ from .boards import seed_boards, undo_boards
 from .reviews import seed_reviews, undo_reviews
 from .books import seed_books, undo_books
 from .authors import seed_authors, undo_authors
+from .recommendations import seed_recommendations, undo_recommendations
 
 from app.models.db import db, environment, SCHEMA
 
@@ -25,11 +26,13 @@ def seed():
         undo_authors()
         undo_reviews()
         undo_books()
+        undo_recommendations()
     seed_users()
     seed_boards()
     seed_authors()
     seed_reviews()
     seed_books()
+    seed_recommendations()
     # Add other seed functions here
 
 
@@ -41,4 +44,5 @@ def undo():
     undo_authors()
     undo_reviews()
     undo_books()
+    seed_recommendations()
     # Add other undo functions here
