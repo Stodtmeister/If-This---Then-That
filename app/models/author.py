@@ -10,6 +10,7 @@ class Author(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
 
+    series = db.relationship('Series', back_populates='author')
     books = db.relationship('Book', back_populates='author')
 
     def __repr__(self):
@@ -19,5 +20,5 @@ class Author(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'books': [book.to_dict() for book in self.books],
+            'series': [series.to_dict() for series in self.series],
         }

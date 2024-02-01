@@ -10,7 +10,9 @@ class Series(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('authors.id')))
 
+    author = db.relationship('Author', back_populates='series')
     books = db.relationship('Book', back_populates='series')
 
 
@@ -21,5 +23,6 @@ class Series(db.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'author_id': self.author_id,
             'books': [book.to_dict() for book in self.books],
         }
