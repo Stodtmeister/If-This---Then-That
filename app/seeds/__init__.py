@@ -24,14 +24,14 @@ def seed():
         undo_users()
         undo_boards()
         undo_authors()
-        undo_reviews()
         undo_books()
+        undo_reviews()
         undo_recommendations()
     seed_users()
     seed_boards()
     seed_authors()
-    seed_reviews()
     seed_books()
+    seed_reviews()
     seed_recommendations()
     # Add other seed functions here
 
@@ -42,7 +42,7 @@ def undo():
     undo_users()
     undo_boards()
     undo_authors()
-    undo_reviews()
     undo_books()
+    undo_reviews()
     seed_recommendations()
     # Add other undo functions here
