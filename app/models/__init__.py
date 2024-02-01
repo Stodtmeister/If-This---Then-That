@@ -6,3 +6,4 @@ from .book import Book
 from .board import Board
 from .recommendation import Recommendation
 from .review import Review
+from .series import Series

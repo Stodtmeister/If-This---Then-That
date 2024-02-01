@@ -38,12 +38,18 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('series',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=100), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('books',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=100), nullable=False),
     sa.Column('cover', sa.String(length=100), nullable=False),
     sa.Column('genre', sa.String(length=50), nullable=False),
     sa.Column('author_id', sa.Integer(), nullable=False),
+    sa.Column('series_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['author_id'], ['authors.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

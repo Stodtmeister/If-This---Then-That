@@ -1,6 +1,6 @@
 from app.models import db, Book, environment, SCHEMA
 from sqlalchemy.sql import text
-from app.models import Author
+from app.models import Author, Series
 
 
 def seed_books():
@@ -18,8 +18,36 @@ def seed_books():
     lee = Author.query.filter_by(name="Fonda Lee").first()
     jemisin = Author.query.filter_by(name="N.K. Jemisin").first()
 
+    dresden_files = Series.query.filter_by(name="The Dresden Files").first()
+    lotr = Series.query.filter_by(name="The Lord of the Rings").first()
+    mistborn = Series.query.filter_by(name="Mistborn").first()
+    stormlight = Series.query.filter_by(name="The Stormlight Archive").first()
+    kingkiller = Series.query.filter_by(name="The Kingkiller Chronicle").first()
+    first_law = Series.query.filter_by(name="The First Law").first()
+    broken_empire = Series.query.filter_by(name="The Broken Empire").first()
+    lightbringer = Series.query.filter_by(name="The Lightbringer").first()
+    witcher = Series.query.filter_by(name="The Witcher").first()
+    inheritance = Series.query.filter_by(name="The Inheritance Cycle").first()
+    dark_tower = Series.query.filter_by(name="The Dark Tower").first()
+    earthsea = Series.query.filter_by(name="The Earthsea Cycle").first()
+    broken_earth = Series.query.filter_by(name="The Broken Earth").first()
+    books_of_babel = Series.query.filter_by(name="The Books of Babel").first()
+    licanius = Series.query.filter_by(name="The Licanius Trilogy").first()
+    malazan = Series.query.filter_by(name="The Malazan Book of the Fallen").first()
+    black_company = Series.query.filter_by(name="The Black Company").first()
+    demon_cycle = Series.query.filter_by(name="The Demon Cycle").first()
+    powder_mage = Series.query.filter_by(name="The Powder Mage").first()
+    narnia = Series.query.filter_by(name="The Chronicles of Narnia").first()
+    thrones = Series.query.filter_by(name="A Song of Ice and Fire").first()
+    time = Series.query.filter_by(name="The Wheel of Time").first()
+    potter = Series.query.filter_by(name="Harry Potter").first()
+    gentleman = Series.query.filter_by(name="Gentleman Bastard").first()
+    jade = Series.query.filter_by(name="The Green Bone Saga").first()
+
+
     first = Book(
         title="The Hobbit",
+        series=lotr,
         author=tolkien,
         author_id=1,
         genre="Fantasy",
@@ -27,6 +55,7 @@ def seed_books():
     )
     second = Book(
         title="The Fellowship of the Ring",
+        series=lotr,
         author=tolkien,
         author_id=1,
         genre="Fantasy",
@@ -34,6 +63,7 @@ def seed_books():
     )
     third = Book(
         title="The Two Towers",
+        series=lotr,
         author=tolkien,
         author_id=1,
         genre="Fantasy",
@@ -41,6 +71,7 @@ def seed_books():
     )
     fourth = Book(
         title="The Return of the King",
+        series=lotr,
         author=tolkien,
         author_id=1,
         genre="Fantasy",
@@ -48,6 +79,7 @@ def seed_books():
     )
     fifth = Book(
         title="The Final Empire",
+        series=mistborn,
         author=sanderson,
         author_id=4,
         genre="Fantasy",
@@ -55,6 +87,7 @@ def seed_books():
     )
     sixth = Book(
         title="The Well of Ascension",
+        series=mistborn,
         author=sanderson,
         author_id=4,
         genre="Fantasy",
@@ -62,6 +95,7 @@ def seed_books():
     )
     seventh = Book(
         title="The Hero of Ages",
+        series=mistborn,
         author=sanderson,
         author_id=4,
         genre="Fantasy",
@@ -69,6 +103,7 @@ def seed_books():
     )
     eighth = Book(
         title="The Way of Kings",
+        series=stormlight,
         author=sanderson,
         author_id=4,
         genre="Fantasy",
@@ -76,6 +111,7 @@ def seed_books():
     )
     ninth = Book(
         title="A Game of Thrones",
+        series=thrones,
         author=martin,
         author_id=3,
         genre="Fantasy",
@@ -83,6 +119,7 @@ def seed_books():
     )
     tenth = Book(
         title="A Clash of Kings",
+        series=thrones,
         author=martin,
         author_id=3,
         genre="Fantasy",
@@ -90,6 +127,7 @@ def seed_books():
     )
     eleventh = Book(
         title="A Storm of Swords",
+        series=thrones,
         author=martin,
         author_id=3,
         genre="Fantasy",
@@ -97,6 +135,7 @@ def seed_books():
     )
     twelfth = Book(
         title="A Feast for Crows",
+        series=thrones,
         author=martin,
         author_id=3,
         genre="Fantasy",
@@ -104,6 +143,7 @@ def seed_books():
     )
     thirdteenth = Book(
         title="A Dance with Dragons",
+        series=thrones,
         author=martin,
         author_id=3,
         genre="Fantasy",
@@ -111,6 +151,7 @@ def seed_books():
     )
     fourteenth = Book(
         title="The Name of the Wind",
+        series=kingkiller,
         author=rothfuss,
         author_id=5,
         genre="Fantasy",
@@ -118,6 +159,7 @@ def seed_books():
     )
     fifteenth = Book(
         title="The Wise Man's Fear",
+        series=kingkiller,
         author=rothfuss,
         author_id=5,
         genre="Fantasy",
@@ -125,6 +167,7 @@ def seed_books():
     )
     sixteenth = Book(
         title="The Eye of the World",
+        series=time,
         author=jordan,
         author_id=7,
         genre="Fantasy",
@@ -132,6 +175,7 @@ def seed_books():
     )
     seventeenth = Book(
         title="The Great Hunt",
+        series=time,
         author=jordan,
         author_id=7,
         genre="Fantasy",
@@ -139,6 +183,7 @@ def seed_books():
     )
     eighteenth = Book(
         title="The Dragon Reborn",
+        series=time,
         author=jordan,
         author_id=7,
         genre="Fantasy",
@@ -146,6 +191,7 @@ def seed_books():
     )
     nintheenth = Book(
         title="The Shadow Rising",
+        series=time,
         author=jordan,
         author_id=7,
         genre="Fantasy",
@@ -153,6 +199,7 @@ def seed_books():
     )
     twentieth = Book(
         title="The Fires of Heaven",
+        series=time,
         author=jordan,
         author_id=7,
         genre="Fantasy",
@@ -160,6 +207,7 @@ def seed_books():
     )
     twentyfirst = Book(
         title="Harry Potter and the Sorcerer's Stone",
+        series=potter,
         author=rowling,
         author_id=2,
         genre="Fantasy",
@@ -167,6 +215,7 @@ def seed_books():
     )
     twentysecond = Book(
         title="Harry Potter and the Chamber of Secrets",
+        series=potter,
         author=rowling,
         author_id=2,
         genre="Fantasy",
@@ -174,6 +223,7 @@ def seed_books():
     )
     twentythird = Book(
         title="Harry Potter and the Prisoner of Azkaban",
+        series=potter,
         author=rowling,
         author_id=2,
         genre="Fantasy",
@@ -181,6 +231,7 @@ def seed_books():
     )
     twentyfourth = Book(
         title="Harry Potter and the Goblet of Fire",
+        series=potter,
         author=rowling,
         author_id=2,
         genre="Fantasy",
@@ -188,6 +239,7 @@ def seed_books():
     )
     twentyfifth = Book(
         title="The Blade Itself",
+        series=first_law,
         author=abercrombie,
         author_id=17,
         genre="Fantasy",
@@ -195,6 +247,7 @@ def seed_books():
     )
     twentysixth = Book(
         title="Before They Are Hanged",
+        series=first_law,
         author=abercrombie,
         author_id=17,
         genre="Fantasy",
@@ -202,6 +255,7 @@ def seed_books():
     )
     twentyseventh = Book(
         title="Last Argument of Kings",
+        series=first_law,
         author=abercrombie,
         author_id=17,
         genre="Fantasy",
@@ -209,6 +263,7 @@ def seed_books():
     )
     twentyeigth = Book(
         title="The Lies of Locke Lamora",
+        series=gentleman,
         author=lynch,
         author_id=20,
         genre="Fantasy",
@@ -216,6 +271,7 @@ def seed_books():
     )
     twentyninth = Book(
         title="Red Seas Under Red Skies",
+        series=gentleman,
         author=lynch,
         author_id=20,
         genre="Fantasy",
@@ -223,6 +279,7 @@ def seed_books():
     )
     thirtyth = Book(
         title="The Republic of Thieves",
+        series=gentleman,
         author=lynch,
         author_id=20,
         genre="Fantasy",
@@ -230,6 +287,7 @@ def seed_books():
     )
     thirtyfirst = Book(
         title="Jade City",
+        series=jade,
         author=lee,
         author_id=11,
         genre="Fantasy",
@@ -237,6 +295,7 @@ def seed_books():
     )
     thirtysecond = Book(
         title="Jade War",
+        series=jade,
         author=lee,
         author_id=11,
         genre="Fantasy",
@@ -244,6 +303,7 @@ def seed_books():
     )
     thirtythird = Book(
         title="Jade Legacy",
+        series=jade,
         author=lee,
         author_id=11,
         genre="Fantasy",
@@ -251,6 +311,7 @@ def seed_books():
     )
     thirtyfourth = Book(
         title="The Fifth Season",
+        series=broken_earth,
         author=jemisin,
         author_id=12,
         genre="Fantasy",
@@ -258,6 +319,7 @@ def seed_books():
     )
     thirtyfifth = Book(
         title="The Obelisk Gate",
+        series=broken_earth,
         author=jemisin,
         author_id=12,
         genre="Fantasy",
@@ -265,6 +327,7 @@ def seed_books():
     )
     thirtysixth = Book(
         title="The Stone Sky",
+        series=broken_earth,
         author=jemisin,
         author_id=12,
         genre="Fantasy",
@@ -272,6 +335,7 @@ def seed_books():
     )
     thirtyseventh = Book(
         title="The Black Prism",
+        series=lightbringer,
         author=weeks,
         author_id=18,
         genre="Fantasy",
@@ -279,6 +343,7 @@ def seed_books():
     )
     thirtyeigth = Book(
         title="The Blinding Knife",
+        series=lightbringer,
         author=weeks,
         author_id=18,
         genre="Fantasy",
@@ -286,6 +351,7 @@ def seed_books():
     )
     thirtyninth = Book(
         title="The Broken Eye",
+        series=lightbringer,
         author=weeks,
         author_id=18,
         genre="Fantasy",
@@ -293,6 +359,7 @@ def seed_books():
     )
     fourtieth = Book(
         title="A Wizard of Earthsea",
+        series=earthsea,
         author=ursula,
         author_id=36,
         genre="Fantasy",
@@ -300,6 +367,7 @@ def seed_books():
     )
     fortyfirst = Book(
         title="The Tombs of Atuan",
+        series=earthsea,
         author=ursula,
         author_id=36,
         genre="Fantasy",
@@ -307,6 +375,7 @@ def seed_books():
     )
     fortysecond = Book(
         title="The Farthest Shore",
+        series=earthsea,
         author=ursula,
         author_id=36,
         genre="Fantasy",
@@ -314,6 +383,7 @@ def seed_books():
     )
     fortythird = Book(
         title="Storm Front",
+        series=dresden_files,
         author=butcher,
         author_id=19,
         genre="Fantasy",
@@ -321,6 +391,7 @@ def seed_books():
     )
     fortyfourth = Book(
         title="Fool Moon",
+        series=dresden_files,
         author=butcher,
         author_id=19,
         genre="Fantasy",
@@ -328,6 +399,7 @@ def seed_books():
     )
     fortyfifth = Book(
         title="Grave Peril",
+        series=dresden_files,
         author=butcher,
         author_id=19,
         genre="Fantasy",
@@ -335,6 +407,7 @@ def seed_books():
     )
     fortysixth = Book(
         title="Summer Knight",
+        series=dresden_files,
         author=butcher,
         author_id=19,
         genre="Fantasy",
@@ -342,6 +415,12 @@ def seed_books():
     )
 
     db.session.add_all([first, second, third, fourth])
+    db.session.add_all([fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth])
+    db.session.add_all([thirdteenth, fourteenth, fifteenth, sixteenth, seventeenth, eighteenth, nintheenth, twentieth])
+    db.session.add_all([twentyfirst, twentysecond, twentythird, twentyfourth, twentyfifth, twentysixth, twentyseventh, twentyeigth])
+    db.session.add_all([twentyninth, thirtyth, thirtyfirst, thirtysecond, thirtythird, thirtyfourth, thirtyfifth, thirtysixth])
+    db.session.add_all([thirtyseventh, thirtyeigth, thirtyninth, fourtieth, fortyfirst, fortysecond, fortythird, fortyfourth])
+    db.session.add_all([fortyfifth, fortysixth])
     db.session.commit()
 
 

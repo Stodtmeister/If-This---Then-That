@@ -20,7 +20,9 @@ class Book(db.Model):
     cover = db.Column(db.String(100), nullable=False)
     genre = db.Column(db.String(50), nullable=False)
     author_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('authors.id')), nullable=False)
+    series_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('series.id')))
 
+    series = db.relationship('Series', back_populates='books')
     reviews = db.relationship('Review', back_populates='book')
     author = db.relationship('Author', back_populates='books')
     boards = db.relationship('Board', secondary=board_book, back_populates='books')
