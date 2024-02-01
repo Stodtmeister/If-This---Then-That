@@ -8,8 +8,7 @@ class Author(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(100), nullable=False)
-    last_name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
 
     books = db.relationship('Book', back_populates='author')
 
@@ -19,7 +18,6 @@ class Author(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'firstName': self.first_name,
-            'lastName': self.last_name,
+            'name': self.name,
             'books': [book.to_dict() for book in self.books],
         }
