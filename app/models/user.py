@@ -37,6 +37,6 @@ class User(db.Model, UserMixin):
             'lastName': self.last_name,
             'username': self.username,
             'email': self.email,
-            'tbr': [board.to_dict() for board in self.tbr],
-            'reviews': [review.to_dict() for review in self.reviews],
+            'tbr': [board.id for board in self.tbr],
+            'reviews': [review.id for review in self.reviews],
         }

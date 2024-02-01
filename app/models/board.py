@@ -36,6 +36,6 @@ class Board(db.Model):
             'userId': self.user_id,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'user': self.user.to_dict(),
+            # 'user': self.user.to_dict(),
             'books': [book.to_dict() for book in self.books],
         }
