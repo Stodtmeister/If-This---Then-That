@@ -39,8 +39,10 @@ def login():
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
+        if user is None:
+            return {'errors': {'message': 'No user with this email found'}}, 401
         login_user(user)
-        return user.to_dict()
+        return user.to_dict(include_reviews=False)
     return form.errors, 401
 
 

@@ -6,3 +6,4 @@ class AuthorForm(FlaskForm):
     # first_name = StringField('first_name', validators=[DataRequired(), Length(min=1, max=50)])
     # last_name = StringField('last_name', validators=[DataRequired(), Length(min=1, max=50)])
     name = StringField('name', validators=[DataRequired(), Length(min=1, max=50)])
+    
