@@ -16,9 +16,10 @@ class Author(db.Model):
     def __repr__(self):
         return f'<Author {self.id} {self.name}>'
 
+    #author
     def to_dict(self):
         return {
             'id': self.id,
             'name': self.name,
-            'series': [series.to_dict() for series in self.series],
+            'series': [series.to_dict(include_author=False) for series in self.series],
         }

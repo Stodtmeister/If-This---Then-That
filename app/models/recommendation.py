@@ -17,5 +17,5 @@ class Recommendation(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'books': [book.to_dict() for book in self.books],
+            'books': [book.to_dict(include_boards=False) for book in self.books],
         }

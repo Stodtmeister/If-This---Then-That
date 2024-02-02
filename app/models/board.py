@@ -29,13 +29,16 @@ class Board(db.Model):
     def __repr__(self):
         return f'<Board {self.id} {self.name}>'
 
-    def to_dict(self):
-        return {
+    def to_dict(self, include_books=True):
+        data = {
             'id': self.id,
             'name': self.name,
             'userId': self.user_id,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             # 'user': self.user.to_dict(),
-            'books': [book.to_dict() for book in self.books],
+            # 'books': [book.to_dict() for book in self.books],
         }
+        if include_books:
+            data['books'] = [book.to_dict(include_boards=False) for book in self.books]
+        return data

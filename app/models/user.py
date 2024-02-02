@@ -30,13 +30,17 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    def to_dict(self):
-        return {
+    def to_dict(self, include_reviews=True, include_tbr=True):
+        data = {
             'id': self.id,
             'firstName': self.first_name,
             'lastName': self.last_name,
             'username': self.username,
             'email': self.email,
-            'tbr': [board.id for board in self.tbr],
-            'reviews': [review.id for review in self.reviews],
+            # 'tbr': [board.id for board in self.tbr],
+            # 'reviews': [review.id for review in self.reviews],
         }
+        if include_reviews:
+            data['reviews'] = [review.to_dict(include_user=False) for review in self.reviews]
+        if include_tbr:
+            data['tbr'] = [board.to_dict(include_books=False) for board in self.tbr]

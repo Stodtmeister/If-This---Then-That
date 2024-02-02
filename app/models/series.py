@@ -19,10 +19,13 @@ class Series(db.Model):
     def __repr__(self):
         return f'<Series {self.id} {self.name}>'
 
-    def to_dict(self):
-        return {
+    def to_dict(self, include_author=True):
+        data = {
             'id': self.id,
             'name': self.name,
             'author_id': self.author_id,
-            'books': [book.to_dict() for book in self.books],
+            'books': [book.to_dict(include_author=False, include_reviews=False) for book in self.books],
         }
+        if include_author:
+            data['author'] = self.author.to_dict(include_series=False)
+        return data
