@@ -22,7 +22,7 @@ class Review(db.Model):
     def __repr__(self):
         return f'<Review {self.id} {self.review}>'
 
-    def to_dict(self, include_user=True, include_book=True):
+    def to_dict(self, include_user=True, include_books=True):
         data = {
             'id': self.id,
             'userId': self.user_id,
@@ -36,6 +36,6 @@ class Review(db.Model):
         }
         if include_user:
             data['user'] = self.user.to_dict(include_reviews=False)
-        if include_book:
+        if include_books:
             data['book'] = self.book.to_dict(include_reviews=False)
         return data

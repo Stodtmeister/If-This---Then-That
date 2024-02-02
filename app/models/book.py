@@ -19,6 +19,7 @@ class Book(db.Model):
     title = db.Column(db.String(100), nullable=False)
     cover = db.Column(db.String(100), nullable=False)
     genre = db.Column(db.String(50), nullable=False)
+    votes = db.Column(db.Integer, nullable=True, default=0)
     author_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('authors.id')), nullable=False)
     series_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('series.id')))
 
@@ -37,6 +38,7 @@ class Book(db.Model):
             'title': self.title,
             'cover': self.cover,
             'genre': self.genre,
+            'votes': self.votes,
             'authorId': self.author_id,
             'seriesId': self.series_id,
             # 'reviews': [review.to_dict() for review in self.reviews],
