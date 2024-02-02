@@ -11,4 +11,4 @@ author_routes = Blueprint('author', __name__)
 @author_routes.route('/')
 def get_authors():
     authors = Author.query.all()
-    return {"authors": [author.to_dict() for author in authors]}
+    return {'authors': [author.to_dict() for author in authors]}
