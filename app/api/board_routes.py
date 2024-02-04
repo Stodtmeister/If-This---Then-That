@@ -148,61 +148,132 @@ def get_board_books(boardId):
     if board is None:
         return {"errors": ["Board not found"]}, 404
 
-    books = [book.to_dict() for book in board.books]
+    books = [book.to_dict(include_author=False, include_boards=False, include_reviews=False, include_recommendations=False) for book in board.books]
 
     return {"books": books}, 200
 
 
-@board_routes.route("/<int:boardId>/books", methods=["POST"])
+"""
+Add a book to a board.
+
+This function takes a board ID and a book ID as parameters, retrieves the corresponding
+Board and Book objects from the database, and adds the book to the board's list of books.
+If the board or book does not exist, it returns an error message and a 404 status code.
+If the book is successfully added to the board, it commits the changes to the database
+and returns a dictionary representation of the book and a 201 status code.
+
+Parameters:
+boardId (int): The ID of the board to add the book to.
+bookId (int): The ID of the book to add to the board.
+
+Returns:
+dict: A dictionary representation of the book that was added to the board.
+int: A status code indicating the result of the operation (201 if successful, 404 if not).
+"""
+@board_routes.route("/<int:boardId>/books/<int:bookId>", methods=["POST"])
 @login_required
-def add_book_to_board(boardId):
+def add_book_to_board(boardId, bookId):
     board = Board.query.get(boardId)
+    book = Book.query.get(bookId)
 
     if board is None:
         return {"errors": ["Board not found"]}, 404
 
-    author_form = AuthorForm()
-    author_form["csrf_token"].data = request.cookies["csrf_token"]
+    if book is None:
+        return {"errors": ["Book not found"]}, 404
 
-    if not author_form.validate_on_submit():
-        return {"errors": validation_errors_to_error_messages(author_form.errors)}, 400
-
-    author = Author.query.filter_by(name=author_form.data["author"]).first()
-
-    if author is None:
-        author = Author(name=author_form.data["author"])
-        db.session.add(author)
-        db.session.commit()
-
-    series_form = SeriesForm()
-    series_form["csrf_token"].data = request.cookies["csrf_token"]
-
-    if not series_form.validate_on_submit():
-        return {"errors": validation_errors_to_error_messages(series_form.errors)}, 400
-
-    series = Series.query.filter_by(name=series_form.data["series"]).first()
-
-    if series is None:
-        series = Series(name=series_form.data["series"], author_id=author.id)
-        db.session.add(series)
-        db.session.commit()
-
-    book_form = BookForm()
-    book_form["csrf_token"].data = request.cookies["csrf_token"]
-
-    if not book_form.validate_on_submit():
-        return {"errors": validation_errors_to_error_messages(book_form.errors)}, 400
-
-    new_book = Book(
-        title=book_form.data["title"],
-        series=series,
-        author=author,
-        author_id=author.id,
-        cover=book_form.data["cover"],
-        genre=book_form.data["genre"],
-    )
-    
-    board.books.append(new_book)
+    board.books.append(book)
     db.session.commit()
 
-    return new_book.to_dict(), 201
+    return book.to_dict(include_author=False, include_reviews=False, include_recommendations=False), 201
+
+
+"""
+Remove a book from a board.
+
+This function takes a board ID and a book ID as parameters, retrieves the corresponding
+Board and Book objects from the database, and removes the book from the board's list of books.
+If the board or book does not exist, it returns an error message and a 404 status code.
+If the book is successfully removed from the board, it commits the changes to the database
+and returns a success message.
+
+Parameters:
+boardId (int): The ID of the board to remove the book from.
+bookId (int): The ID of the book to remove from the board.
+
+Returns:
+dict: A dictionary with a success message if the book was removed successfully.
+"""
+@board_routes.route("/<int:boardId>/books/<int:bookId>", methods=["DELETE"])
+@login_required
+def remove_book_from_board(boardId, bookId):
+    board = Board.query.get(boardId)
+    book = Book.query.get(bookId)
+
+    if board is None:
+        return {"errors": ["Board not found"]}, 404
+
+    if book is None:
+        return {"errors": ["Book not found"]}, 404
+
+    board.books.remove(book)
+    db.session.commit()
+
+    return {"message": "Book removed from board"}
+
+
+
+
+# @board_routes.route("/<int:boardId>/books", methods=["POST"])
+# @login_required
+# def add_book_to_board(boardId):
+#     board = Board.query.get(boardId)
+
+#     if board is None:
+#         return {"errors": ["Board not found"]}, 404
+
+#     author_form = AuthorForm()
+#     author_form["csrf_token"].data = request.cookies["csrf_token"]
+
+#     if not author_form.validate_on_submit():
+#         return {"errors": validation_errors_to_error_messages(author_form.errors)}, 400
+
+#     author = Author.query.filter_by(name=author_form.data["author"]).first()
+
+#     if author is None:
+#         author = Author(name=author_form.data["author"])
+#         db.session.add(author)
+#         db.session.commit()
+
+#     series_form = SeriesForm()
+#     series_form["csrf_token"].data = request.cookies["csrf_token"]
+
+#     if not series_form.validate_on_submit():
+#         return {"errors": validation_errors_to_error_messages(series_form.errors)}, 400
+
+#     series = Series.query.filter_by(name=series_form.data["series"]).first()
+
+#     if series is None:
+#         series = Series(name=series_form.data["series"], author_id=author.id)
+#         db.session.add(series)
+#         db.session.commit()
+
+#     book_form = BookForm()
+#     book_form["csrf_token"].data = request.cookies["csrf_token"]
+
+#     if not book_form.validate_on_submit():
+#         return {"errors": validation_errors_to_error_messages(book_form.errors)}, 400
+
+#     new_book = Book(
+#         title=book_form.data["title"],
+#         series=series,
+#         author=author,
+#         author_id=author.id,
+#         cover=book_form.data["cover"],
+#         genre=book_form.data["genre"],
+#     )
+
+#     board.books.append(new_book)
+#     db.session.commit()
+
+#     return new_book.to_dict(), 201

@@ -53,7 +53,7 @@ class Book(db.Model):
         if include_boards:
             data['boards'] = [board.to_dict(include_books=False) for board in self.boards]
         if include_reviews:
-            data['reviews'] = [review.to_dict(include_book=False) for review in self.reviews]
+            data['reviews'] = [review.to_dict(include_books=False) for review in self.reviews]
         if include_recommendations:
             data['recommendations'] = [recommendation.to_dict(include_books=False) for recommendation in self.recommendations]
         return data
