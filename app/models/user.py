@@ -43,5 +43,5 @@ class User(db.Model, UserMixin):
         if include_reviews:
             data['reviews'] = [review.to_dict(include_user=False) for review in self.reviews]
         if include_tbr:
-            data['tbr'] = [board.to_dict(include_books=False) for board in self.tbr]
+            data['boards'] = [board.to_dict(include_books=False) for board in self.tbr]
         return data

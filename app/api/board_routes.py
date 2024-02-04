@@ -1,7 +1,7 @@
 from flask import Blueprint, request, abort
 from flask_login import login_required, current_user
-from app.models import Board, Book, Author, Series, db
-from app.forms import BoardForm, BookForm, AuthorForm, SeriesForm
+from app.models import Board, Book, db
+from app.forms import BoardForm
 from .auth_routes import validation_errors_to_error_messages
 
 

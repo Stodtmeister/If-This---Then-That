@@ -35,7 +35,7 @@ class Review(db.Model):
             # 'book': self.book.to_dict(),
         }
         if include_user:
-            data['user'] = self.user.to_dict(include_reviews=False)
+            data['user'] = self.user.to_dict(include_reviews=False, include_tbr=False)
         if include_books:
             data['book'] = self.book.to_dict(include_reviews=False)
         return data
