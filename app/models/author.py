@@ -17,9 +17,13 @@ class Author(db.Model):
         return f'<Author {self.id} {self.name}>'
 
     #author
-    def to_dict(self):
-        return {
+    def to_dict(self, include_series=True):
+        data = {
             'id': self.id,
             'name': self.name,
             'series': [series.to_dict(include_author=False) for series in self.series],
+            # 'series': [series.name for series in self.series],
         }
+        if include_series:
+            data['series'] = [series.to_dict(include_author=False, include_books=True) for series in self.series]
+        return data

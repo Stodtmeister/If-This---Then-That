@@ -32,7 +32,7 @@ class Book(db.Model):
     def __repr__(self):
         return f'<Book {self.id} {self.title}>'
 
-    def to_dict(self, include_author=True, include_boards=True, include_reviews=True, include_recommendations=True):
+    def to_dict(self, include_author=True, include_boards=True, include_reviews=True, include_recommendations=True, include_series=True):
         data = {
             'id': self.id,
             'title': self.title,
@@ -48,6 +48,8 @@ class Book(db.Model):
         }
         if include_author:
             data['author'] = self.author.to_dict()
+        # if include_series:
+        #     data['series'] = self.series.to_dict(include_author=False)
         if include_boards:
             data['boards'] = [board.to_dict(include_books=False) for board in self.boards]
         if include_reviews:

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, abort
 from flask_login import login_required, current_user
-from app.models import Board, db
-from app.forms import BoardForm
+from app.models import Board, Book, Author, Series, db
+from app.forms import BoardForm, BookForm, AuthorForm, SeriesForm
 from .auth_routes import validation_errors_to_error_messages
 
 
@@ -125,3 +125,84 @@ def delete_board(boardId):
     db.session.commit()
 
     return {"message": f"'{board.name}' has been deleted"}
+
+
+"""
+Handles GET requests to fetch all books associated with a specific board.
+
+This function fetches the Board with the given boardId from the database. If no such Board exists, it returns a 404 error.
+Otherwise, it fetches all books associated with the Board, converts each book to a dictionary, and returns them in a list.
+
+Parameters:
+boardId (int): The id of the board whose books are to be fetched.
+
+Returns:
+tuple: A tuple where the first element is a dictionary with a key 'books' and a value being a list of dictionaries representing the books, and the second element is the status code 200, if the board exists.
+tuple: A tuple where the first element is a dictionary with a key 'errors' and a value being a list containing the string "Board not found", and the second element is the status code 404, if no Board with the given boardId exists.
+"""
+@board_routes.route("/<int:boardId>/books", methods=["GET"])
+@login_required
+def get_board_books(boardId):
+    board = Board.query.get(boardId)
+
+    if board is None:
+        return {"errors": ["Board not found"]}, 404
+
+    books = [book.to_dict() for book in board.books]
+
+    return {"books": books}, 200
+
+
+@board_routes.route("/<int:boardId>/books", methods=["POST"])
+@login_required
+def add_book_to_board(boardId):
+    board = Board.query.get(boardId)
+
+    if board is None:
+        return {"errors": ["Board not found"]}, 404
+
+    author_form = AuthorForm()
+    author_form["csrf_token"].data = request.cookies["csrf_token"]
+
+    if not author_form.validate_on_submit():
+        return {"errors": validation_errors_to_error_messages(author_form.errors)}, 400
+
+    author = Author.query.filter_by(name=author_form.data["author"]).first()
+
+    if author is None:
+        author = Author(name=author_form.data["author"])
+        db.session.add(author)
+        db.session.commit()
+
+    series_form = SeriesForm()
+    series_form["csrf_token"].data = request.cookies["csrf_token"]
+
+    if not series_form.validate_on_submit():
+        return {"errors": validation_errors_to_error_messages(series_form.errors)}, 400
+
+    series = Series.query.filter_by(name=series_form.data["series"]).first()
+
+    if series is None:
+        series = Series(name=series_form.data["series"], author_id=author.id)
+        db.session.add(series)
+        db.session.commit()
+
+    book_form = BookForm()
+    book_form["csrf_token"].data = request.cookies["csrf_token"]
+
+    if not book_form.validate_on_submit():
+        return {"errors": validation_errors_to_error_messages(book_form.errors)}, 400
+
+    new_book = Book(
+        title=book_form.data["title"],
+        series=series,
+        author=author,
+        author_id=author.id,
+        cover=book_form.data["cover"],
+        genre=book_form.data["genre"],
+    )
+    
+    board.books.append(new_book)
+    db.session.commit()
+
+    return new_book.to_dict(), 201
