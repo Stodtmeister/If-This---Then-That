@@ -25,7 +25,7 @@ def get_user_board():
     user_boards = Board.query.filter_by(user_id=current_user.id).all()
 
     if user_boards:
-        return {"boards": [boards.to_dict() for boards in user_boards]}, 200
+        return {"boards": [boards.to_dict(include_books=False) for boards in user_boards]}, 200
     else:
         return abort(404, {"message": "User currently has no boards"})
 

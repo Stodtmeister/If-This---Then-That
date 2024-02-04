@@ -28,7 +28,7 @@ class Series(db.Model):
             'author_id': self.author_id,
         }
         if include_books:
-            data['books'] = [book.to_dict(include_author=False, include_reviews=False) for book in self.books]
+            data['books'] = [book.to_dict(include_author=False, include_reviews=False, include_boards=False) for book in self.books]
         if include_author:
             data['author'] = self.author.to_dict(include_series=False)
         return data

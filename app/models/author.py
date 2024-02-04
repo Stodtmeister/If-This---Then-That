@@ -21,7 +21,7 @@ class Author(db.Model):
         data = {
             'id': self.id,
             'name': self.name,
-            'series': [series.to_dict(include_author=False) for series in self.series],
+            # 'series': [series.to_dict(include_author=False) for series in self.series],
             # 'series': [series.name for series in self.series],
         }
         if include_series:
