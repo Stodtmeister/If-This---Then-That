@@ -130,6 +130,16 @@ def delete_review(bookId, reviewId):
     return {"message": "This review has been deleted"}
 
 
+"""
+Fetches and returns all book recommendations for a given book, ordered by vote count in descending order.
+
+Args:
+    bookId (int): The ID of the book for which to fetch recommendations.
+
+Returns:
+    dict: A dictionary containing a list of book recommendations. Each recommendation is represented as a dictionary.
+    If the book is not found, returns a dictionary with an error message.
+"""
 @review_routes.route('/<int:bookId>/recommendations', methods=["GET"])
 def get_recommendations(bookId):
     book = Book.query.get(bookId)
@@ -137,13 +147,22 @@ def get_recommendations(bookId):
     if book is None:
         return {"errors": ["Book not found"]}
 
-    # recommendations = [br.to_dict(include_books=False, include_recommendations=False) for br in book.book_recommendations]
     book_recommendations_ordered = BookRecommendation.query.filter_by(book_id=bookId).order_by(BookRecommendation.votes.desc())
     recommendations = [br.to_dict(include_books=False, include_recommendations=False) for br in book_recommendations_ordered]
 
     return {'recommendations': recommendations}
 
 
+"""
+Submits a recommendation for a given book. If the recommendation already exists, increments its vote count.
+
+Args:
+    bookId (int): The ID of the book for which to submit a recommendation.
+
+Returns:
+    dict: A dictionary containing the new recommendation or all book recommendations if the recommendation already exists.
+    Each recommendation is represented as a dictionary. If the book or recommendation is not found, returns a dictionary with an error message.
+"""
 @review_routes.route('/<int:bookId>/recommendations', methods=["POST"])
 @login_required
 def submit_recommendation(bookId):
@@ -179,8 +198,6 @@ def submit_recommendation(bookId):
         return {"new_recommendation": book_recommendation.to_dict(include_books=True, include_recommendations=False)}, 201
 
     db.session.commit()
-    # book_recs_ordered = BookRecommendation.query.filter_by(book_id=bookId).order_by(BookRecommendation.votes.desc())
-    # book_recommendations_dicts = [br.to_dict(include_books=True, include_recommendations=False) for br in book_recs_ordered]
     book_recommendations_dicts = [br.to_dict(include_books=False, include_recommendations=False) for br in book.book_recommendations]
 
     return {"book_recommendations": book_recommendations_dicts}, 201

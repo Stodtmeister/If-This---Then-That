@@ -10,10 +10,6 @@ board_routes = Blueprint("board", __name__)
 """
 Fetches all boards associated with the currently logged-in user from the database.
 
-The function queries the Board model for all boards where the user_id matches the id of the currently logged-in user.
-If boards are found, it returns a dictionary with a key 'boards' and a value being a list of dictionaries, each representing a board.
-If no boards are found, it aborts the request and returns a 404 error with a message "User currently has no boards".
-
 Returns:
 dict: A dictionary with a key 'boards' and a value being a list of dictionaries, each representing a board, if boards are found.
 tuple: A tuple where the first element is a dictionary with a key 'message' and a value being "User currently has no boards",
@@ -32,11 +28,6 @@ def get_user_board():
 
 """
 Handles POST requests to create a new board.
-
-This function creates a new instance of the BoardForm and sets its CSRF token from the request's cookies.
-If the form data is valid, it creates a new Board with the name and user_id from the form data, adds it to the database session, and commits the session.
-The newly created board is then returned as a dictionary with a 201 status code.
-If the form data is not valid, it returns a dictionary of form validation errors with a 400 status code.
 
 Returns:
 tuple: A tuple where the first element is a dictionary representation of the newly created board and the second element is the status code 201, if the form data is valid.
@@ -60,12 +51,6 @@ def create_board():
 
 """
 Handles PUT requests to edit an existing board.
-
-This function fetches the Board with the given boardId from the database. If no such Board exists, it returns a 404 error.
-A new instance of the BoardForm is created and its CSRF token is set from the request's cookies.
-If the form data is valid, it updates the name of the fetched Board with the name from the form data and commits the changes to the database.
-The updated board is then returned as a dictionary with a 201 status code.
-If the form data is not valid, it returns a dictionary of form validation errors with a 400 status code.
 
 Parameters:
 boardId (int): The id of the board to be edited.
@@ -98,10 +83,6 @@ def edit_board(boardId):
 """
 Handles DELETE requests to delete an existing board.
 
-This function fetches the Board with the given boardId from the database. If no such Board exists, it returns a 404 error.
-If the current user is not the owner of the Board, it returns a 403 error.
-Otherwise, it deletes the Board from the database and commits the changes.
-
 Parameters:
 boardId (int): The id of the board to be deleted.
 
@@ -130,9 +111,6 @@ def delete_board(boardId):
 """
 Handles GET requests to fetch all books associated with a specific board.
 
-This function fetches the Board with the given boardId from the database. If no such Board exists, it returns a 404 error.
-Otherwise, it fetches all books associated with the Board, converts each book to a dictionary, and returns them in a list.
-
 Parameters:
 boardId (int): The id of the board whose books are to be fetched.
 
@@ -155,12 +133,6 @@ def get_board_books(boardId):
 
 """
 Add a book to a board.
-
-This function takes a board ID and a book ID as parameters, retrieves the corresponding
-Board and Book objects from the database, and adds the book to the board's list of books.
-If the board or book does not exist, it returns an error message and a 404 status code.
-If the book is successfully added to the board, it commits the changes to the database
-and returns a dictionary representation of the book and a 201 status code.
 
 Parameters:
 boardId (int): The ID of the board to add the book to.
@@ -191,12 +163,6 @@ def add_book_to_board(boardId, bookId):
 """
 Remove a book from a board.
 
-This function takes a board ID and a book ID as parameters, retrieves the corresponding
-Board and Book objects from the database, and removes the book from the board's list of books.
-If the board or book does not exist, it returns an error message and a 404 status code.
-If the book is successfully removed from the board, it commits the changes to the database
-and returns a success message.
-
 Parameters:
 boardId (int): The ID of the board to remove the book from.
 bookId (int): The ID of the book to remove from the board.
@@ -220,60 +186,3 @@ def remove_book_from_board(boardId, bookId):
     db.session.commit()
 
     return {"message": "Book removed from board"}
-
-
-
-
-# @board_routes.route("/<int:boardId>/books", methods=["POST"])
-# @login_required
-# def add_book_to_board(boardId):
-#     board = Board.query.get(boardId)
-
-#     if board is None:
-#         return {"errors": ["Board not found"]}, 404
-
-#     author_form = AuthorForm()
-#     author_form["csrf_token"].data = request.cookies["csrf_token"]
-
-#     if not author_form.validate_on_submit():
-#         return {"errors": validation_errors_to_error_messages(author_form.errors)}, 400
-
-#     author = Author.query.filter_by(name=author_form.data["author"]).first()
-
-#     if author is None:
-#         author = Author(name=author_form.data["author"])
-#         db.session.add(author)
-#         db.session.commit()
-
-#     series_form = SeriesForm()
-#     series_form["csrf_token"].data = request.cookies["csrf_token"]
-
-#     if not series_form.validate_on_submit():
-#         return {"errors": validation_errors_to_error_messages(series_form.errors)}, 400
-
-#     series = Series.query.filter_by(name=series_form.data["series"]).first()
-
-#     if series is None:
-#         series = Series(name=series_form.data["series"], author_id=author.id)
-#         db.session.add(series)
-#         db.session.commit()
-
-#     book_form = BookForm()
-#     book_form["csrf_token"].data = request.cookies["csrf_token"]
-
-#     if not book_form.validate_on_submit():
-#         return {"errors": validation_errors_to_error_messages(book_form.errors)}, 400
-
-#     new_book = Book(
-#         title=book_form.data["title"],
-#         series=series,
-#         author=author,
-#         author_id=author.id,
-#         cover=book_form.data["cover"],
-#         genre=book_form.data["genre"],
-#     )
-
-#     board.books.append(new_book)
-#     db.session.commit()
-
-#     return new_book.to_dict(), 201
