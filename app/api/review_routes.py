@@ -137,7 +137,9 @@ def get_recommendations(bookId):
     if book is None:
         return {"errors": ["Book not found"]}
 
-    recommendations = [br.to_dict(include_books=False, include_recommendations=False) for br in book.book_recommendations]
+    # recommendations = [br.to_dict(include_books=False, include_recommendations=False) for br in book.book_recommendations]
+    book_recommendations_ordered = BookRecommendation.query.filter_by(book_id=bookId).order_by(BookRecommendation.votes.desc())
+    recommendations = [br.to_dict(include_books=False, include_recommendations=False) for br in book_recommendations_ordered]
 
     return {'recommendations': recommendations}
 
@@ -154,7 +156,6 @@ def submit_recommendation(bookId):
     recommendationId = data['recommendationId']
 
     recommendation = Book.query.get(recommendationId)
-    # return {'recommendation': recommendation.to_dict(include_author=False, include_boards=False, include_reviews=False, include_recommendations=False, include_series=False)}
 
     if recommendation is None:
         return {"errors": ["Recommendation not found"]}, 404
@@ -164,18 +165,22 @@ def submit_recommendation(bookId):
         recommendation_id=recommendationId
     ).first()
 
-    if existing_recommendation is not None:
-        return {"errors": ["This recommendation already exists"]}, 400
+    if existing_recommendation:
+        existing_recommendation.votes += 1
+    else:
+        book_recommendation = BookRecommendation(
+            book_id=bookId,
+            recommendation_id=recommendationId,
+            votes=1
+        )
 
-    book_recommendation = BookRecommendation(
-        book_id=bookId,
-        recommendation_id=recommendationId,
-        votes=1
-    )
+        book.book_recommendations.append(book_recommendation)
+        db.session.commit()
+        return {"new_recommendation": book_recommendation.to_dict(include_books=True, include_recommendations=False)}, 201
 
-    book.book_recommendations.append(book_recommendation)
     db.session.commit()
-
+    # book_recs_ordered = BookRecommendation.query.filter_by(book_id=bookId).order_by(BookRecommendation.votes.desc())
+    # book_recommendations_dicts = [br.to_dict(include_books=True, include_recommendations=False) for br in book_recs_ordered]
     book_recommendations_dicts = [br.to_dict(include_books=False, include_recommendations=False) for br in book.book_recommendations]
 
     return {"book_recommendations": book_recommendations_dicts}, 201
