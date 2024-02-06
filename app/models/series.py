@@ -10,7 +10,6 @@ class Series(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    votes = db.Column(db.Integer, nullable=True, default=0)
     author_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('authors.id')))
 
     author = db.relationship('Author', back_populates='series')
@@ -24,7 +23,6 @@ class Series(db.Model):
         data = {
             'id': self.id,
             'name': self.name,
-            'votes': self.votes,
             'author_id': self.author_id,
         }
         if include_books:

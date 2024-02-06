@@ -41,7 +41,6 @@ def upgrade():
     op.create_table('series',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=100), nullable=False),
-    sa.Column('votes', sa.Integer(), nullable=True, default=0),
     sa.Column('author_id', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
@@ -50,7 +49,6 @@ def upgrade():
     sa.Column('title', sa.String(length=100), nullable=False),
     sa.Column('cover', sa.String(length=100), nullable=False),
     sa.Column('genre', sa.String(length=50), nullable=False),
-    sa.Column('votes', sa.Integer(), nullable=True, default=0),
     sa.Column('author_id', sa.Integer(), nullable=False),
     sa.Column('series_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['author_id'], ['authors.id'], ),
@@ -64,12 +62,14 @@ def upgrade():
     sa.PrimaryKeyConstraint('board_id', 'book_id')
     )
     op.create_table('book_recommendation',
+    sa.Column('id', sa.Integer(), nullable=False, primary_key=True),
     sa.Column('book_id', sa.Integer(), nullable=False),
     sa.Column('recommendation_id', sa.Integer(), nullable=False),
+    sa.Column('votes', sa.Integer(), nullable=True, default=1),
     sa.ForeignKeyConstraint(['book_id'], ['books.id'], ),
     sa.ForeignKeyConstraint(['recommendation_id'], ['recommendations.id'], ),
-    sa.PrimaryKeyConstraint('book_id', 'recommendation_id')
-    )
+    sa.UniqueConstraint('book_id', 'recommendation_id')
+)
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),

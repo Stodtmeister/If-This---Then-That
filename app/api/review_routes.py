@@ -1,6 +1,6 @@
 from flask import Blueprint, request, abort, jsonify
 from flask_login import login_required, current_user
-from app.models import Review, Book, db
+from app.models import Review, Book, BookRecommendation, db
 from app.forms import ReviewForm
 from .auth_routes import validation_errors_to_error_messages
 
@@ -128,3 +128,40 @@ def delete_review(bookId, reviewId):
     db.session.commit()
 
     return {"message": "This review has been deleted"}
+
+
+@review_routes.route('/<int:bookId>/recommendations')
+@login_required
+def get_book_recommendations(bookId):
+    book = Book.query.get(bookId)
+    if book is None:
+        return {"errors": ["Book not found"]}
+
+    book_recommendations = [br.to_dict() for br in book.book_recommendations]
+    return jsonify(book_recommendations)
+
+
+@review_routes.route('/<int:bookId>/recommendations', methods=['POST'])
+@login_required
+def add_book_recommendation(bookId):
+    book = Book.query.get(bookId)
+
+    if book is None:
+        return {"errors": ["Book not found"]}
+
+    data = request.get_json()
+    recommended_book_id = data['recommendation_id']
+
+    book_recommendation = BookRecommendation.query.filter_by(book_id=bookId, recommendation_id=recommended_book_id).first()
+
+    if book_recommendation:
+        # If it exists, increment the votes field
+        book_recommendation.votes += 1
+    else:
+        # If it doesn't exist, create a new BookRecommendation
+        book_recommendation = BookRecommendation(book_id=bookId, recommendation_id=recommended_book_id)
+        book.book_recommendations.append(book_recommendation)
+
+    db.session.commit()
+
+    return jsonify(book.to_dict(include_boards=False, include_reviews=False, include_recommendations=True, include_author=False, include_books=False)), 201

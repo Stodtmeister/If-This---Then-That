@@ -3,6 +3,7 @@ from .user import User
 from .db import environment, SCHEMA
 from .author import Author
 from .book import Book
+from .book import BookRecommendation
 from .board import Board
 from .recommendation import Recommendation
 from .review import Review
