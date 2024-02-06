@@ -66,6 +66,7 @@ def upgrade():
     op.create_table('book_recommendation',
     sa.Column('book_id', sa.Integer(), nullable=False),
     sa.Column('recommendation_id', sa.Integer(), nullable=False),
+    sa.Column('votes', sa.Integer(), nullable=True, default=1),
     sa.ForeignKeyConstraint(['book_id'], ['books.id'], ),
     sa.ForeignKeyConstraint(['recommendation_id'], ['recommendations.id'], ),
     sa.PrimaryKeyConstraint('book_id', 'recommendation_id')

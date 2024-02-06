@@ -1,6 +1,6 @@
 from flask import Blueprint, request, abort, jsonify
 from flask_login import login_required, current_user
-from app.models import Review, Book, db
+from app.models import Review, Book, BookRecommendation, db
 from app.forms import ReviewForm
 from .auth_routes import validation_errors_to_error_messages
 
@@ -128,3 +128,54 @@ def delete_review(bookId, reviewId):
     db.session.commit()
 
     return {"message": "This review has been deleted"}
+
+
+@review_routes.route('/<int:bookId>/recommendations', methods=["GET"])
+def get_recommendations(bookId):
+    book = Book.query.get(bookId)
+
+    if book is None:
+        return {"errors": ["Book not found"]}
+
+    recommendations = [br.to_dict(include_books=False, include_recommendations=False) for br in book.book_recommendations]
+
+    return {'recommendations': recommendations}
+
+
+@review_routes.route('/<int:bookId>/recommendations', methods=["POST"])
+@login_required
+def submit_recommendation(bookId):
+    book = Book.query.get(bookId)
+
+    if book is None:
+        return {"errors": ["Book not found"]}
+
+    data = request.get_json()
+    recommendationId = data['recommendationId']
+
+    recommendation = Book.query.get(recommendationId)
+    # return {'recommendation': recommendation.to_dict(include_author=False, include_boards=False, include_reviews=False, include_recommendations=False, include_series=False)}
+
+    if recommendation is None:
+        return {"errors": ["Recommendation not found"]}, 404
+
+    existing_recommendation = BookRecommendation.query.filter_by(
+        book_id=bookId,
+        recommendation_id=recommendationId
+    ).first()
+
+    if existing_recommendation is not None:
+        return {"errors": ["This recommendation already exists"]}, 400
+
+    book_recommendation = BookRecommendation(
+        book_id=bookId,
+        recommendation_id=recommendationId,
+        votes=1
+    )
+
+    book.book_recommendations.append(book_recommendation)
+    db.session.commit()
+
+    book_recommendations_dicts = [br.to_dict(include_books=False, include_recommendations=False) for br in book.book_recommendations]
+
+    return {"book_recommendations": book_recommendations_dicts}, 201
