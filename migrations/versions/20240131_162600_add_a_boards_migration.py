@@ -40,7 +40,7 @@ def upgrade():
     )
     op.create_table('series',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=100), nullable=False),
+    sa.Column('name', sa.String(length=100), nullable=True),
     sa.Column('votes', sa.Integer(), nullable=True, default=0),
     sa.Column('author_id', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')

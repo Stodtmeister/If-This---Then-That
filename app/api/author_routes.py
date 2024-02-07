@@ -1,7 +1,7 @@
 from flask import Blueprint, request, abort
 from flask_login import login_required
-from app.models import Author, db
-from app.forms import AuthorForm
+from app.models import Author, Book, Series, db
+from app.forms import AuthorForm, BookForm
 from .auth_routes import validation_errors_to_error_messages
 from sqlalchemy.exc import IntegrityError
 
@@ -69,3 +69,39 @@ def create_author():
             return {"errors": "An author with this name already exists."}, 400
     else:
         return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+
+
+@author_routes.route("/<int:authorId>/books", methods=["POST"])
+@login_required
+def add_book_to_author(authorId):
+    author = Author.query.get(authorId)
+
+    form = BookForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+
+    if form.validate_on_submit():
+        series_id = form.data.get("series_id")
+        if not series_id:
+            standalone_series = Series.query.get(999999)
+            if not standalone_series:
+                standalone_series = Series(id=999999, name="stand-alone", author_id=authorId)
+                db.session.add(standalone_series)
+                db.session.commit()
+
+            series_id = 999999
+        book = Book(
+            title=form.data["title"],
+            cover=form.data["cover"],
+            genre=form.data["genre"],
+            author_id=authorId,
+            series_id=series_id
+
+        )
+        
+        author.books.append(book)
+        db.session.add(book)
+        db.session.commit()
+
+        return author.to_dict()
+
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401
