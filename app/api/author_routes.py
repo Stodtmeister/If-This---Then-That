@@ -71,6 +71,16 @@ def create_author():
         return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 
+"""
+Add a new book to an author.
+
+Parameters:
+authorId (int): The ID of the author to whom the book will be added.
+
+Returns:
+dict: A dictionary representation of the author if the book is successfully added,
+or a dictionary containing form validation error messages if the form data is invalid.
+"""
 @author_routes.route("/<int:authorId>/books", methods=["POST"])
 @login_required
 def add_book_to_author(authorId):
