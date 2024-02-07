@@ -9,3 +9,9 @@ class BookForm(FlaskForm):
     series = StringField('series')
     cover = StringField("cover", validators=[DataRequired(), URL()])
     genre = StringField('genre', validators=[DataRequired(), Length(min=1, max=50)])
+
+# class BookForm(FlaskForm):
+#     title = StringField('title', validators=[DataRequired(), Length(min=1, max=50)])
+#     series = StringField('series')
+#     cover = FileField("cover", validators=[FileRequired(), FileAllowed(list(ALLOWED_EXTENSIONS))])
+#     genre = StringField('genre', validators=[DataRequired(), Length(min=1, max=50)])

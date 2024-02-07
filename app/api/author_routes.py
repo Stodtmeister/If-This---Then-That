@@ -4,6 +4,7 @@ from app.models import Author, Book, Series, db
 from app.forms import AuthorForm, BookForm
 from .auth_routes import validation_errors_to_error_messages
 from sqlalchemy.exc import IntegrityError
+from app.api.aws import upload_file_to_s3, get_unique_filename
 
 
 author_routes = Blueprint("author", __name__)
@@ -70,6 +71,10 @@ def create_author():
     else:
         return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
+from flask import request
+from io import BytesIO
+import requests
+from urllib.parse import urlparse
 
 @author_routes.route("/<int:authorId>/books", methods=["POST"])
 @login_required
@@ -80,6 +85,24 @@ def add_book_to_author(authorId):
     form["csrf_token"].data = request.cookies["csrf_token"]
 
     if form.validate_on_submit():
+        response = requests.get(form.data['cover'])
+        image = BytesIO(response.content)
+        filename = get_unique_filename(urlparse(form.data['cover']).path)
+        content_type = response.headers['content-type']
+
+        print("########################################")
+        print(type(image))
+        print(type(filename))
+        print(type(content_type))
+        print("########################################")
+
+        upload = upload_file_to_s3(image, filename, content_type)
+
+        if "url" not in upload:
+            return upload, 400
+
+        url = upload["url"]
+
         series_id = form.data.get("series_id")
         if not series_id:
             standalone_series = Series.query.get(999999)
@@ -89,15 +112,15 @@ def add_book_to_author(authorId):
                 db.session.commit()
 
             series_id = 999999
+
         book = Book(
             title=form.data["title"],
-            cover=form.data["cover"],
+            cover=url,
             genre=form.data["genre"],
             author_id=authorId,
             series_id=series_id
-
         )
-        
+
         author.books.append(book)
         db.session.add(book)
         db.session.commit()
@@ -105,3 +128,47 @@ def add_book_to_author(authorId):
         return author.to_dict()
 
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+# @author_routes.route("/<int:authorId>/books", methods=["POST"])
+# @login_required
+# def add_book_to_author(authorId):
+#     author = Author.query.get(authorId)
+
+#     form = BookForm()
+#     form["csrf_token"].data = request.cookies["csrf_token"]
+
+#     if form.validate_on_submit():
+#         cover_img = form.data['cover']
+#         cover_img.filename = get_unique_filename(cover_img.filename)
+#         upload = upload_file_to_s3(cover_img)
+#         print("########################################", upload)
+
+#         if "url" not in upload:
+#             return upload, 400
+
+#         url = upload["url"]
+
+#         series_id = form.data.get("series_id")
+#         if not series_id:
+#             standalone_series = Series.query.get(999999)
+#             if not standalone_series:
+#                 standalone_series = Series(id=999999, name="stand-alone", author_id=authorId)
+#                 db.session.add(standalone_series)
+#                 db.session.commit()
+
+#             series_id = 999999
+
+#         book = Book(
+#             title=form.data["title"],
+#             cover=url,
+#             genre=form.data["genre"],
+#             author_id=authorId,
+#             series_id=series_id
+#         )
+
+#         author.books.append(book)
+#         db.session.add(book)
+#         db.session.commit()
+
+#         return author.to_dict()
+
+#     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
