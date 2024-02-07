@@ -89,15 +89,15 @@ def add_book_to_author(authorId):
                 db.session.commit()
 
             series_id = 999999
+
         book = Book(
             title=form.data["title"],
             cover=form.data["cover"],
             genre=form.data["genre"],
             author_id=authorId,
             series_id=series_id
-
         )
-        
+
         author.books.append(book)
         db.session.add(book)
         db.session.commit()
