@@ -6,6 +6,10 @@ import { thunkGetBoards } from '../../redux/boards';
 export default function Boards() {
   const dispatch = useDispatch();
   const boards = useSelector(state => state.boards.boards);
+  const user = useSelector(state => state.session.user);
+
+  console.log('USER', user);
+  console.log('BOARDS', boards);
 
   // boards.forEach(board => {
   //   console.log("BOARD", board)
