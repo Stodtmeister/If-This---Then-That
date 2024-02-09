@@ -3,22 +3,23 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import Boards from '../pages/boards/boards';
+import Authors from '../pages/Authors/Authors';
 
 export const router = createBrowserRouter([
   {
+    path: "/",
+    element: <LoginFormPage />,
+  },
+  {
     element: <Layout />,
     children: [
-      {
-        path: "/",
-        element: <h1>Welcome</h1>,
-      },
       {
         path: "boards",
         element: <Boards />,
       },
       {
-        path: "login",
-        element: <LoginFormPage />,
+        path: "authors",
+        element: <Authors />
       },
       {
         path: "signup",
