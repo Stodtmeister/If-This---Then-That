@@ -1,37 +1,45 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { thunkGetBoards, thunkGetBoardById } from '../../redux/boards'
+import OpenModalButton from '../../components/OpenModalButton/OpenModalButton'
+import NewBoardModal from '../../components/NewBoardModal/NewBoardModal'
 import './Boards.css'
-import { useEffect, useState } from 'react';
-import { thunkGetBoards } from '../../redux/boards';
-import OpenModalMenuItem from '../../components/Navigation/OpenModalMenuItem';
-import LoginFormModal from '../../components/LoginFormModal';
-import NewBoardModal from '../../components/NewBoardModal/NewBoardModal';
 
 export default function Boards() {
-  const dispatch = useDispatch();
-  const [showMenu, setShowMenu] = useState(false);
-  const boards = useSelector(state => state.boards.boards);
+  const dispatch = useDispatch()
+  const [showMenu, setShowMenu] = useState(false)
+  const boards = useSelector((state) => state.boards.boards)
+  const navigate = useNavigate()
 
-  function newBoard() {
+  const closeMenu = () => setShowMenu(false)
 
+  async function handleClick(id) {
+    await dispatch(thunkGetBoardById(id))
+    navigate(`/boards/${id}`)
   }
-  const closeMenu = () => setShowMenu(false);
 
   useEffect(() => {
-    dispatch(thunkGetBoards());
-  }, [dispatch]);
+    dispatch(thunkGetBoards())
+  }, [dispatch])
 
   return (
     <div className="boards-container">
       <h1>Boards</h1>
-      <OpenModalMenuItem
-        itemText="Add board"
+      <OpenModalButton
+        buttonText="Add board"
         onItemClick={closeMenu}
         modalComponent={<NewBoardModal />}
       />
-      <button onClick={newBoard}>Add New Board</button>
       <div className="boards-grid">
         {boards?.map((board, index) => (
-          <div key={board.id} className="board">{board.name}</div>
+          <div
+            key={board.id}
+            className="board"
+            onClick={() => handleClick(board.id)}
+          >
+            {board.name}
+          </div>
         ))}
       </div>
     </div>

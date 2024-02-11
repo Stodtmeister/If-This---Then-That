@@ -1,11 +1,3 @@
-/* .boards-container {
-  border: 1px solid purple;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-} */
-
 .boards-container {
   padding: 20px;
 }

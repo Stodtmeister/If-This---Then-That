@@ -16,10 +16,11 @@ export const addBoard = (board) => {
   }
 }
 
-export const getBoardById = (books) => {
+export const getBoardById = (books, boardId) => {
   return {
     type: BOARD_BY_ID,
-    books
+    books,
+    boardId
   }
 }
 
@@ -30,6 +31,19 @@ export const thunkGetBoards = () => async (dispatch) => {
     dispatch(getBoards(data));
   }
 }
+
+export const thunkGetBoardById = (boardId) => async (dispatch) => {
+  const response = await fetch(`/api/boards/${boardId}/books`)
+
+  if (response.ok) {
+    const data = await response.json()
+    console.log('BOARD BY ID', data);
+    dispatch(getBoardById(data, boardId))
+  } else {
+    console.log('ERROR (thunkGetBoardById)')
+  }
+}
+
 
 export const thunkAddBoard = (data) => async (dispatch) => {
   const response = await fetch('/api/boards/', {
@@ -48,13 +62,49 @@ export const thunkAddBoard = (data) => async (dispatch) => {
   }
 }
 
-const initialState = { boards: [] };
+const initialState = { boards: [], boardBooks: {} };
 
 export default function boardsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_BOARDS:
       // console.log('BOARD REDUCER', action.boards);
       return { ...state, boards: action.boards.boards };
+    // case BOARD_BY_ID: {
+    //   const newState = {
+    //     ...state,
+    //     boards: state.boards.map(board => {
+    //       if (board.id === action.boardId) {
+    //         console.log('Updating board:', board);
+    //         const updatedBoard = { ...board, ...action.books};
+    //         console.log('Updated board:', updatedBoard);
+    //         return updatedBoard;
+    //       }
+    //       return board;
+    //     })
+    //   };
+    //   console.log('New State:', newState);
+    //   return newState;
+    // }
+    case BOARD_BY_ID: {
+      const newState = {
+        ...state,
+        boardBooks: {
+          ...state.boardBooks,
+          [action.boardId]: action.books
+        },
+        boards: state.boards.map(board => {
+          if (board.id === action.boardId) {
+            console.log('Updating board:', board);
+            const updatedBoard = { ...board, ...action.books};
+            console.log('Updated board:', updatedBoard);
+            return updatedBoard;
+          }
+          return board;
+        })
+      };
+      console.log('New State:', newState);
+      return newState;
+    }
     case ADD_BOARD:
       return { ...state, boards: [...state.boards, action.board] }
     default:
