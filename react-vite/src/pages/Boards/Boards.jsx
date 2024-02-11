@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { thunkGetBoards } from '../../redux/boards';
 import OpenModalMenuItem from '../../components/Navigation/OpenModalMenuItem';
 import LoginFormModal from '../../components/LoginFormModal';
+import NewBoardModal from '../../components/NewBoardModal/NewBoardModal';
 
 export default function Boards() {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export default function Boards() {
       <OpenModalMenuItem
         itemText="Add board"
         onItemClick={closeMenu}
-        modalComponent={<LoginFormModal />}
+        modalComponent={<NewBoardModal />}
       />
       <button onClick={newBoard}>Add New Board</button>
       <div className="boards-grid">
