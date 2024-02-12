@@ -9,13 +9,14 @@ import './Boards.css'
 export default function Boards() {
   const dispatch = useDispatch()
   const [showMenu, setShowMenu] = useState(false)
+  const [showOptions, setShowOptions] = useState(false)
   const boards = useSelector((state) => state.boards.boards)
   const navigate = useNavigate()
 
   const closeMenu = () => setShowMenu(false)
 
-  async function handleClick(id) {
-    await dispatch(thunkGetBoardById(id))
+  function handleClick(id) {
+    // await dispatch(thunkGetBoardById(id))
     navigate(`/boards/${id}`)
   }
 
@@ -39,6 +40,16 @@ export default function Boards() {
             onClick={() => handleClick(board.id)}
           >
             {board.name}
+            <i
+              className="fa-solid fa-ellipsis-vertical"
+              onClick={(e) => {
+                e.stopPropagation()
+                setShowOptions(!showOptions)
+              }}
+            ></i>
+            {showOptions && (
+              <h3>testing</h3>
+            )}
           </div>
         ))}
       </div>
