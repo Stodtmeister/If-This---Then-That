@@ -1,6 +1,8 @@
 const GET_BOARDS = 'GET_BOARDS';
 const ADD_BOARD = 'ADD_BOARD'
 const BOARD_BY_ID = 'BOARD_BY_ID'
+const EDIT_BOARD = 'EDIT_BOARD'
+const DELETE_BOARD = 'DELETE_BOARD'
 
 export const getBoards = (boards) => {
   return {
@@ -13,6 +15,20 @@ export const addBoard = (board) => {
   return {
     type: ADD_BOARD,
     board
+  }
+}
+
+export const editBoard = (board) => {
+  return {
+    type: EDIT_BOARD,
+    board
+  }
+}
+
+export const deleteBoard = (boardId) => {
+  return {
+    type: DELETE_BOARD,
+    boardId
   }
 }
 
@@ -62,29 +78,41 @@ export const thunkAddBoard = (data) => async (dispatch) => {
   }
 }
 
+export const thunkEditBoard = (id, data) => async (dispatch) => {
+  const response = await fetch(`/api/boards/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data)
+  })
+
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(editBoard(data))
+  } else {
+    console.log('ERROR (thunkEditBoard)')
+  }
+}
+
+export const thunkDeleteBoard = (id) => async (dispatch) => {
+  const response = await fetch(`/api/boards/${id}`, {
+    method: "DELETE",
+  })
+
+  if (response.ok) {
+    dispatch(deleteBoard(id))
+  } else {
+    console.log('ERROR (thunkDeleteBoard)')
+  }
+}
+
 const initialState = { boards: [], boardBooks: {} };
 
 export default function boardsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_BOARDS:
-      // console.log('BOARD REDUCER', action.boards);
       return { ...state, boards: action.boards.boards };
-    // case BOARD_BY_ID: {
-    //   const newState = {
-    //     ...state,
-    //     boards: state.boards.map(board => {
-    //       if (board.id === action.boardId) {
-    //         console.log('Updating board:', board);
-    //         const updatedBoard = { ...board, ...action.books};
-    //         console.log('Updated board:', updatedBoard);
-    //         return updatedBoard;
-    //       }
-    //       return board;
-    //     })
-    //   };
-    //   console.log('New State:', newState);
-    //   return newState;
-    // }
     case BOARD_BY_ID: {
       const newState = {
         ...state,
@@ -107,6 +135,15 @@ export default function boardsReducer(state = initialState, action) {
     }
     case ADD_BOARD:
       return { ...state, boards: [...state.boards, action.board] }
+    case EDIT_BOARD:
+      return { ...state, boards: state.boards.map(board => {
+        if (board.id === action.board.id) {
+          return action.board;
+        }
+        return board;
+      })}
+    case DELETE_BOARD:
+      return { ...state, boards: state.boards.filter(board => board.id !== action.boardId) }
     default:
       return state;
   }
