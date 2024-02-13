@@ -11,7 +11,6 @@ review_routes = Blueprint('review', __name__)
 @review_routes.route("/<int:bookId>", methods=["PUT"])
 @login_required
 def add_cover_to_book(bookId):
-    print('TESTING')
     book = Book.query.get(bookId)
 
     if book is None:
