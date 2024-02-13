@@ -18,16 +18,39 @@ export default function SpecificBoard() {
     if (books?.books) {
       books.books.forEach((book) => {
         fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(book.title)}`)
-          .then(response => response.json())
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
           .then(data => {
             if (data.items) {
               const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
               setBookCovers(prev => ({ ...prev, [book.id]: coverImageLink }))
             }
           })
+          .catch(error => {
+            console.error('There was an error!', error);
+          });
       })
     }
   }, [books])
+
+  // useEffect(() => {
+  //   if (books?.books) {
+  //     books.books.forEach((book) => {
+  //       fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(book.title)}`)
+  //         .then(response => response.json())
+  //         .then(data => {
+  //           if (data.items) {
+  //             const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
+  //             setBookCovers(prev => ({ ...prev, [book.id]: coverImageLink }))
+  //           }
+  //         })
+  //     })
+  //   }
+  // }, [books])
 
   return (
     <div>
@@ -36,8 +59,8 @@ export default function SpecificBoard() {
         {books?.books?.length > 0 ? (
           books.books.map((book) => (
             <div key={book.id}>
-              <p>{book.title}</p>
-              <img src={bookCovers[book.id] || book.cover} alt="book cover" />
+              {/* <p>{book.title}</p> */}
+              <img className='cover-img' src={bookCovers[book.id] || book.cover} alt="book cover" title={book.title} />
             </div>
           ))
         ) : (
