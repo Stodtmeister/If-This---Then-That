@@ -1,11 +1,13 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { thunkGetBoardById } from '../../redux/boards'
 import './SpecificBoard.css'
+import Book from '../Book/Book'
 
 export default function SpecificBoard() {
   const { boardId } = useParams()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const books = useSelector((state) => state.boards.boardBooks[boardId])
   const [bookCovers, setBookCovers] = useState({})
@@ -63,13 +65,14 @@ export default function SpecificBoard() {
       <>
         <h1>SpecificBoard {boardId}</h1>
         {books?.books?.length > 0 ? (
-          books.books.map((book) => (
+          books.books.map((book, index) => (
             <div key={book.id}>
               <img
                 className="cover-img"
                 src={bookCovers[book.id] || book.cover}
                 alt="book cover"
                 title={book.title}
+                onClick={() => navigate(`/books/${book.id}`, { state: { coverImage: bookCovers[book.id] || book.cover } })}
               />
             </div>
           ))

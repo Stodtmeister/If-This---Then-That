@@ -188,7 +188,7 @@ def submit_recommendation(bookId):
         return {"errors": ["Book not found"]}
 
     data = request.get_json()
-    recommendationId = data['recommendationId']
+    recommendationId = data['recommendation_id']
 
     recommendation = Book.query.get(recommendationId)
 
