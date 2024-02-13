@@ -102,7 +102,6 @@ def add_book_to_author(authorId):
 
         book = Book(
             title=form.data["title"],
-            cover=form.data["cover"],
             genre=form.data["genre"],
             author_id=authorId,
             series_id=series_id

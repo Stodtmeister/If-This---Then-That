@@ -52,7 +52,7 @@ class Book(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    cover = db.Column(db.String(100), nullable=False)
+    cover = db.Column(db.String(100), nullable=True)
     genre = db.Column(db.String(50), nullable=False)
     author_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("authors.id")), nullable=False

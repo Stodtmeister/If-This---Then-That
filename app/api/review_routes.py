@@ -8,6 +8,23 @@ from .auth_routes import validation_errors_to_error_messages
 review_routes = Blueprint('review', __name__)
 
 
+@review_routes.route("/<int:bookId>", methods=["PUT"])
+@login_required
+def add_cover_to_book(bookId):
+    print('TESTING')
+    book = Book.query.get(bookId)
+
+    if book is None:
+        return {"errors": ["Book not found"]}, 404
+
+    data = request.get_json()
+    book.cover = data['coverImageLink']
+
+    db.session.commit()
+    return book.to_dict(include_boards=False, include_reviews=False, include_author=False), 200
+
+
+
 """
 Get all reviews for a book.
 

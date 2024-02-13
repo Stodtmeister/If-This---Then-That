@@ -51,7 +51,6 @@ def seed_books():
         author=tolkien,
         author_id=1,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     second = Book(
         title="The Fellowship of the Ring",
@@ -59,7 +58,6 @@ def seed_books():
         author=tolkien,
         author_id=1,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     third = Book(
         title="The Two Towers",
@@ -67,7 +65,6 @@ def seed_books():
         author=tolkien,
         author_id=1,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     fourth = Book(
         title="The Return of the King",
@@ -75,7 +72,6 @@ def seed_books():
         author=tolkien,
         author_id=1,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     fifth = Book(
         title="The Final Empire",
@@ -83,7 +79,6 @@ def seed_books():
         author=sanderson,
         author_id=4,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     sixth = Book(
         title="The Well of Ascension",
@@ -91,7 +86,6 @@ def seed_books():
         author=sanderson,
         author_id=4,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     seventh = Book(
         title="The Hero of Ages",
@@ -99,7 +93,6 @@ def seed_books():
         author=sanderson,
         author_id=4,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     eighth = Book(
         title="The Way of Kings",
@@ -107,7 +100,6 @@ def seed_books():
         author=sanderson,
         author_id=4,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     ninth = Book(
         title="A Game of Thrones",
@@ -115,7 +107,6 @@ def seed_books():
         author=martin,
         author_id=3,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     tenth = Book(
         title="A Clash of Kings",
@@ -123,7 +114,6 @@ def seed_books():
         author=martin,
         author_id=3,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     eleventh = Book(
         title="A Storm of Swords",
@@ -131,7 +121,6 @@ def seed_books():
         author=martin,
         author_id=3,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     twelfth = Book(
         title="A Feast for Crows",
@@ -139,7 +128,6 @@ def seed_books():
         author=martin,
         author_id=3,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     thirdteenth = Book(
         title="A Dance with Dragons",
@@ -147,7 +135,6 @@ def seed_books():
         author=martin,
         author_id=3,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     fourteenth = Book(
         title="The Name of the Wind",
@@ -155,7 +142,6 @@ def seed_books():
         author=rothfuss,
         author_id=5,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     fifteenth = Book(
         title="The Wise Man's Fear",
@@ -163,7 +149,6 @@ def seed_books():
         author=rothfuss,
         author_id=5,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     sixteenth = Book(
         title="The Eye of the World",
@@ -171,7 +156,6 @@ def seed_books():
         author=jordan,
         author_id=7,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     seventeenth = Book(
         title="The Great Hunt",
@@ -179,7 +163,6 @@ def seed_books():
         author=jordan,
         author_id=7,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     eighteenth = Book(
         title="The Dragon Reborn",
@@ -187,7 +170,6 @@ def seed_books():
         author=jordan,
         author_id=7,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     nintheenth = Book(
         title="The Shadow Rising",
@@ -195,7 +177,6 @@ def seed_books():
         author=jordan,
         author_id=7,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     twentieth = Book(
         title="The Fires of Heaven",
@@ -203,7 +184,6 @@ def seed_books():
         author=jordan,
         author_id=7,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     twentyfirst = Book(
         title="Harry Potter and the Sorcerer's Stone",
@@ -211,7 +191,6 @@ def seed_books():
         author=rowling,
         author_id=2,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     twentysecond = Book(
         title="Harry Potter and the Chamber of Secrets",
@@ -219,7 +198,6 @@ def seed_books():
         author=rowling,
         author_id=2,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     twentythird = Book(
         title="Harry Potter and the Prisoner of Azkaban",
@@ -227,7 +205,6 @@ def seed_books():
         author=rowling,
         author_id=2,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     twentyfourth = Book(
         title="Harry Potter and the Goblet of Fire",
@@ -235,7 +212,6 @@ def seed_books():
         author=rowling,
         author_id=2,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     twentyfifth = Book(
         title="The Blade Itself",
@@ -243,7 +219,6 @@ def seed_books():
         author=abercrombie,
         author_id=17,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     twentysixth = Book(
         title="Before They Are Hanged",
@@ -251,7 +226,6 @@ def seed_books():
         author=abercrombie,
         author_id=17,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     twentyseventh = Book(
         title="Last Argument of Kings",
@@ -259,7 +233,6 @@ def seed_books():
         author=abercrombie,
         author_id=17,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     twentyeigth = Book(
         title="The Lies of Locke Lamora",
@@ -267,7 +240,6 @@ def seed_books():
         author=lynch,
         author_id=20,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     twentyninth = Book(
         title="Red Seas Under Red Skies",
@@ -275,7 +247,6 @@ def seed_books():
         author=lynch,
         author_id=20,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     thirtyth = Book(
         title="The Republic of Thieves",
@@ -283,7 +254,6 @@ def seed_books():
         author=lynch,
         author_id=20,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     thirtyfirst = Book(
         title="Jade City",
@@ -291,7 +261,6 @@ def seed_books():
         author=lee,
         author_id=11,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     thirtysecond = Book(
         title="Jade War",
@@ -299,7 +268,6 @@ def seed_books():
         author=lee,
         author_id=11,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     thirtythird = Book(
         title="Jade Legacy",
@@ -307,7 +275,6 @@ def seed_books():
         author=lee,
         author_id=11,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg",
     )
     thirtyfourth = Book(
         title="The Fifth Season",
@@ -315,7 +282,6 @@ def seed_books():
         author=jemisin,
         author_id=12,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
     thirtyfifth = Book(
         title="The Obelisk Gate",
@@ -323,7 +289,6 @@ def seed_books():
         author=jemisin,
         author_id=12,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
     thirtysixth = Book(
         title="The Stone Sky",
@@ -331,7 +296,6 @@ def seed_books():
         author=jemisin,
         author_id=12,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
     thirtyseventh = Book(
         title="The Black Prism",
@@ -339,7 +303,6 @@ def seed_books():
         author=weeks,
         author_id=18,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
     thirtyeigth = Book(
         title="The Blinding Knife",
@@ -347,7 +310,6 @@ def seed_books():
         author=weeks,
         author_id=18,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
     thirtyninth = Book(
         title="The Broken Eye",
@@ -355,7 +317,6 @@ def seed_books():
         author=weeks,
         author_id=18,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
     fourtieth = Book(
         title="A Wizard of Earthsea",
@@ -363,7 +324,6 @@ def seed_books():
         author=ursula,
         author_id=36,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
     fortyfirst = Book(
         title="The Tombs of Atuan",
@@ -371,7 +331,6 @@ def seed_books():
         author=ursula,
         author_id=36,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
     fortysecond = Book(
         title="The Farthest Shore",
@@ -379,7 +338,6 @@ def seed_books():
         author=ursula,
         author_id=36,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
     fortythird = Book(
         title="Storm Front",
@@ -387,7 +345,6 @@ def seed_books():
         author=butcher,
         author_id=19,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
     fortyfourth = Book(
         title="Fool Moon",
@@ -395,7 +352,6 @@ def seed_books():
         author=butcher,
         author_id=19,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
     fortyfifth = Book(
         title="Grave Peril",
@@ -403,7 +359,6 @@ def seed_books():
         author=butcher,
         author_id=19,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
     fortysixth = Book(
         title="Summer Knight",
@@ -411,7 +366,6 @@ def seed_books():
         author=butcher,
         author_id=19,
         genre="Fantasy",
-        cover="https://images-na.ssl-images-amazon.com/images/I/51g7Zp7lF1L._SX331_BO1,204,203,200_.jpg"
     )
 
     db.session.add_all([first, second, third, fourth])

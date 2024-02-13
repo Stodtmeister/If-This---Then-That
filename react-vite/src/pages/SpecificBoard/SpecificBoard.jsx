@@ -17,22 +17,51 @@ export default function SpecificBoard() {
   useEffect(() => {
     if (books?.books) {
       books.books.forEach((book) => {
-        fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(book.title)}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(data => {
-            if (data.items) {
-              const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
-              setBookCovers(prev => ({ ...prev, [book.id]: coverImageLink }))
-            }
-          })
-          .catch(error => {
-            console.error('There was an error!', error);
-          });
+        if (book.cover) {
+          console.log('I HAVE A SAVED COVER');
+          setBookCovers((prev) => ({ ...prev, [book.id]: book.cover }))
+        } else {
+          console.log('I AM BEING FETCHED');
+          fetch(
+            `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
+              book.title
+            )}`
+          )
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+              }
+              return response.json()
+            })
+            .then((data) => {
+              if (data.items) {
+                const coverImageLink =
+                  data.items[0].volumeInfo.imageLinks.thumbnail
+                setBookCovers((prev) => ({
+                  ...prev,
+                  [book.id]: coverImageLink,
+                }))
+                fetch(`/api/books/${book.id}`, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ coverImageLink }),
+                })
+                  .then((response) => {
+                    if (!response.ok) {
+                      throw new Error(
+                        `HTTP error! status: ${response.status}`
+                      )
+                    }
+                  })
+                  .catch((error) => {
+                    console.error('There was an error!', error)
+                  })
+              }
+            })
+            .catch((error) => {
+              console.error('There was an error!', error)
+            })
+        }
       })
     }
   }, [books])
@@ -60,7 +89,12 @@ export default function SpecificBoard() {
           books.books.map((book) => (
             <div key={book.id}>
               {/* <p>{book.title}</p> */}
-              <img className='cover-img' src={bookCovers[book.id] || book.cover} alt="book cover" title={book.title} />
+              <img
+                className="cover-img"
+                src={bookCovers[book.id] || book.cover}
+                alt="book cover"
+                title={book.title}
+              />
             </div>
           ))
         ) : (
