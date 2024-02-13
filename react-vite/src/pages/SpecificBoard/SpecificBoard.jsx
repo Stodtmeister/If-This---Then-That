@@ -52,7 +52,14 @@ export default function SpecificBoard() {
 
   return (
     <div>
-    {isLoading ? (<div>Loading...</div>) : (
+    {isLoading ? (
+      <div className="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+        <h2>Loading...</h2>
+      </div>
+    ) : (
       <>
         <h1>SpecificBoard {boardId}</h1>
         {books?.books?.length > 0 ? (
