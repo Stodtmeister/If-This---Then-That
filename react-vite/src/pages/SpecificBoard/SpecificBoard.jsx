@@ -5,6 +5,7 @@ import { thunkGetBoardById } from '../../redux/boards'
 import './SpecificBoard.css'
 import Book from '../Book/Book'
 
+
 export default function SpecificBoard() {
   const { boardId } = useParams()
   const navigate = useNavigate()

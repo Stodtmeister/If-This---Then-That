@@ -301,21 +301,21 @@ def seed_books():
         title="The Black Prism",
         series=lightbringer,
         author=weeks,
-        author_id=18,
+        author_id=17,
         genre="Fantasy",
     )
     thirtyeigth = Book(
         title="The Blinding Knife",
         series=lightbringer,
         author=weeks,
-        author_id=18,
+        author_id=17,
         genre="Fantasy",
     )
     thirtyninth = Book(
         title="The Broken Eye",
         series=lightbringer,
         author=weeks,
-        author_id=18,
+        author_id=17,
         genre="Fantasy",
     )
     fourtieth = Book(
@@ -343,28 +343,28 @@ def seed_books():
         title="Storm Front",
         series=dresden_files,
         author=butcher,
-        author_id=19,
+        author_id=18,
         genre="Fantasy",
     )
     fortyfourth = Book(
         title="Fool Moon",
         series=dresden_files,
         author=butcher,
-        author_id=19,
+        author_id=18,
         genre="Fantasy",
     )
     fortyfifth = Book(
         title="Grave Peril",
         series=dresden_files,
         author=butcher,
-        author_id=19,
+        author_id=18,
         genre="Fantasy",
     )
     fortysixth = Book(
         title="Summer Knight",
         series=dresden_files,
         author=butcher,
-        author_id=19,
+        author_id=18,
         genre="Fantasy",
     )
 
