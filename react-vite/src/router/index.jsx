@@ -6,6 +6,7 @@ import Boards from '../pages/Boards/Boards';
 import Authors from '../pages/Authors/Authors';
 import SpecificBoard from '../pages/SpecificBoard/SpecificBoard';
 import Book from '../pages/Book/Book';
+import SpecificAuthor from '../pages/Authors/SpecificAuthor';
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
         element: <Authors />
       },
       {
+        path: "authors/:authorId",
+        element: <SpecificAuthor />
+      },
+      {
         path: "signup",
         element: <SignupFormPage />,
       },
@@ -34,7 +39,7 @@ export const router = createBrowserRouter([
       {
         path: "books/:bookId",
         element: <Book />
-      }
+      },
     ],
   },
 ]);

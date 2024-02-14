@@ -4,6 +4,7 @@ from app.models import Author, Book, Series, db
 from app.forms import AuthorForm, BookForm
 from .auth_routes import validation_errors_to_error_messages
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import func
 
 
 author_routes = Blueprint("author", __name__)
@@ -19,6 +20,7 @@ each representing an author.
 @author_routes.route("/", methods=["GET"])
 def get_authors():
     authors = Author.query.all()
+    authors.sort(key=lambda author: author.name.split(' ')[-1])
     return {"authors": [author.to_dict() for author in authors]}
 
 
