@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import './SpecificAuthor.css'
 import { useEffect, useState } from 'react'
 import { thunkGetAuthors } from '../../redux/authors'
+import './SpecificAuthor.css'
 
 export default function SpecificAuthor() {
   const dispatch = useDispatch()
@@ -60,14 +60,6 @@ export default function SpecificAuthor() {
       }
     }
   }
-
-  // useEffect(() => {
-  //   if (author?.series) {
-  //     author.series.forEach((series) => {
-  //       series.books.forEach(fetchBookCover);
-  //     });
-  //   }
-  // }, [author]);
 
   return (
     <>
