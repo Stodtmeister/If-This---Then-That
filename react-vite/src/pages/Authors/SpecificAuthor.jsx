@@ -27,13 +27,13 @@ export default function SpecificAuthor() {
 
       if (foundAuthor?.series) {
         foundAuthor.series.forEach((series) => {
-          series.books.forEach(fetchBookCover)
+          series.books.forEach((book) => fetchBookCover(book, foundAuthor.name))
         })
       }
     }
   }, [authors, authorId])
 
-  async function fetchBookCover(book) {
+  async function fetchBookCover(book, authorName) {
     if (book.cover) {
       setBookCovers((prev) => ({ ...prev, [book.id]: book.cover }))
       console.log('ALREADY HAS A COVER')
@@ -43,7 +43,7 @@ export default function SpecificAuthor() {
       const response = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
           book.title
-        )}`
+        )}+inauthor:${encodeURIComponent(authorName)}`
       )
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
@@ -69,7 +69,6 @@ export default function SpecificAuthor() {
   //   }
   // }, [author]);
 
-  console.log('AUTHOR', author)
   return (
     <>
       <div>
@@ -80,7 +79,7 @@ export default function SpecificAuthor() {
           {series.name}
           <ul>
             {series.books.map((book) => (
-              <>
+              <li key={book.id}>
                 <img
                   className="cover-img"
                   src={bookCovers[book.id] || book.cover}
@@ -92,8 +91,8 @@ export default function SpecificAuthor() {
                     })
                   }
                 />
-                <li key={book.id}>{book.title}</li>
-              </>
+                {/* {book.title} */}
+              </li>
             ))}
           </ul>
         </div>

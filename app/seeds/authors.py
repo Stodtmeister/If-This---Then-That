@@ -18,6 +18,7 @@ def seed_authors():
     thirteenth = Author(name="Terry Brooks")
     fourteenth = Author(name="David Eddings")
     fifteenth = Author(name="Raymond E. Feist")
+    sixteenth = Author(name="Matt Dinniman")
     seventeenth = Author(name="Joe Abercrombie")
     eighteenth = Author(name="Brent Weeks")
     nineteenth = Author(name="Jim Butcher")
@@ -75,6 +76,7 @@ def seed_authors():
     seventyfirst = Author(name="Anne McCaffrey")
     seventysecond = Author(name="Margaret Atwood")
     seventythird = Author(name="Lois McMaster Bujold")
+    seventyfourth = Author(name="Brandon Mull")
     seventyfifth = Author(name="Nicholas Eames")
     seventysixth = Author(name="James Islington")
     seventyseventh = Author(name="Evan Winter")
@@ -105,7 +107,7 @@ def seed_authors():
 
 
     db.session.add_all([first, second, third, fourth, fifth, sixth, seventh, eigth])
-    db.session.add_all([ninth, tenth, eleventh, twelfth, thirteenth, fourteenth, fifteenth])
+    db.session.add_all([ninth, tenth, eleventh, twelfth, thirteenth, fourteenth, fifteenth, sixteenth])
     db.session.add_all([seventeenth, eighteenth, nineteenth, twentieth, twentyfirst, twentysecond, twentythird, twentyfourth])
     db.session.add_all([twentyfifth, twentysixth, twentyseventh, twentyeighth, twentyninth, thirtieth, thirtyfirst, thirtysecond, thirtythird])
     db.session.add_all([thirtyfourth, thirtyfifth, thirtysixth, thirtyseventh, thirtyeighth, thirtyninth, fourtieth, fortyfirst])
@@ -113,7 +115,7 @@ def seed_authors():
     db.session.add_all([fiftieth, fiftyfirst, fiftysecond, fiftythird, fiftyfourth, fiftyfifth, fiftysixth, fiftyseventh])
     db.session.add_all([fiftyeighth, fiftyninth, sixtieth, sixtyfirst, sixtysecond, sixtythird, sixtyfourth, sixtyfifth])
     db.session.add_all([sixtysixth, sixtyseventh, sixtyeighth, sixtyninth, seventieth, seventyfirst, seventysecond, seventythird])
-    db.session.add_all([seventyfifth, seventysixth, seventyseventh, seventyeighth, seventyninth, eightieth, eightyfirst])
+    db.session.add_all([seventyfourth, seventyfifth, seventysixth, seventyseventh, seventyeighth, seventyninth, eightieth, eightyfirst])
     db.session.add_all([eightysecond, eightythird, eightyfourth, eightyfifth, eightysixth, eightyseventh, eightyeighth, eightyninth])
     db.session.add_all([ninetieth, ninetyfirst, ninetysecond, ninetythird, ninetyfourth, ninetyfifth, ninetysixth, ninetyseventh])
     db.session.add_all([ninetyeighth, ninetyninth, hundredth])

@@ -1,4 +1,5 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, make_response
+from flask_wtf.csrf import generate_csrf
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
@@ -51,7 +52,12 @@ def login():
     if 'csrf_token' in request.cookies:
         form['csrf_token'].data = request.cookies['csrf_token']
     else:
-        return {'errors': {'message': 'No CSRF token found in cookies'}}, 400
+        # return {'errors': {'message': 'No CSRF token found in cookies'}}, 400
+        #!new
+        csrf_token = generate_csrf()
+        form['csrf_token'].data = csrf_token
+        response = make_response()
+        response.set_cookie('csrf_token', csrf_token)
     #! form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
