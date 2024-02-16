@@ -7,6 +7,7 @@ import Authors from '../pages/Authors/Authors';
 import SpecificBoard from '../pages/SpecificBoard/SpecificBoard';
 import Book from '../pages/Book/Book';
 import SpecificAuthor from '../pages/Authors/SpecificAuthor';
+import Instructions from '../pages/Instructions/Instructions';
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
         path: "books/:bookId",
         element: <Book />
       },
+      {
+        path: "instructions",
+        element: <Instructions />
+      }
     ],
   },
 ]);

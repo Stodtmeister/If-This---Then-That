@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useModal } from '../../context/Modal'
-import './NewBoardModal.css'
 import { useNavigate } from 'react-router-dom'
 import { thunkAddBoard } from '../../redux/boards'
 import { useState } from 'react'
+import './NewBoardModal.css'
 
 export default function NewBoardModal() {
   const dispatch = useDispatch()

@@ -9,7 +9,7 @@ import './Boards.css'
 export default function Boards() {
   const dispatch = useDispatch()
   const [showMenu, setShowMenu] = useState(false)
-  const [showOptions, setShowOptions] = useState(false)
+  const [showOptions, setShowOptions] = useState(null)
   const [editingBoardId, setEditingBoardId] = useState(null)
   const [newBoardName, setNewBoardName] = useState('')
   const boards = useSelector((state) => state.boards.boards)
@@ -39,18 +39,15 @@ export default function Boards() {
 
   return (
     <div className="boards-container">
-      <h1>Boards</h1>
-      <OpenModalButton
-        buttonText="Add board"
-        onItemClick={closeMenu}
-        modalComponent={<NewBoardModal />}
-      />
+      <h2 className='board-header'>My Boards</h2>
       <div className="boards-grid">
         {boards?.map((board) => (
+          <>
+          {console.log('board', board.name)}
           <div
             key={board.id}
             className="board"
-            onClick={() => navigate(`/boards/${board.id}`)}
+            onClick={() => navigate(`/boards/${board.id}`, { state: { boardName: board.name } })}
             >
             {editingBoardId === board.id ? (
               <input
@@ -66,13 +63,13 @@ export default function Boards() {
               className="fa-solid fa-ellipsis-vertical"
               onClick={(e) => {
                 e.stopPropagation()
-                setShowOptions(!showOptions)
+                setShowOptions(showOptions === board.id ? null : board.id)
               }}
             ></i>
-            {showOptions && (
+            {showOptions === board.id && (
               <div className="board-options">
                 {editingBoardId === board.id ? (
-                  <button className='save-board-btn' onClick={(e) => {
+                  <button id='save-board-btn' onClick={(e) => {
                     e.stopPropagation()
                     handleSave()
                   }}>Save</button>
@@ -89,8 +86,14 @@ export default function Boards() {
               </div>
             )}
           </div>
+          </>
         ))}
       </div>
+      <OpenModalButton
+        buttonText={<i className="fa-solid fa-plus"></i>}
+        onItemClick={closeMenu}
+        modalComponent={<NewBoardModal />}
+      />
     </div>
   )
 }

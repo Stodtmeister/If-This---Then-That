@@ -9,16 +9,95 @@
 }
 
 .board {
+  position: relative;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #eee;
   border-radius: 4px;
-  background-color: #f9f9f9;
+  background: linear-gradient(to right, rgb(180, 180, 180), rgb(120, 120, 120));
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   text-align: center;
+  color: rgb(60, 60, 60);
+  cursor: pointer;
+}
+
+.board:hover {
+  box-shadow: 0px 12px 20px 0px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
 }
 
 .fa-ellipsis-vertical {
   float: right;
-  margin-top: -12px;
-  margin-right: -10px;
+  margin-top: -20px;
+  margin-right: -15px;
+  padding: 10px;
   cursor: pointer;
+}
+
+.board-header {
+  display: flex;
+  justify-content: center;
+}
+
+.add-board-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background: linear-gradient(to right, rgb(251, 141, 51), rgb(241, 90, 36));
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  margin: 20px auto;
+  color: white;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.add-board-btn:hover {
+  box-shadow: 0px 12px 20px 0px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+.fa-ellipsis-vertical:hover {
+  color: rgb(251, 141, 51);
+}
+
+.board-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.board-options button {
+  margin: 10px 10px;
+  padding: 4px;
+  width: 60px;
+  border: 2px solid #eee;
+  background: rgb(45, 134, 251);
+  border-radius: 10px;
+  /* background: linear-gradient(to right, rgb(251, 141, 51), rgb(241, 90, 36)); */
+  /* background: linear-gradient(to right, rgb(51, 251, 141), rgb(141, 51, 251)); */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  color: white;
+  text-align: center;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+#save-board-btn {
+  background: rgb(141, 51, 251);
+}
+
+#save-board-btn:hover {
+  background: rgb(115, 42, 204);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.edit-board-btn:hover,
+.delete-board-btn:hover {
+  background: rgb(25, 114, 231);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }

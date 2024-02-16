@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { thunkGetBoardById } from '../../redux/boards'
@@ -8,6 +8,8 @@ import Book from '../Book/Book'
 
 export default function SpecificBoard() {
   const { boardId } = useParams()
+  const location = useLocation()
+  const boardName = location.state?.boardName
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const books = useSelector((state) => state.boards.boardBooks[boardId])
@@ -54,34 +56,36 @@ export default function SpecificBoard() {
   }, [books]);
 
   return (
-    <div>
-    {isLoading ? (
-      <div className="loader">
-        <span></span>
-        <span></span>
-        <span></span>
-        <h2>Loading...</h2>
-      </div>
-    ) : (
+    <div className='page'>
+      {isLoading ? (
+        <div className="loader">
+          <span></span>
+          <span></span>
+          <span></span>
+          <h2>Loading...</h2>
+        </div>
+      ) : (
       <>
-        <h1>SpecificBoard {boardId}</h1>
-        {books?.books?.length > 0 ? (
-          books.books.map((book, index) => (
-            <div key={book.id}>
-              <img
-                className="cover-img"
-                src={bookCovers[book.id] || book.cover}
-                alt="book cover"
-                title={book.title}
-                onClick={() => navigate(`/books/${book.id}`, { state: { coverImage: bookCovers[book.id] || book.cover } })}
-              />
-            </div>
-          ))
-        ) : (
-          <p>No books found.</p>
-        )}
+        <h2 className='board-header'>{boardName}</h2>
+        <div className="book-container">
+          {books?.books?.length > 0 ? (
+              books.books.map((book, index) => (
+                <div key={book.id}>
+                  <img
+                    className="cover-img"
+                    src={bookCovers[book.id] || book.cover}
+                    alt="book cover"
+                    title={book.title}
+                    onClick={() => navigate(`/books/${book.id}`, { state: { coverImage: bookCovers[book.id] || book.cover } })}
+                  />
+                </div>
+              ))
+            ) : (
+              <p>No books found.</p>
+            )}
+        </div>
       </>
-    )}
-  </div>
+      )}
+    </div>
   )
 }
