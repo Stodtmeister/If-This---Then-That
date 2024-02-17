@@ -14,6 +14,10 @@ function LoginFormPage() {
 
   if (sessionUser) return <Navigate to="/" replace={true} />
 
+  function signUp() {
+    navigate('/signup')
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -32,7 +36,7 @@ function LoginFormPage() {
   }
 
   return (
-    <>
+    <div className='login-background'>
       <h1 className="site-title">If This Then That</h1>
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
@@ -63,10 +67,14 @@ function LoginFormPage() {
             />
           </label>
           {errors.password && <p>{errors.password}</p>}
-          <button className='login-btn' type="submit">Log In</button>
+          <button className='login-btn' type="submit">Submit</button>
+          <div className='note-container'>
+            <p className='signup-note'>Note: Sign up to create an account.</p>
+            <button className='signup-btn' onClick={signUp}>Sign up</button>
+          </div>
         </fieldset>
       </form>
-    </>
+    </div>
   )
 }
 

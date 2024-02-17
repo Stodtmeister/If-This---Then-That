@@ -33,9 +33,14 @@
   cursor: pointer;
 }
 
-.board-header {
+.board-headers {
   display: flex;
+  font-size: 25px;
   justify-content: center;
+  background: radial-gradient(circle, #f12711, #f8b500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  white-space: nowrap;
 }
 
 .add-board-btn {
@@ -44,6 +49,7 @@
   border: 1px solid #eee;
   border-radius: 4px;
   background: linear-gradient(to right, rgb(251, 141, 51), rgb(241, 90, 36));
+  background: radial-gradient(circle, #f8b500 #f12711);
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   display: flex;
@@ -100,4 +106,29 @@
 .delete-board-btn:hover {
   background: rgb(25, 114, 231);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.form-input2 {
+  margin-top: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #bababa;
+  font-size: 1rem;
+  box-shadow: inset 0 0 10px #001c34;
+  background-color: #cfcfcf;
+}
+
+.form-input2:hover {
+  box-shadow: inset 0 0 15px #001c34;
+  background-color: #e1e8ff;
+}
+
+.form-input2:focus {
+  box-shadow: inset 0 0 15px #001c34;
+  /* background-color: #e1e8ff; */
+  outline: none;
+}
+
+.form-input:focus {
+  outline: none;
 }

@@ -64,6 +64,7 @@
 .link-text {
   display: none;
   margin-left: 1rem;
+  font-size: 13px;
 }
 
 .logo {

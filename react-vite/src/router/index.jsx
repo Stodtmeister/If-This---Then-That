@@ -15,6 +15,10 @@ export const router = createBrowserRouter([
     element: <LoginFormPage />,
   },
   {
+    path: "signup",
+    element: <SignupFormPage />,
+  },
+  {
     element: <Layout />,
     children: [
       {
@@ -44,7 +48,7 @@ export const router = createBrowserRouter([
       {
         path: "instructions",
         element: <Instructions />
-      }
+      },
     ],
   },
 ]);

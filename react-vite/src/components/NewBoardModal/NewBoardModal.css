@@ -1,0 +1,56 @@
+.new-board {
+  background-color: #293541;
+  width: 500px;
+  height: 300px;
+  z-index: 5;
+}
+
+
+.new-board-title {
+  position: relative;
+  font-size: 2rem;
+  top: 10px;
+  text-align: center;
+  margin-top: 0;
+  background: radial-gradient(circle, #f12711, #f8b500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  z-index: 1;
+}
+
+.new-field {
+  width: 65%;
+  margin: 20px auto;
+  height: 144px;
+}
+
+.new-btn {
+  color: white;
+  background-color: #2a3541;
+  font-size: 1rem;
+  margin-top: 10px;
+  width: 20%;
+  border: none;
+  border-radius: 5px;
+  padding: 3px;
+  margin: 10px auto;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: white;
+    background: linear-gradient(
+      to bottom,
+      #f12711,
+      #f8b500
+    ); /* Reverse gradient background */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  }
+}

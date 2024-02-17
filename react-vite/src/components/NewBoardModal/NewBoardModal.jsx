@@ -31,22 +31,25 @@ export default function NewBoardModal() {
   }
 
   return (
-    <>
-      <h1>Add a new board</h1>
+    <div className='new-board'>
+      <h2 className='new-board-title'>Add a new board</h2>
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
       <form onSubmit={handleSubmit}>
-        <label>
-          Name
-          <input
-            type="text"
-            value={boardName}
-            onChange={(e) => setBoardName(e.target.value)}
-            required
-          />
-          <button type="submit">+</button>
-        </label>
+        <fieldset className='new-field'>
+          <label className="signup-label">
+            Name
+            <input
+              type="text"
+              value={boardName}
+              onChange={(e) => setBoardName(e.target.value)}
+              className="form-input"
+              required
+              />
+            <button type="submit" className='new-btn'>+</button>
+          </label>
+        </fieldset>
       </form>
-    </>
+    </div>
   )
 }

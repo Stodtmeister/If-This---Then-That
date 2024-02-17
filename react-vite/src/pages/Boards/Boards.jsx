@@ -39,11 +39,10 @@ export default function Boards() {
 
   return (
     <div className="boards-container">
-      <h2 className='board-header'>My Boards</h2>
+      <h2 className='board-headers'>My Boards</h2>
       <div className="boards-grid">
         {boards?.map((board) => (
           <>
-          {console.log('board', board.name)}
           <div
             key={board.id}
             className="board"
@@ -54,6 +53,7 @@ export default function Boards() {
                 type="text"
                 value={newBoardName}
                 onChange={e => setNewBoardName(e.target.value)}
+                className='form-input2'
                 onClick={e => e.stopPropagation()}
               />
             ) : (
