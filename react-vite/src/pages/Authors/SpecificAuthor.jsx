@@ -1,6 +1,7 @@
+import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { thunkGetAuthors } from '../../redux/authors'
 import './SpecificAuthor.css'
 
@@ -11,6 +12,12 @@ export default function SpecificAuthor() {
   const authors = useSelector((state) => state.authors.authors)
   const [author, setAuthor] = useState(null)
   const [bookCovers, setBookCovers] = useState({})
+  const [clicked, setClicked] = useState(false)
+  const bookRef = useRef(null)
+  const [error, setError] = useState({})
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedSeries, setSelectedSeries] = useState(null)
+  const [genre, setGenre] = useState('')
 
   useEffect(() => {
     if (!authors) {
@@ -61,18 +68,32 @@ export default function SpecificAuthor() {
     }
   }
 
+  function handleSubmit(e) {
+    e.preventDefault()
+    const bookTitle = bookRef.current.value
+    const book = {
+      title: bookTitle,
+      genre: genre,
+      authorId: author.id,
+      seriesId: selectedSeries,
+    }
+    console.log('BOOK', book)
+    // dispatch(thunkAddBook(book))
+    bookRef.current.value = ''
+    setClicked(!clicked)
+  }
+
   return (
     <>
-      <div>
-        SpecificAuthor {authorId} {author?.name}
-      </div>
-      {author?.series?.map((series) => (
-        <div key={series.id}>
-          {series.name}
-          <ul>
-            {series.books.map((book) => (
-              <li key={book.id}>
+      <h2 className="author-title">{author?.name}</h2>
+      <div className="author-books-container">
+        {author?.series?.map((series) => (
+          <div key={series.id} className="series">
+            {series.name}
+            <div className="books">
+              {series.books.map((book) => (
                 <img
+                  key={book.id}
                   className="cover-img"
                   src={bookCovers[book.id] || book.cover}
                   alt="book cover"
@@ -83,12 +104,93 @@ export default function SpecificAuthor() {
                     })
                   }
                 />
-                {/* {book.title} */}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="add-author">
+        {!clicked ? (
+          <>
+            <p className="no-author">
+              Can&apos;t find the book you&apos;re looking for?
+            </p>
+            <button
+              className="add-author-button"
+              onClick={() => setClicked(!clicked)}
+            >
+              Add Book
+            </button>
+          </>
+        ) : (
+          <form className="new-author-form" onSubmit={handleSubmit}>
+            <div className="input-group">
+              <input
+                type="text"
+                id="author-name"
+                name="author-name"
+                placeholder='Enter the book title...'
+                ref={bookRef}
+                required
+              />
+              <select id="genre" name="genre" value={genre} onChange={e => setGenre(e.target.value)} required>
+                <option value="">Genre</option>
+                <option value="fantasy">Fantasy</option>
+                <option value="sci-fi">Sci-Fi</option>
+                <option value="mystery">Mystery</option>
+                <option value="thriller">Thriller</option>
+                <option value="romance">Romance</option>
+                <option value="horror">Horror</option>
+                <option value="non-fiction">Non-Fiction</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div className="dropdown">
+              <div
+                className="pick-series"
+                type="button"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                Click to select the series (optional)
+              </div>
+              <div className="series-container">
+                {isOpen &&
+                  author.series.map((series, index) => (
+                    <React.Fragment key={index}>
+                      <div
+                        className="series-title"
+                        onClick={() =>
+                          setSelectedSeries(
+                            selectedSeries === series.id ? null : series.id
+                          )
+                        }
+                      >
+                        <p>{series.name}</p>
+                        {selectedSeries === series.id && (
+                          <i className="fa-solid fa-check"></i>
+                        )}
+                      </div>
+                      {index !== author.series.length - 1 && (
+                        <span className="dot">{'\u00B7'}</span>
+                      )}
+                    </React.Fragment>
+                  ))}
+              </div>
+            </div>
+            <div className="new-author-btns">
+              <button type="submit">Submit</button>
+              <button
+                onClick={() => {
+                  setClicked(!clicked)
+                  setError({})
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
     </>
   )
 }
