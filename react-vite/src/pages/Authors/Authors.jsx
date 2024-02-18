@@ -1,78 +1,137 @@
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { thunkGetAuthors } from "../../redux/authors"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { thunkAddAuthor, thunkGetAuthors } from '../../redux/authors'
+import { useNavigate } from 'react-router-dom'
 import './Authors.css'
-
 
 export default function Authors() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const authors = useSelector((state) => state.authors.authors)
-
+  const [selectedLetter, setSelectedLetter] = useState(null)
+  const [clicked, setClicked] = useState(false)
+  const [error, setError] = useState({})
+  const authorRef = useRef(null)
+  const letters = Array.from({ length: 26 }, (_, i) =>
+    String.fromCharCode(65 + i)
+  )
 
   useEffect(() => {
     dispatch(thunkGetAuthors())
   }, [dispatch])
 
-  const [selectedLetter, setSelectedLetter] = useState(null);
-  const letters = Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i));
-
   const handleLetterClick = (letter) => {
-    setSelectedLetter(letter);
-  };
+    setSelectedLetter(letter)
+  }
 
-  const filteredAuthors = authors?.filter(author => {
-    const lastName = author.name.split(' ').pop();
-    return lastName[0].toUpperCase() === selectedLetter;
-  });
+  async function handleSubmit(e) {
+    e.preventDefault()
+    const authorName = authorRef.current.value
+    const nameParts = authorName.trim().split(' ')
+
+    if (nameParts.length < 2) {
+      setError({ formError: 'Please enter a first and last name' })
+      return
+    }
+
+    const author = {
+      name: authorName,
+      series: [],
+    }
+
+    const data = await dispatch(thunkAddAuthor(author))
+
+    if (data) {
+      setError({ formError: data.message })
+      return
+    }
+
+    authorRef.current.value = ''
+    setClicked(!clicked)
+  }
+
+  function countBooks(authors) {
+    let totalBooks = 0
+    authors.series.forEach((series) => (totalBooks += series.books.length))
+    return totalBooks
+  }
+
+  const filteredAuthors = authors?.filter((author) => {
+    const lastName = author.name.split(' ').pop()
+    return lastName[0].toUpperCase() === selectedLetter
+  })
 
   return (
     <>
-      <h2 className="board-header">Authors</h2>
+      <h2 className="author-title" style={{ borderbottom: 'none' }}>
+        Authors
+      </h2>
+      <p className="sorted">Sorted by last name</p>
       <div className="letter-buttons">
         {letters.map((letter) => (
-          <button className="letter-button" key={letter} onClick={() => handleLetterClick(letter)}>
+          <button
+            className="letter-button"
+            key={letter}
+            onClick={() => handleLetterClick(letter)}
+          >
             {letter}
           </button>
         ))}
       </div>
-      <div className="authors-list">
-        {selectedLetter && (
-          <div>
-            <h2 className="letter-header">{`Authors with last name starting with "${selectedLetter}"`}:</h2>
+      {selectedLetter && (
+        <>
+          <div className="authors-list">
             {filteredAuthors.map((author) => (
-              <div className="author-card" key={author.id} onClick={() => navigate(`/authors/${author.id}`)}>
-                {author.name}
-              </div>
+              <li
+                className="author-card"
+                key={author.id}
+                onClick={() => navigate(`/authors/${author.id}`)}
+              >
+                <div className="author-name">{author.name}</div>
+                <div className="book-count">({countBooks(author)})</div>
+              </li>
             ))}
           </div>
-        )}
-      </div>
+          <div className="add-author">
+            {!clicked ? (
+              <>
+                <p className="no-author">
+                  Can&apos;t find the author you&apos;re looking for?
+                </p>
+                <button
+                  className="add-author-button"
+                  onClick={() => setClicked(!clicked)}
+                >
+                  Add Author
+                </button>
+              </>
+            ) : (
+              <form className="new-author-form" onSubmit={handleSubmit}>
+                <label htmlFor="author-name">Author Name:</label>
+                {error.formError && <p className="error">{error.formError}</p>}
+                <input
+                  type="text"
+                  id="author-name"
+                  name="author-name"
+                  ref={authorRef}
+                  required
+                />
+                <div className="new-author-btns">
+                  <button type="submit">Submit</button>
+                  <button
+                    onClick={() => {
+                      setClicked(!clicked)
+                      setError({})
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </>
+      )}
     </>
-  );
-  // return (
-  //   <>
-  //     <h2 className="board-header">Authors</h2>
-  //     <div>
-  //       {letters.map((letter) => (
-  //         <button key={letter} onClick={() => handleLetterClick(letter)}>
-  //           {letter}
-  //         </button>
-  //       ))}
-  //     </div>
-  //     <div>
-  //       {selectedLetter && (
-  //         <div>
-  //           <h2>{`Authors with last name starting with "${selectedLetter}"`}:</h2>
-  //           {filteredAuthors.map((author) => (
-  //             <div key={author.id} onClick={() => navigate(`/authors/${author.id}`)}>
-  //               {author.name}
-  //             </div>
-  //           ))}
-  //         </div>
-  //       )}
-  //     </div>
-  //   </>
-  // );
+  )
 }

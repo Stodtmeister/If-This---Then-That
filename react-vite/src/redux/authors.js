@@ -1,5 +1,6 @@
 const GET_AUTHORS = 'GET_AUTHORS'
 const AUTHOR_BY_ID = 'AUTHOR_BY_ID'
+const ADD_AUTHOR = 'ADD_AUTHOR'
 
 export const getAuthors = (authors) => {
   return {
@@ -12,6 +13,13 @@ export const getAuthorById = (data) => {
   return {
     type: AUTHOR_BY_ID,
     data
+  }
+}
+
+export const addAuthor = (author) => {
+  return {
+    type: ADD_AUTHOR,
+    author
   }
 }
 
@@ -31,6 +39,25 @@ export const thunkAuthorById = (authorId) => async (dispatch) => {
   }
 }
 
+export const thunkAddAuthor = (author) => async (dispatch) => {
+  try {
+    const response = await fetch('/api/authors/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(author)
+    })
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.errors)
+    }
+    const data = await response.json()
+    dispatch(addAuthor(data))
+  } catch (error) {
+    console.error('Error adding author:', error)
+    return error
+  }
+}
+
 const initialState = {}
 
 export default function authorsReducer(state = initialState, action) {
@@ -39,6 +66,8 @@ export default function authorsReducer(state = initialState, action) {
       return { ...state, authors: action.authors.authors }
     case AUTHOR_BY_ID:
       return state
+    case ADD_AUTHOR:
+      return { ...state, authors: [...state.authors, action.author] }
     default:
       return state
   }
