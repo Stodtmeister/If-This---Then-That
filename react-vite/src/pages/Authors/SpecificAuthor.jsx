@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
-import { thunkGetAuthors } from '../../redux/authors'
+import { thunkAddBookToAuthor, thunkGetAuthors } from '../../redux/authors'
 import './SpecificAuthor.css'
 
 export default function SpecificAuthor() {
@@ -18,12 +18,21 @@ export default function SpecificAuthor() {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedSeries, setSelectedSeries] = useState(null)
   const [genre, setGenre] = useState('')
+  const [refresh, setRefresh] = useState(false)
+
+  //! ORINGINAL CODE
+  // useEffect(() => {
+  //   if (!authors) {
+  //     dispatch(thunkGetAuthors())
+  //   }
+  // }, [dispatch, authors])
 
   useEffect(() => {
-    if (!authors) {
+    if (!authors || refresh) {
       dispatch(thunkGetAuthors())
+      setRefresh(false)
     }
-  }, [dispatch, authors])
+  }, [dispatch, authors, refresh])
 
   useEffect(() => {
     if (authors) {
@@ -40,7 +49,7 @@ export default function SpecificAuthor() {
     }
   }, [authors, authorId])
 
-  async function fetchBookCover(book, authorName) {
+  async function fetchBookCover(book, authorName, fromHandleSubmit = false) {
     if (book.cover) {
       setBookCovers((prev) => ({ ...prev, [book.id]: book.cover }))
       console.log('ALREADY HAS A COVER')
@@ -59,26 +68,37 @@ export default function SpecificAuthor() {
       if (data.items) {
         const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
         setBookCovers((prev) => ({ ...prev, [book.id]: coverImageLink }))
-        await fetch(`/api/books/${book.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ coverImageLink }),
-        })
+
+        if (!fromHandleSubmit) {
+          await fetch(`/api/books/${book.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ coverImageLink }),
+          })
+        }
+
+        return { cover: coverImageLink }
       }
+
+      return { cover: null }
     }
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     const bookTitle = bookRef.current.value
-    const book = {
+    const bookInfo = await fetchBookCover({title: bookTitle}, author.name, true)
+
+    const newBook = {
+      cover: bookInfo.cover,
       title: bookTitle,
       genre: genre,
-      authorId: author.id,
-      seriesId: selectedSeries,
+      author_id: author.id,
+      series_id: selectedSeries,
     }
-    console.log('BOOK', book)
-    // dispatch(thunkAddBook(book))
+
+    dispatch(thunkAddBookToAuthor(newBook))
+    setRefresh(true)
     bookRef.current.value = ''
     setClicked(!clicked)
   }

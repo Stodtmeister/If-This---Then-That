@@ -87,6 +87,8 @@ or a dictionary containing form validation error messages if the form data is in
 @login_required
 def add_book_to_author(authorId):
     author = Author.query.get(authorId)
+    if not author:
+        return abort(404, {"message": "Author not found"})
 
     form = BookForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
@@ -105,8 +107,9 @@ def add_book_to_author(authorId):
         book = Book(
             title=form.data["title"],
             genre=form.data["genre"],
+            cover=form.data["cover"],
             author_id=authorId,
-            series_id=series_id
+            series_id=series_id,
         )
 
         author.books.append(book)
