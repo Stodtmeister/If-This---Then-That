@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
@@ -20,13 +20,6 @@ export default function SpecificAuthor() {
   const [genre, setGenre] = useState('')
   const [refresh, setRefresh] = useState(false)
 
-  //! ORINGINAL CODE
-  // useEffect(() => {
-  //   if (!authors) {
-  //     dispatch(thunkGetAuthors())
-  //   }
-  // }, [dispatch, authors])
-
   useEffect(() => {
     if (!authors || refresh) {
       dispatch(thunkGetAuthors())
@@ -34,28 +27,16 @@ export default function SpecificAuthor() {
     }
   }, [dispatch, authors, refresh])
 
-  useEffect(() => {
-    if (authors) {
-      const foundAuthor = authors.find(
-        (author) => String(author.id) === authorId
-      )
-      setAuthor(foundAuthor)
-
-      if (foundAuthor?.series) {
-        foundAuthor.series.forEach((series) => {
-          series.books.forEach((book) => fetchBookCover(book, foundAuthor.name))
-        })
-      }
+  const fetchBookCover = useCallback(async (book, authorName, fromHandleSubmit = false) => {
+    const allBooks = author.series.flatMap((series) => series.books)
+    if (fromHandleSubmit && allBooks.some(existingBook => existingBook.title === book.title)) {
+      setError({ message: 'Author already has this book' })
+      throw new Error('Author already has this book')
     }
-  }, [authors, authorId])
-
-  async function fetchBookCover(book, authorName, fromHandleSubmit = false) {
     if (book.cover) {
       setBookCovers((prev) => ({ ...prev, [book.id]: book.cover }))
-      console.log('ALREADY HAS A COVER')
-      return Promise.resolve() // Resolve immediately for books that already have a cover
+      return Promise.resolve()
     } else {
-      console.log('FETCHING BOOK COVER')
       const response = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
           book.title
@@ -65,6 +46,10 @@ export default function SpecificAuthor() {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
       const data = await response.json()
+      if (!data.items || !data.items.length) {
+        setError({ message: 'No book found with that title' })
+        throw new Error('No book found with that title')
+      }
       if (data.items) {
         const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
         setBookCovers((prev) => ({ ...prev, [book.id]: coverImageLink }))
@@ -82,7 +67,20 @@ export default function SpecificAuthor() {
 
       return { cover: null }
     }
-  }
+  }, [author, setBookCovers])
+
+  useEffect(() => {
+    if (authors) {
+      const foundAuthor = authors.find((author) => String(author.id) === authorId)
+      setAuthor(foundAuthor)
+
+      if (foundAuthor?.series) {
+        foundAuthor.series.forEach((series) => {
+          series.books.forEach((book) => fetchBookCover(book, foundAuthor.name))
+        })
+      }
+    }
+  }, [authors, authorId, fetchBookCover])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -94,7 +92,7 @@ export default function SpecificAuthor() {
       title: bookTitle,
       genre: genre,
       author_id: author.id,
-      series_id: selectedSeries,
+      series_id: selectedSeries || 99,
     }
 
     dispatch(thunkAddBookToAuthor(newBook))
@@ -132,18 +130,12 @@ export default function SpecificAuthor() {
       <div className="add-author">
         {!clicked ? (
           <>
-            <p className="no-author">
-              Can&apos;t find the book you&apos;re looking for?
-            </p>
-            <button
-              className="add-author-button"
-              onClick={() => setClicked(!clicked)}
-            >
-              Add Book
-            </button>
+            <p className="no-author">Can&apos;t find the book you&apos;re looking for?</p>
+            <button className="add-author-button" onClick={() => setClicked(!clicked)}>Add Book</button>
           </>
         ) : (
           <form className="new-author-form" onSubmit={handleSubmit}>
+            {error.message && <p className="error">{error.message}</p>}
             <div className="input-group">
               <input
                 type="text"
@@ -174,37 +166,23 @@ export default function SpecificAuthor() {
                 Click to select the series (optional)
               </div>
               <div className="series-container">
-                {isOpen &&
-                  author.series.map((series, index) => (
-                    <React.Fragment key={index}>
-                      <div
-                        className="series-title"
-                        onClick={() =>
-                          setSelectedSeries(
-                            selectedSeries === series.id ? null : series.id
-                          )
-                        }
-                      >
-                        <p>{series.name}</p>
-                        {selectedSeries === series.id && (
-                          <i className="fa-solid fa-check"></i>
-                        )}
-                      </div>
-                      {index !== author.series.length - 1 && (
-                        <span className="dot">{'\u00B7'}</span>
-                      )}
-                    </React.Fragment>
-                  ))}
+                {isOpen && author.series.map((series, index) => (
+                  <React.Fragment key={index}>
+                    <div
+                      className="series-title"
+                      onClick={() => setSelectedSeries(selectedSeries === series.id ? null : series.id)}
+                    >
+                      <p>{series.name}</p>
+                      {selectedSeries === series.id && (<i className="fa-solid fa-check"></i>)}
+                    </div>
+                    {index !== author.series.length - 1 && (<span className="dot">{'\u00B7'}</span>)}
+                  </React.Fragment>
+                ))}
               </div>
             </div>
             <div className="new-author-btns">
               <button type="submit">Submit</button>
-              <button
-                onClick={() => {
-                  setClicked(!clicked)
-                  setError({})
-                }}
-              >
+              <button onClick={() => {setClicked(!clicked), setIsOpen(false), setError({}), setGenre(''), setSelectedSeries(null)} }>
                 Cancel
               </button>
             </div>

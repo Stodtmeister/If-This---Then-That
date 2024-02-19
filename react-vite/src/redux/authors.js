@@ -78,7 +78,6 @@ export const thunkAddBookToAuthor = (book) => async (dispatch) => {
       throw new Error(errorData.errors)
     }
     const data = await response.json()
-    console.log('DATA', data);
     dispatch(addBookToAuthor(data))
   } catch (error) {
     console.error('Error adding book to author:', error)

@@ -95,14 +95,17 @@ def add_book_to_author(authorId):
 
     if form.validate_on_submit():
         series_id = form.data.get("series_id")
-        if not series_id:
-            standalone_series = Series.query.get(999999)
+        series = Series.query.get(series_id) if series_id else None
+
+        if not series:
+            standalone_series_id = -authorId
+            standalone_series = Series.query.get(standalone_series_id)
             if not standalone_series:
-                standalone_series = Series(id=999999, name="stand-alone", author_id=authorId)
+                standalone_series = Series(id=standalone_series_id, name="stand-alone", author_id=authorId)
                 db.session.add(standalone_series)
                 db.session.commit()
 
-            series_id = 999999
+            series_id = standalone_series_id
 
         book = Book(
             title=form.data["title"],
