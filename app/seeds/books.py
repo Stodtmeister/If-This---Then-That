@@ -1,7 +1,26 @@
 from app.models import db, Book, environment, SCHEMA
 from sqlalchemy.sql import text
 from app.models import Author, Series
+import requests
 
+# def fetch_book_cover(title, author):
+#     response = requests.get(f"https://www.googleapis.com/books/v1/volumes?q=intitle:{title}+inauthor:{author}")
+#     data = response.json()
+#     if 'items' in data:
+#         return data['items'][0]['volumeInfo']['imageLinks']['thumbnail']
+#     else:
+#         return None
+
+def fetch_book_cover(title, author):
+    try:
+        response = requests.get(f"https://www.googleapis.com/books/v1/volumes?q=intitle:{title}+inauthor:{author}")
+        response.raise_for_status()  # This will raise an exception if the response status is not 200
+        data = response.json()
+        if 'items' in data:
+            return data['items'][0]['volumeInfo']['imageLinks']['thumbnail']
+    except requests.exceptions.RequestException as err:
+        print(f"Error occurred: {err}")
+    return None
 
 def seed_books():
     tolkien = Author.query.filter_by(name="J.R.R. Tolkien").first()
@@ -51,6 +70,7 @@ def seed_books():
         author=tolkien,
         author_id=1,
         genre="Fantasy",
+        cover=fetch_book_cover("The Hobbit", "J.R.R. Tolkien")
     )
     second = Book(
         title="The Fellowship of the Ring",
@@ -58,6 +78,7 @@ def seed_books():
         author=tolkien,
         author_id=1,
         genre="Fantasy",
+        cover=fetch_book_cover("The Fellowship of the Ring", "J.R.R. Tolkien")
     )
     third = Book(
         title="The Two Towers",
@@ -65,6 +86,7 @@ def seed_books():
         author=tolkien,
         author_id=1,
         genre="Fantasy",
+        cover=fetch_book_cover("The Two Towers", "J.R.R. Tolkien")
     )
     fourth = Book(
         title="The Return of the King",
@@ -72,6 +94,7 @@ def seed_books():
         author=tolkien,
         author_id=1,
         genre="Fantasy",
+        cover=fetch_book_cover("The Return of the King", "J.R.R. Tolkien")
     )
     fifth = Book(
         title="The Final Empire",
@@ -79,6 +102,7 @@ def seed_books():
         author=sanderson,
         author_id=4,
         genre="Fantasy",
+        cover=fetch_book_cover("The Final Empire", "Brandon Sanderson")
     )
     sixth = Book(
         title="The Well of Ascension",
@@ -86,6 +110,7 @@ def seed_books():
         author=sanderson,
         author_id=4,
         genre="Fantasy",
+        cover=fetch_book_cover("The Well of Ascension", "Brandon Sanderson")
     )
     seventh = Book(
         title="The Hero of Ages",
@@ -93,6 +118,7 @@ def seed_books():
         author=sanderson,
         author_id=4,
         genre="Fantasy",
+        cover=fetch_book_cover("The Hero of Ages", "Brandon Sanderson")
     )
     eighth = Book(
         title="The Way of Kings",
@@ -100,6 +126,7 @@ def seed_books():
         author=sanderson,
         author_id=4,
         genre="Fantasy",
+        cover=fetch_book_cover("The Way of Kings", "Brandon Sanderson")
     )
     ninth = Book(
         title="A Game of Thrones",
@@ -107,6 +134,7 @@ def seed_books():
         author=martin,
         author_id=3,
         genre="Fantasy",
+        cover=fetch_book_cover("A Game of Thrones", "George R.R. Martin")
     )
     tenth = Book(
         title="A Clash of Kings",
@@ -114,6 +142,7 @@ def seed_books():
         author=martin,
         author_id=3,
         genre="Fantasy",
+        cover=fetch_book_cover("A Clash of Kings", "George R.R. Martin")
     )
     eleventh = Book(
         title="A Storm of Swords",
@@ -121,6 +150,7 @@ def seed_books():
         author=martin,
         author_id=3,
         genre="Fantasy",
+        cover=fetch_book_cover("A Storm of Swords", "George R.R. Martin")
     )
     twelfth = Book(
         title="A Feast for Crows",
@@ -128,6 +158,7 @@ def seed_books():
         author=martin,
         author_id=3,
         genre="Fantasy",
+        cover=fetch_book_cover("A Feast for Crows", "George R.R. Martin")
     )
     thirdteenth = Book(
         title="A Dance with Dragons",
@@ -135,6 +166,7 @@ def seed_books():
         author=martin,
         author_id=3,
         genre="Fantasy",
+        cover=fetch_book_cover("A Dance with Dragons", "George R.R. Martin")
     )
     fourteenth = Book(
         title="The Name of the Wind",
@@ -142,6 +174,7 @@ def seed_books():
         author=rothfuss,
         author_id=5,
         genre="Fantasy",
+        cover=fetch_book_cover("The Name of the Wind", "Patrick Rothfuss")
     )
     fifteenth = Book(
         title="The Wise Man's Fear",
@@ -149,6 +182,7 @@ def seed_books():
         author=rothfuss,
         author_id=5,
         genre="Fantasy",
+        cover=fetch_book_cover("The Wise Man's Fear", "Patrick Rothfuss")
     )
     sixteenth = Book(
         title="The Eye of the World",
@@ -156,6 +190,7 @@ def seed_books():
         author=jordan,
         author_id=7,
         genre="Fantasy",
+        cover=fetch_book_cover("The Eye of the World", "Robert Jordan")
     )
     seventeenth = Book(
         title="The Great Hunt",
@@ -163,6 +198,7 @@ def seed_books():
         author=jordan,
         author_id=7,
         genre="Fantasy",
+        cover=fetch_book_cover("The Great Hunt", "Robert Jordan")
     )
     eighteenth = Book(
         title="The Dragon Reborn",
@@ -170,6 +206,7 @@ def seed_books():
         author=jordan,
         author_id=7,
         genre="Fantasy",
+        cover=fetch_book_cover("The Dragon Reborn", "Robert Jordan")
     )
     nintheenth = Book(
         title="The Shadow Rising",
@@ -177,6 +214,7 @@ def seed_books():
         author=jordan,
         author_id=7,
         genre="Fantasy",
+        cover=fetch_book_cover("The Shadow Rising", "Robert Jordan")
     )
     twentieth = Book(
         title="The Fires of Heaven",
@@ -184,6 +222,7 @@ def seed_books():
         author=jordan,
         author_id=7,
         genre="Fantasy",
+        cover=fetch_book_cover("The Fires of Heaven", "Robert Jordan")
     )
     twentyfirst = Book(
         title="Harry Potter and the Sorcerer's Stone",
@@ -191,6 +230,7 @@ def seed_books():
         author=rowling,
         author_id=2,
         genre="Fantasy",
+        cover=fetch_book_cover("Harry Potter and the Sorcerer's Stone", "J.K. Rowling")
     )
     twentysecond = Book(
         title="Harry Potter and the Chamber of Secrets",
@@ -198,6 +238,7 @@ def seed_books():
         author=rowling,
         author_id=2,
         genre="Fantasy",
+        cover=fetch_book_cover("Harry Potter and the Chamber of Secrets", "J.K. Rowling")
     )
     twentythird = Book(
         title="Harry Potter and the Prisoner of Azkaban",
@@ -205,6 +246,7 @@ def seed_books():
         author=rowling,
         author_id=2,
         genre="Fantasy",
+        cover=fetch_book_cover("Harry Potter and the Prisoner of Azkaban", "J.K. Rowling")
     )
     twentyfourth = Book(
         title="Harry Potter and the Goblet of Fire",
@@ -212,6 +254,7 @@ def seed_books():
         author=rowling,
         author_id=2,
         genre="Fantasy",
+        cover=fetch_book_cover("Harry Potter and the Goblet of Fire", "J.K. Rowling")
     )
     twentyfifth = Book(
         title="The Blade Itself",
@@ -219,6 +262,7 @@ def seed_books():
         author=abercrombie,
         author_id=17,
         genre="Fantasy",
+        cover=fetch_book_cover("The Blade Itself", "Joe Abercrombie")
     )
     twentysixth = Book(
         title="Before They Are Hanged",
@@ -226,6 +270,7 @@ def seed_books():
         author=abercrombie,
         author_id=17,
         genre="Fantasy",
+        cover=fetch_book_cover("Before They Are Hanged", "Joe Abercrombie")
     )
     twentyseventh = Book(
         title="Last Argument of Kings",
@@ -233,6 +278,7 @@ def seed_books():
         author=abercrombie,
         author_id=17,
         genre="Fantasy",
+        cover=fetch_book_cover("Last Argument of Kings", "Joe Abercrombie")
     )
     twentyeigth = Book(
         title="The Lies of Locke Lamora",
@@ -240,6 +286,7 @@ def seed_books():
         author=lynch,
         author_id=20,
         genre="Fantasy",
+        cover=fetch_book_cover("The Lies of Locke Lamora", "Scott Lynch")
     )
     twentyninth = Book(
         title="Red Seas Under Red Skies",
@@ -247,6 +294,7 @@ def seed_books():
         author=lynch,
         author_id=20,
         genre="Fantasy",
+        cover=fetch_book_cover("Red Seas Under Red Skies", "Scott Lynch")
     )
     thirtyth = Book(
         title="The Republic of Thieves",
@@ -254,6 +302,7 @@ def seed_books():
         author=lynch,
         author_id=20,
         genre="Fantasy",
+        cover=fetch_book_cover("The Republic of Thieves", "Scott Lynch")
     )
     thirtyfirst = Book(
         title="Jade City",
@@ -261,6 +310,7 @@ def seed_books():
         author=lee,
         author_id=11,
         genre="Fantasy",
+        cover=fetch_book_cover("Jade City", "Fonda Lee")
     )
     thirtysecond = Book(
         title="Jade War",
@@ -268,6 +318,7 @@ def seed_books():
         author=lee,
         author_id=11,
         genre="Fantasy",
+        cover=fetch_book_cover("Jade War", "Fonda Lee")
     )
     thirtythird = Book(
         title="Jade Legacy",
@@ -275,6 +326,7 @@ def seed_books():
         author=lee,
         author_id=11,
         genre="Fantasy",
+        cover=fetch_book_cover("Jade Legacy", "Fonda Lee")
     )
     thirtyfourth = Book(
         title="The Fifth Season",
@@ -282,6 +334,7 @@ def seed_books():
         author=jemisin,
         author_id=12,
         genre="Fantasy",
+        cover=fetch_book_cover("The Fifth Season", "N.K. Jemisin")
     )
     thirtyfifth = Book(
         title="The Obelisk Gate",
@@ -289,6 +342,7 @@ def seed_books():
         author=jemisin,
         author_id=12,
         genre="Fantasy",
+        cover=fetch_book_cover("The Obelisk Gate", "N.K. Jemisin")
     )
     thirtysixth = Book(
         title="The Stone Sky",
@@ -296,6 +350,7 @@ def seed_books():
         author=jemisin,
         author_id=12,
         genre="Fantasy",
+        cover=fetch_book_cover("The Stone Sky", "N.K. Jemisin")
     )
     thirtyseventh = Book(
         title="The Black Prism",
@@ -303,6 +358,7 @@ def seed_books():
         author=weeks,
         author_id=17,
         genre="Fantasy",
+        cover=fetch_book_cover("The Black Prism", "Brent Weeks")
     )
     thirtyeigth = Book(
         title="The Blinding Knife",
@@ -310,6 +366,7 @@ def seed_books():
         author=weeks,
         author_id=17,
         genre="Fantasy",
+        cover=fetch_book_cover("The Blinding Knife", "Brent Weeks")
     )
     thirtyninth = Book(
         title="The Broken Eye",
@@ -317,6 +374,7 @@ def seed_books():
         author=weeks,
         author_id=17,
         genre="Fantasy",
+        cover=fetch_book_cover("The Broken Eye", "Brent Weeks")
     )
     fourtieth = Book(
         title="A Wizard of Earthsea",
@@ -324,6 +382,7 @@ def seed_books():
         author=ursula,
         author_id=36,
         genre="Fantasy",
+        cover=fetch_book_cover("A Wizard of Earthsea", "Ursula K. Le Guin")
     )
     fortyfirst = Book(
         title="The Tombs of Atuan",
@@ -331,6 +390,7 @@ def seed_books():
         author=ursula,
         author_id=36,
         genre="Fantasy",
+        cover=fetch_book_cover("The Tombs of Atuan", "Ursula K. Le Guin")
     )
     fortysecond = Book(
         title="The Farthest Shore",
@@ -338,6 +398,7 @@ def seed_books():
         author=ursula,
         author_id=36,
         genre="Fantasy",
+        cover=fetch_book_cover("The Farthest Shore", "Ursula K. Le Guin")
     )
     fortythird = Book(
         title="Storm Front",
@@ -345,6 +406,7 @@ def seed_books():
         author=butcher,
         author_id=18,
         genre="Fantasy",
+        cover=fetch_book_cover("Storm Front", "Jim Butcher")
     )
     fortyfourth = Book(
         title="Fool Moon",
@@ -352,6 +414,7 @@ def seed_books():
         author=butcher,
         author_id=18,
         genre="Fantasy",
+        cover=fetch_book_cover("Fool Moon", "Jim Butcher")
     )
     fortyfifth = Book(
         title="Grave Peril",
@@ -359,6 +422,7 @@ def seed_books():
         author=butcher,
         author_id=18,
         genre="Fantasy",
+        cover=fetch_book_cover("Grave Peril", "Jim Butcher")
     )
     fortysixth = Book(
         title="Summer Knight",
@@ -366,6 +430,7 @@ def seed_books():
         author=butcher,
         author_id=18,
         genre="Fantasy",
+        cover=fetch_book_cover("Summer Knight", "Jim Butcher")
     )
 
     db.session.add_all([first, second, third, fourth])

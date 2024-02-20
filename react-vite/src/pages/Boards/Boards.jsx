@@ -14,41 +14,14 @@ export default function Boards() {
   const [editingBoardId, setEditingBoardId] = useState(null)
   const [newBoardName, setNewBoardName] = useState('')
   const boards = useSelector((state) => state.boards.boards)
-  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
   const closeMenu = () => setShowMenu(false)
-  const [bookCovers, setBookCovers] = useState({})
-  const { books } = useSelector((state) => state.books)
-  const hasFetchedBookCovers = useRef(false);
-
-
-  async function fetchBookCover(book) {
-    if (book.cover) {
-      setBookCovers((prev) => ({ ...prev, [book.id]: book.cover }))
-      console.log('ALREADY HAS A COVER')
-      return Promise.resolve() // Resolve immediately for books that already have a cover
-    } else {
-      console.log('FETCHING BOOK COVER')
-      const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
-          book.title
-        )}`
-      )
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      const data = await response.json()
-      if (data.items) {
-        const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
-        setBookCovers((prev) => ({ ...prev, [book.id]: coverImageLink }))
-        await fetch(`/api/books/${book.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ coverImageLink }),
-        })
-      }
-    }
-  }
+  // const [loading, setLoading] = useState(true)
+  // const [bookCovers, setBookCovers] = useState({})
+  // const { books } = useSelector((state) => state.books)
+  // const {books} = useSelector((state) => state.books)
+  // const hasFetchedBookCovers = useRef(false);
+  
 
   function handleEdit(boardId) {
     setEditingBoardId(boardId)
@@ -67,31 +40,45 @@ export default function Boards() {
   }
 
   //! Original
-  // useEffect(() => {
-  //   dispatch(thunkGetBoards())
-  //   dispatch(thunkGetAllBooks()).then(() => setLoading(false))
-  // }, [dispatch])
   useEffect(() => {
     dispatch(thunkGetBoards())
-    dispatch(thunkGetAllBooks()).then(() => {
-      if (!hasFetchedBookCovers.current) {
-        Object.values(books).forEach(fetchBookCover);
-        setLoading(false);
-        hasFetchedBookCovers.current = true;
-      }
-    });
-  }, [dispatch]);
+    // dispatch(thunkGetAllBooks()).then(() => setLoading(false))
+  }, [dispatch])
 
-  if (loading) {
-    return <h2>Loading...</h2>
-  }
+  // useEffect(() => {
+  //   dispatch(thunkGetBoards())
+  //   dispatch(thunkGetAllBooks()).then(() => {
+  //     console.log('hasFetchedBookCovers.current:', hasFetchedBookCovers.current);
+  //     if (!hasFetchedBookCovers.current && books) {
+  //       Object.values(books).forEach(fetchBookCover);
+  //     }
+  //     setLoading(false);
+  //     hasFetchedBookCovers.current = true;
+  //   });
+  // }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(thunkGetBoards())
+  //   console.log('hasFetchedBookCovers.current:', hasFetchedBookCovers.current);
+  //   if (!hasFetchedBookCovers.current) {
+  //     dispatch(thunkGetAllBooks()).then(() => {
+  //       if (books) {
+  //         Object.values(books).forEach(fetchBookCover);
+  //       }
+  //       setLoading(false);
+  //       hasFetchedBookCovers.current = true;
+  //     });
+  //   }
+  // }, [dispatch]);
+
+  // if (loading) {
+  //   return <h2>Loading...</h2>
+  // }
 
   return (
     <div className="boards-container">
       <h2 className='board-headers'>My Boards</h2>
       <div className="boards-grid">
         {boards?.map((board) => (
-          <>
           <div
             key={board.id}
             className="board"
@@ -135,7 +122,6 @@ export default function Boards() {
               </div>
             )}
           </div>
-          </>
         ))}
       </div>
       <OpenModalButton
