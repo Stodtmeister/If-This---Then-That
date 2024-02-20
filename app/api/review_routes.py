@@ -7,6 +7,11 @@ from .auth_routes import validation_errors_to_error_messages
 
 review_routes = Blueprint('review', __name__)
 
+@review_routes.route('/', methods=['GET'])
+def get_books():
+    books = Book.query.all()
+    return {"books": [book.to_dict(include_boards=False, include_reviews=False, include_author=False, include_recommendations=False) for book in books]}
+
 
 @review_routes.route("/<int:bookId>", methods=["PUT"])
 @login_required

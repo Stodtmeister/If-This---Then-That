@@ -64,13 +64,24 @@ def upgrade():
     sa.PrimaryKeyConstraint('board_id', 'book_id')
     )
     op.create_table('book_recommendation',
+    sa.Column('bookRecommendation_id', sa.Integer(), nullable=False),
     sa.Column('book_id', sa.Integer(), nullable=False),
     sa.Column('recommendation_id', sa.Integer(), nullable=False),
-    sa.Column('votes', sa.Integer(), nullable=True, default=1),
+    sa.Column('votes', sa.Integer(), nullable=True, server_default='1'),
     sa.ForeignKeyConstraint(['book_id'], ['books.id'], ),
     sa.ForeignKeyConstraint(['recommendation_id'], ['recommendations.id'], ),
-    sa.PrimaryKeyConstraint('book_id', 'recommendation_id')
+    sa.PrimaryKeyConstraint('bookRecommendation_id'),
+    sa.UniqueConstraint('book_id', 'recommendation_id')
     )
+    #! Oringinal
+    # op.create_table('book_recommendation',
+    # sa.Column('book_id', sa.Integer(), nullable=False),
+    # sa.Column('recommendation_id', sa.Integer(), nullable=False),
+    # sa.Column('votes', sa.Integer(), nullable=True, default=1),
+    # sa.ForeignKeyConstraint(['book_id'], ['books.id'], ),
+    # sa.ForeignKeyConstraint(['recommendation_id'], ['recommendations.id'], ),
+    # sa.PrimaryKeyConstraint('book_id', 'recommendation_id')
+    # )
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),

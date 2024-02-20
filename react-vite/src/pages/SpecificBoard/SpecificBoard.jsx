@@ -88,9 +88,7 @@ export default function SpecificBoard() {
                     title={book.title}
                     onClick={() =>
                       navigate(`/books/${book.id}`, {
-                        state: {
-                          coverImage: bookCovers[book.id] || book.cover,
-                        },
+                        state: { coverImage: bookCovers[book.id] || book.cover, bookTitle: book.title},
                       })
                     }
                   />

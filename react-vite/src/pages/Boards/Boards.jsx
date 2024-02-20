@@ -5,6 +5,7 @@ import { thunkGetBoards, thunkEditBoard, thunkDeleteBoard } from '../../redux/bo
 import OpenModalButton from '../../components/OpenModalButton/OpenModalButton'
 import NewBoardModal from '../../components/NewBoardModal/NewBoardModal'
 import './Boards.css'
+import { thunkGetAllBooks } from '../../redux/books'
 
 export default function Boards() {
   const dispatch = useDispatch()
@@ -13,9 +14,40 @@ export default function Boards() {
   const [editingBoardId, setEditingBoardId] = useState(null)
   const [newBoardName, setNewBoardName] = useState('')
   const boards = useSelector((state) => state.boards.boards)
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
-
   const closeMenu = () => setShowMenu(false)
+  const [bookCovers, setBookCovers] = useState({})
+  const { books } = useSelector((state) => state.books)
+
+
+  async function fetchBookCover(book) {
+    if (book.cover) {
+      setBookCovers((prev) => ({ ...prev, [book.id]: book.cover }))
+      console.log('ALREADY HAS A COVER')
+      return Promise.resolve() // Resolve immediately for books that already have a cover
+    } else {
+      console.log('FETCHING BOOK COVER')
+      const response = await fetch(
+        `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
+          book.title
+        )}`
+      )
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const data = await response.json()
+      if (data.items) {
+        const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
+        setBookCovers((prev) => ({ ...prev, [book.id]: coverImageLink }))
+        await fetch(`/api/books/${book.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ coverImageLink }),
+        })
+      }
+    }
+  }
 
   function handleEdit(boardId) {
     setEditingBoardId(boardId)
@@ -33,9 +65,22 @@ export default function Boards() {
     dispatch(thunkDeleteBoard(id))
   }
 
+  //! Original
+  // useEffect(() => {
+  //   dispatch(thunkGetBoards())
+  //   dispatch(thunkGetAllBooks()).then(() => setLoading(false))
+  // }, [dispatch])
   useEffect(() => {
     dispatch(thunkGetBoards())
-  }, [dispatch])
+    dispatch(thunkGetAllBooks()).then(() => {
+      Object.values(books).forEach(fetchBookCover);
+      setLoading(false);
+    });
+  }, [dispatch]);
+
+  if (loading) {
+    return <h2>Loading...</h2>
+  }
 
   return (
     <div className="boards-container">

@@ -9,12 +9,14 @@ import sessionReducer from "./session";
 import boardsReducer from "./boards";
 import authorsReducer from "./authors";
 import recReducer from "./recommendations";
+import booksReducer from "./books";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   boards: boardsReducer,
   authors: authorsReducer,
-  recommendations: recReducer
+  recommendations: recReducer,
+  books: booksReducer,
 });
 
 let enhancer;

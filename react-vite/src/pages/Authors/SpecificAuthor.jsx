@@ -28,7 +28,7 @@ export default function SpecificAuthor() {
   }, [dispatch, authors, refresh])
 
   const fetchBookCover = useCallback(async (book, authorName, fromHandleSubmit = false) => {
-    const allBooks = author.series.flatMap((series) => series.books)
+    const allBooks = author?.series.flatMap((series) => series.books)
     if (fromHandleSubmit && allBooks.some(existingBook => existingBook.title === book.title)) {
       setError({ message: 'Author already has this book' })
       throw new Error('Author already has this book')
@@ -118,7 +118,7 @@ export default function SpecificAuthor() {
                   title={book.title}
                   onClick={() =>
                     navigate(`/books/${book.id}`, {
-                      state: { coverImage: bookCovers[book.id] || book.cover },
+                      state: { coverImage: bookCovers[book.id] || book.cover, bookTitle: book.title},
                     })
                   }
                 />

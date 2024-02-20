@@ -77,7 +77,6 @@ export const thunkGetBoardById = (boardId) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json()
-    console.log('BOARD BY ID', data)
     dispatch(getBoardById(data, boardId))
   } else {
     console.log('ERROR (thunkGetBoardById)')
@@ -145,15 +144,14 @@ export default function boardsReducer(state = initialState, action) {
         },
         boards: state.boards.map((board) => {
           if (board.id === action.boardId) {
-            console.log('Updating board:', board)
+            // console.log('Updating board:', board)
             const updatedBoard = { ...board, ...action.books }
-            console.log('Updated board:', updatedBoard)
+            // console.log('Updated board:', updatedBoard)
             return updatedBoard
           }
           return board
         }),
       }
-      console.log('New State:', newState)
       return newState
     }
     case ADD_BOARD:
