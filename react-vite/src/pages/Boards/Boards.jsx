@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { thunkGetBoards, thunkEditBoard, thunkDeleteBoard } from '../../redux/boards'
 import OpenModalButton from '../../components/OpenModalButton/OpenModalButton'
@@ -19,6 +19,7 @@ export default function Boards() {
   const closeMenu = () => setShowMenu(false)
   const [bookCovers, setBookCovers] = useState({})
   const { books } = useSelector((state) => state.books)
+  const hasFetchedBookCovers = useRef(false);
 
 
   async function fetchBookCover(book) {
@@ -73,8 +74,11 @@ export default function Boards() {
   useEffect(() => {
     dispatch(thunkGetBoards())
     dispatch(thunkGetAllBooks()).then(() => {
-      Object.values(books).forEach(fetchBookCover);
-      setLoading(false);
+      if (!hasFetchedBookCovers.current) {
+        Object.values(books).forEach(fetchBookCover);
+        setLoading(false);
+        hasFetchedBookCovers.current = true;
+      }
     });
   }, [dispatch]);
 
