@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { thunkAddAuthor, thunkAddBookToAuthor, thunkGetAuthors } from '../../redux/authors'
 import { thunkAddRec } from '../../redux/recommendations'
 import { useParams } from 'react-router-dom'
+import AddBook from '../AddBook/AddBook'
 
 export default function AddRecommendation() {
   const { bookId } = useParams()
@@ -26,6 +27,8 @@ export default function AddRecommendation() {
   const [authorName, setAuthorName] = useState('')
   const [bookCovers, setBookCovers] = useState({})
   const [author, setAuthor] = useState(null)
+  const [foundAuthor, setFoundAuthor] = useState(false)
+  console.log('SA', selectedAuthor);
 
   useEffect(() => {
     dispatch(thunkGetAuthors())
@@ -165,11 +168,21 @@ export default function AddRecommendation() {
     const series = seriesRef.current.value
     const bookInfo = await fetchBookCover({ title: bookTitle }, authorName, true)
 
-    const newBook = {
-      cover: bookInfo.cover,
-      title: bookTitle,
-      genre: genre,
-      author_id: newAuthorId
+    let newBook = {}
+    if (foundAuthor) {
+      newBook = {
+        cover: bookInfo.cover,
+        title: bookTitle,
+        genre: genre,
+        author_id: selectedAuthor.id,
+      }
+    } else {
+      newBook = {
+        cover: bookInfo.cover,
+        title: bookTitle,
+        genre: genre,
+        author_id: newAuthorId
+      }
     }
 
     const result = await dispatch(thunkAddBookToAuthor(newBook))
@@ -181,17 +194,13 @@ export default function AddRecommendation() {
       setNewBookId(result)
     }
 
-    console.log('RESULT:', result);
     dispatch(thunkAddRec({ recommendation_id: result, book_id: Number(bookId) }))
 
     setClicked(false)
     bookRef.current.value = ''
     seriesRef.current.value = ''
     setAddBook(false)
-
-
   }
-
 
   return (
     <>
@@ -215,9 +224,35 @@ export default function AddRecommendation() {
               <button onClick={() => setClicked(!clicked)}>Cancel</button>
             </>
           )}
-          {!addBook && <p>Cant find author?</p>}
+          {!addBook && !addAuthor && (
+            <div className='rec-options'>
+              <div className="unfound-author">
+                <p>Cant find author?</p>
+                <button onClick={() => setAddAuthor(true)}>Add Author</button>
+              </div>
+              <div className='found-author'>
+                <p>Found Author?</p>
+                <button onClick={() => (
+                  setFoundAuthor(true),
+                  setAddBook(true),
+                  setAddAuthor(false)
+                )}>Add Book</button>
+              </div>
+            </div>
+          )}
           {!addAuthor ? (
-            <button onClick={() => setAddAuthor(true)}>Add Author</button>
+            <>
+              {foundAuthor &&
+                <AddBook
+                  authorName={selectedAuthor.name}
+                  bookRef={bookRef}
+                  seriesRef={seriesRef}
+                  genre={genre}
+                  setGenre={setGenre}
+                  handleBookSubmit={handleBookSubmit}
+                />
+              }
+            </>
           ) : (
             <form onSubmit={async (e) => {
               e.preventDefault()
@@ -231,27 +266,14 @@ export default function AddRecommendation() {
                   <button type='button' onClick={() => setAddAuthor(false)}>X</button>
                 </>
               ) : (
-                <>
-                  <div className="new-book-rec">
-                    <div className='book-rec-title'>
-                      <label htmlFor="book-title">Add a book from author: {authorName}</label>
-                      <input type="text" name='book-title' placeholder="Enter book title..." ref={bookRef} required/>
-                      <input type="text" placeholder='Enter the series... (Optional)' ref={seriesRef} />
-                    </div>
-                    <select id="genre" name="genre" value={genre} onChange={e => setGenre(e.target.value)} required>
-                      <option value="">Genre</option>
-                      <option value="fantasy">Fantasy</option>
-                      <option value="sci-fi">Sci-Fi</option>
-                      <option value="mystery">Mystery</option>
-                      <option value="thriller">Thriller</option>
-                      <option value="romance">Romance</option>
-                      <option value="horror">Horror</option>
-                      <option value="non-fiction">Non-Fiction</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-                  <button onClick={handleBookSubmit} type="button">Add Book</button>
-                </>
+                <AddBook
+                  authorName={authorName}
+                  bookRef={bookRef}
+                  seriesRef={seriesRef}
+                  genre={genre}
+                  setGenre={setGenre}
+                  handleBookSubmit={handleBookSubmit}
+                />
               )}
             </form>
           )}

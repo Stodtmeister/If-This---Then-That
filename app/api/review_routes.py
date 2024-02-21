@@ -193,24 +193,8 @@ def submit_recommendation(bookId):
         return {"errors": ["Book not found"]}
 
     data = request.get_json()
-    print("***************************************")
-    print("***************************************")
-    print(data)
-    print("***************************************")
-    print("***************************************")
     recommendationId = data['recommendation_id']
-    print("***************************************")
-    print("***************************************")
-    print(recommendationId)
-    print("***************************************")
-    print("***************************************")
-
     recommendation = Book.query.get(recommendationId)
-    print("***************************************")
-    print("***************************************")
-    print(recommendation)
-    print("***************************************")
-    print("***************************************")
 
     if recommendation is None:
         return {"errors": ["Recommendation not found"]}, 404
