@@ -1,0 +1,55 @@
+.new-rec-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.autosuggest {
+  position: relative;
+  margin-top: 20px;
+}
+
+.autosuggestInput {
+  width: 100%;
+  height: 30px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.autosuggestSuggestionsList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  background-color: #fff;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+}
+
+.autosuggestSuggestion {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.autosuggestSuggestionHighlighted {
+  background-color: #ddd;
+}
+
+.new-book-rec {
+  display: flex;
+
+}
+
+.book-rec-title {
+  display: flex;
+  flex-direction: column;
+}

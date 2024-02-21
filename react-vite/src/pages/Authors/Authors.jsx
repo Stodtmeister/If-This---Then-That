@@ -39,10 +39,10 @@ export default function Authors() {
       series: [],
     }
 
-    const data = await dispatch(thunkAddAuthor(author))
+    const result = await dispatch(thunkAddAuthor(author))
 
-    if (data) {
-      setError({ formError: data.message })
+    if (typeof result === 'object' && result.message) { 
+      setError({ formError: result.message })
       return
     }
 
@@ -108,7 +108,7 @@ export default function Authors() {
             ) : (
               <form className="new-author-form" onSubmit={handleSubmit}>
                 <label htmlFor="author-name">Author Name:</label>
-                {error.formError && <p className="error">{error.formError}</p>}
+                {error?.formError && <p className="error">{error?.formError}</p>}
                 <input
                   type="text"
                   id="author-name"

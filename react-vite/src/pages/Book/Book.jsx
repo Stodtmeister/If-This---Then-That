@@ -5,6 +5,7 @@ import { thunkGetRecs } from '../../redux/recommendations'
 import { thunkGetAllBooks } from '../../redux/books'
 import './Book.css'
 import AddToBoard from '../../components/AddToBoard/AddToBoard'
+import AddRecommendation from '../../components/AddRecommendation/AddRecommendation'
 
 export default function Book() {
   const navigate = useNavigate()
@@ -34,12 +35,12 @@ export default function Book() {
     <>
       <h2 className="author-title">{bookTitle}</h2>
       <div className="rec-container">
-        <img
+        {/* <img
           src={coverImage}
           id="chosen-book"
           alt={`Cover of book ${bookId}`}
           onClick={() => navigate(`/books/${bookId}`)}
-        />
+        /> */}
         {recommendations && (
           <div className="first-three-images">
             {recommendations
@@ -132,6 +133,7 @@ export default function Book() {
             })}
           </div>
         )}
+        <AddRecommendation />
       </div>
     </>
   )
