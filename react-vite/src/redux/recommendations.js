@@ -1,4 +1,5 @@
 const GET_RECS = "GET_RECS"
+const ADD_REC = "ADD_REC"
 const GET_RECS_ERROR = "GET_RECS_ERROR"
 export const UPVOTE_RECOMMENDATION = 'UPVOTE_RECOMMENDATION';
 export const DOWNVOTE_RECOMMENDATION = 'DOWNVOTE_RECOMMENDATION';
@@ -16,6 +17,25 @@ const getRecs = (recommendations) => {
     recommendations
   }
 }
+
+export const thunkAddRec = (data) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/books/${data.book_id}/recommendations`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(getRecs(data));
+    }
+  }
+  catch (error) {
+    console.error('Exception caught in thunkAddRec:', error.toString());
+  }
+}
+
+
 
 export const upvoteRecommendation = (recId) => ({
   type: UPVOTE_RECOMMENDATION,
@@ -87,6 +107,15 @@ export default function recReducer(state = {}, action) {
     }
     case GET_RECS_ERROR:
       return { ...state, error: action.error }
+    case ADD_REC: {
+      const newRec = { ...state.recommendations};
+      if (newRec[action.payload.bookId]) {
+        newRec[action.payload.bookId].push(action.payload);
+      } else {
+        newRec[action.payload.bookId] = [action.payload];
+      }
+      return { ...state, recommendations: newRec }
+    }
     case UPVOTE_RECOMMENDATION: {
       const rec = state.recommendations[action.payload];
       return {

@@ -3,6 +3,7 @@ import Autosuggest from 'react-autosuggest'
 import './AddRecommendation.css'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { thunkAddAuthor, thunkAddBookToAuthor, thunkGetAuthors } from '../../redux/authors'
+import { thunkAddRec } from '../../redux/recommendations'
 
 export default function AddRecommendation() {
   const dispatch = useDispatch()
@@ -18,6 +19,7 @@ export default function AddRecommendation() {
   const bookRef = useRef(null)
   const seriesRef = useRef(null)
   const [newAuthorId, setNewAuthorId] = useState(null)
+  const [newBookId, setNewBookId] = useState(null)
   const [genre, setGenre] = useState('')
   const [authorName, setAuthorName] = useState('')
   const [bookCovers, setBookCovers] = useState({})
@@ -169,13 +171,23 @@ export default function AddRecommendation() {
       author_id: newAuthorId || selectedAuthor.id,
     }
 
-    dispatch(thunkAddBookToAuthor(newBook))
+    const result = await dispatch(thunkAddBookToAuthor(newBook))
+
+    if (typeof result === 'object' && result.message) {
+      setError({ formError: result.message })
+      return
+    } else {
+      setNewBookId(result)
+    }
+
+    dispatch(thunkAddRec({ recommendation_id: newBookId, book_id: newBookId }))
+
     setClicked(false)
     bookRef.current.value = ''
     seriesRef.current.value = ''
     setAddBook(false)
 
-    
+
   }
 
 
