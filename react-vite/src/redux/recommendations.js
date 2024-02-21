@@ -19,6 +19,7 @@ const getRecs = (recommendations) => {
 }
 
 export const thunkAddRec = (data) => async (dispatch) => {
+  console.log('THUNK DATA:', data);
   try {
     const response = await fetch(`/api/books/${data.book_id}/recommendations`, {
       method: 'POST',
@@ -95,13 +96,16 @@ export default function recReducer(state = {}, action) {
   switch (action.type) {
     case GET_RECS: {
       const newRec = { ...state.recommendations};
-      action.recommendations.recommendations.forEach(rec => {
-        if (newRec[rec.bookId] && !newRec[rec.bookId].some(existingRec => existingRec.recommendationId === rec.recommendationId)) {
-          newRec[rec.bookId].push(rec);
-        } else {
-          newRec[rec.bookId] = [rec];
-        }
-      })
+      if (action.recommendations && Array.isArray(action.recommendations.recommendations)) {
+        console.log('FROM REC REDUCER:', action.recommendations.recommendations);
+        action.recommendations.recommendations.forEach(rec => {
+          if (newRec[rec.bookId] && !newRec[rec.bookId].some(existingRec => existingRec.recommendationId === rec.recommendationId)) {
+            newRec[rec.bookId].push(rec);
+          } else {
+            newRec[rec.bookId] = [rec];
+          }
+        })
+      }
 
       return { ...state, recommendations: newRec }
     }

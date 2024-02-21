@@ -4,8 +4,10 @@ import './AddRecommendation.css'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { thunkAddAuthor, thunkAddBookToAuthor, thunkGetAuthors } from '../../redux/authors'
 import { thunkAddRec } from '../../redux/recommendations'
+import { useParams } from 'react-router-dom'
 
 export default function AddRecommendation() {
+  const { bookId } = useParams()
   const dispatch = useDispatch()
   const authors = useSelector((state) => state.authors.authors)
   const [searchTerm, setSearchTerm] = useState('')
@@ -24,7 +26,6 @@ export default function AddRecommendation() {
   const [authorName, setAuthorName] = useState('')
   const [bookCovers, setBookCovers] = useState({})
   const [author, setAuthor] = useState(null)
-
 
   useEffect(() => {
     dispatch(thunkGetAuthors())
@@ -168,7 +169,7 @@ export default function AddRecommendation() {
       cover: bookInfo.cover,
       title: bookTitle,
       genre: genre,
-      author_id: newAuthorId || selectedAuthor.id,
+      author_id: newAuthorId
     }
 
     const result = await dispatch(thunkAddBookToAuthor(newBook))
@@ -180,7 +181,8 @@ export default function AddRecommendation() {
       setNewBookId(result)
     }
 
-    dispatch(thunkAddRec({ recommendation_id: newBookId, book_id: newBookId }))
+    console.log('RESULT:', result);
+    dispatch(thunkAddRec({ recommendation_id: result, book_id: Number(bookId) }))
 
     setClicked(false)
     bookRef.current.value = ''
