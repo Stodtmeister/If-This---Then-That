@@ -17,9 +17,13 @@
   /* padding: 1rem; */
 }
 
-@font-face {
+/* @font-face {
   font-family: 'Aniron';
   src: url('../../fonts/fonts') format('truetype');
+} */
+@font-face {
+  font-family: 'Aniron';
+  src: url('../../fonts/anirm___.ttf') format('truetype');
 }
 
 body {

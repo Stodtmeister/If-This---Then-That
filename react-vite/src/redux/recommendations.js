@@ -71,26 +71,19 @@ export const thunkGetRecs = (bookId) => async (dispatch) => {
   }
 }
 
-// const initialState = { recommendations: [] }
 export default function recReducer(state = {}, action) {
   switch (action.type) {
     case GET_RECS: {
-      const newRecs = action.recommendations.recommendations.reduce((acc, rec) => {
-        // Store the details of each recommendation by its unique ID
-        acc.recommendations[rec.recommendationId] = rec;
-
-        // Map each book to its recommendations
-        if (!acc.books[rec.bookId]) {
-          acc.books[rec.bookId] = [];
+      const newRec = { ...state.recommendations};
+      action.recommendations.recommendations.forEach(rec => {
+        if (newRec[rec.bookId] && !newRec[rec.bookId].some(existingRec => existingRec.recommendationId === rec.recommendationId)) {
+          newRec[rec.bookId].push(rec);
+        } else {
+          newRec[rec.bookId] = [rec];
         }
-        if (!acc.books[rec.bookId].includes(rec.recommendationId)) {
-          acc.books[rec.bookId].push(rec.recommendationId);
-        }
+      })
 
-        return acc;
-      }, { recommendations: { ...state.recommendations }, books: { ...state.books } });
-
-      return { ...state, ...newRecs };
+      return { ...state, recommendations: newRec }
     }
     case GET_RECS_ERROR:
       return { ...state, error: action.error }

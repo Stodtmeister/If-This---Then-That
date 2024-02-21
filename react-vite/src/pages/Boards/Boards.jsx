@@ -16,12 +16,6 @@ export default function Boards() {
   const boards = useSelector((state) => state.boards.boards)
   const navigate = useNavigate()
   const closeMenu = () => setShowMenu(false)
-  // const [loading, setLoading] = useState(true)
-  // const [bookCovers, setBookCovers] = useState({})
-  // const { books } = useSelector((state) => state.books)
-  // const {books} = useSelector((state) => state.books)
-  // const hasFetchedBookCovers = useRef(false);
-  
 
   function handleEdit(boardId) {
     setEditingBoardId(boardId)
@@ -39,40 +33,9 @@ export default function Boards() {
     dispatch(thunkDeleteBoard(id))
   }
 
-  //! Original
   useEffect(() => {
     dispatch(thunkGetBoards())
-    // dispatch(thunkGetAllBooks()).then(() => setLoading(false))
   }, [dispatch])
-
-  // useEffect(() => {
-  //   dispatch(thunkGetBoards())
-  //   dispatch(thunkGetAllBooks()).then(() => {
-  //     console.log('hasFetchedBookCovers.current:', hasFetchedBookCovers.current);
-  //     if (!hasFetchedBookCovers.current && books) {
-  //       Object.values(books).forEach(fetchBookCover);
-  //     }
-  //     setLoading(false);
-  //     hasFetchedBookCovers.current = true;
-  //   });
-  // }, [dispatch]);
-  // useEffect(() => {
-  //   dispatch(thunkGetBoards())
-  //   console.log('hasFetchedBookCovers.current:', hasFetchedBookCovers.current);
-  //   if (!hasFetchedBookCovers.current) {
-  //     dispatch(thunkGetAllBooks()).then(() => {
-  //       if (books) {
-  //         Object.values(books).forEach(fetchBookCover);
-  //       }
-  //       setLoading(false);
-  //       hasFetchedBookCovers.current = true;
-  //     });
-  //   }
-  // }, [dispatch]);
-
-  // if (loading) {
-  //   return <h2>Loading...</h2>
-  // }
 
   return (
     <div className="boards-container">
@@ -83,7 +46,7 @@ export default function Boards() {
             key={board.id}
             className="board"
             onClick={() => navigate(`/boards/${board.id}`, { state: { boardName: board.name } })}
-            >
+          >
             {editingBoardId === board.id ? (
               <input
                 type="text"

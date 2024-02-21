@@ -50,7 +50,7 @@
 .recommendations {
   display: flex;
   flex-direction: column;
-  border: 1px solid green;
+  /* border: 1px solid green; */
   align-items: center;
   padding: 10px;
 }
@@ -60,12 +60,39 @@
   margin: 10px;
 }
 
+.gold-crown-img {
+  width: 180px;
+  height: 270px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  background: linear-gradient( to right, #fff 10%, #f0f0f0 10%, #f0f0f0 90%, #fff 90% );
+  transform: perspective(500px) rotateY(-5deg);
+  transition: all 0.3s ease;
+}
+
 .silver-crown {
   color: silver;
   margin: 10px;
 }
 
+.silver-crown-img {
+  width: 160px;
+  height: 240px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  background: linear-gradient( to right, #fff 10%, #f0f0f0 10%, #f0f0f0 90%, #fff 90% );
+  transform: perspective(500px) rotateY(-5deg);
+  transition: all 0.3s ease;
+}
+
 .bronze-crown {
   color: #cd7f32; /* This is a common color for bronze */
   margin: 10px;
+}
+
+.bronze-crown-img {
+  width: 140px;
+  height: 210px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  background: linear-gradient( to right, #fff 10%, #f0f0f0 10%, #f0f0f0 90%, #fff 90% );
+  transform: perspective(500px) rotateY(-5deg);
+  transition: all 0.3s ease;
 }

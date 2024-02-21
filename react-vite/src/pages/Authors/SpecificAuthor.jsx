@@ -34,9 +34,11 @@ export default function SpecificAuthor() {
       throw new Error('Author already has this book')
     }
     if (book.cover) {
+      console.log('Has cover');
       setBookCovers((prev) => ({ ...prev, [book.id]: book.cover }))
       return Promise.resolve()
     } else {
+      console.log('Fetch cover');
       const response = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
           book.title
@@ -74,13 +76,14 @@ export default function SpecificAuthor() {
       const foundAuthor = authors.find((author) => String(author.id) === authorId)
       setAuthor(foundAuthor)
 
-      if (foundAuthor?.series) {
-        foundAuthor.series.forEach((series) => {
-          series.books.forEach((book) => fetchBookCover(book, foundAuthor.name))
-        })
-      }
+      //! Commented out because I think I don't need to fetch the book covers here
+      // if (foundAuthor?.series) {
+      //   foundAuthor.series.forEach((series) => {
+      //     series.books.forEach((book) => fetchBookCover(book, foundAuthor.name))
+      //   })
+      // }
     }
-  }, [authors, authorId, fetchBookCover])
+  }, [authors, authorId])
 
   async function handleSubmit(e) {
     e.preventDefault()
