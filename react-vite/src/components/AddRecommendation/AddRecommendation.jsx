@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Autosuggest from 'react-autosuggest'
 import './AddRecommendation.css'
-import { useEffect, useRef, useState } from 'react'
-import { thunkAddAuthor, thunkGetAuthors } from '../../redux/authors'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { thunkAddAuthor, thunkAddBookToAuthor, thunkGetAuthors } from '../../redux/authors'
 
 export default function AddRecommendation() {
   const dispatch = useDispatch()
@@ -16,9 +16,13 @@ export default function AddRecommendation() {
   const [error, setError] = useState({})
   const authorRef = useRef(null)
   const bookRef = useRef(null)
+  const seriesRef = useRef(null)
   const [newAuthorId, setNewAuthorId] = useState(null)
   const [genre, setGenre] = useState('')
   const [authorName, setAuthorName] = useState('')
+  const [bookCovers, setBookCovers] = useState({})
+  const [author, setAuthor] = useState(null)
+
 
   useEffect(() => {
     dispatch(thunkGetAuthors())
@@ -69,6 +73,50 @@ export default function AddRecommendation() {
     suggestionHighlighted: 'autosuggestSuggestionHighlighted',
   }
 
+  const fetchBookCover = useCallback(async (book, authorName, fromHandleSubmit = false) => {
+    // const allBooks = author?.series.flatMap((series) => series.books)
+    // if (fromHandleSubmit && allBooks.some(existingBook => existingBook.title === book.title)) {
+    //   setError({ message: 'Author already has this book' })
+    //   throw new Error('Author already has this book')
+    // }
+    if (book.cover) {
+      console.log('Has cover');
+      setBookCovers((prev) => ({ ...prev, [book.id]: book.cover }))
+      return Promise.resolve()
+    } else {
+      console.log('Fetch cover');
+      const response = await fetch(
+        `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
+          book.title
+        )}+inauthor:${encodeURIComponent(authorName)}`
+      )
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const data = await response.json()
+      if (!data.items || !data.items.length) {
+        setError({ message: 'No book found with that title' })
+        throw new Error('No book found with that title')
+      }
+      if (data.items) {
+        const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
+        setBookCovers((prev) => ({ ...prev, [book.id]: coverImageLink }))
+
+        if (!fromHandleSubmit) {
+          await fetch(`/api/books/${book.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ coverImageLink }),
+          })
+        }
+
+        return { cover: coverImageLink }
+      }
+
+      return { cover: null }
+    }
+  }, [setBookCovers])
+
   useEffect(() => {
     if (searchTerm === '' || !authors.some(author => author.name === searchTerm)) {
       setSelectedAuthor(null)
@@ -111,10 +159,23 @@ export default function AddRecommendation() {
   async function handleBookSubmit(e) {
     e.preventDefault()
     const bookTitle = bookRef.current.value
-    const book = {
+    const series = seriesRef.current.value
+    const bookInfo = await fetchBookCover({ title: bookTitle }, authorName, true)
+
+    const newBook = {
+      cover: bookInfo.cover,
       title: bookTitle,
+      genre: genre,
+      author_id: newAuthorId || selectedAuthor.id,
     }
-    console.log(book)
+
+    dispatch(thunkAddBookToAuthor(newBook))
+    setClicked(false)
+    bookRef.current.value = ''
+    seriesRef.current.value = ''
+    setAddBook(false)
+
+    
   }
 
 
@@ -159,8 +220,9 @@ export default function AddRecommendation() {
                 <>
                   <div className="new-book-rec">
                     <div className='book-rec-title'>
-                      <label htmlFor="book-title">Add a book for author: {authorName}</label>
-                      <input type="text" name='book-title' placeholder="Enter book title" ref={bookRef} required/>
+                      <label htmlFor="book-title">Add a book from author: {authorName}</label>
+                      <input type="text" name='book-title' placeholder="Enter book title..." ref={bookRef} required/>
+                      <input type="text" placeholder='Enter the series... (Optional)' ref={seriesRef} />
                     </div>
                     <select id="genre" name="genre" value={genre} onChange={e => setGenre(e.target.value)} required>
                       <option value="">Genre</option>

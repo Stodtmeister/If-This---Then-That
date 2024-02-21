@@ -49,24 +49,40 @@ def login():
     form = LoginForm()
     # Get the csrf_token from the request cookie and put it into the
     # form manually to validate_on_submit can be used
-    if 'csrf_token' in request.cookies:
-        form['csrf_token'].data = request.cookies['csrf_token']
-    else:
-        # return {'errors': {'message': 'No CSRF token found in cookies'}}, 400
-        #!new
-        csrf_token = generate_csrf()
-        form['csrf_token'].data = csrf_token
-        response = make_response()
-        response.set_cookie('csrf_token', csrf_token)
-    #! form['csrf_token'].data = request.cookies['csrf_token']
+    form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
-        if user is None:
-            return {'errors': {'message': 'No user with this email found'}}, 401
         login_user(user)
-        return user.to_dict(include_reviews=False)
+        return user.to_dict()
     return form.errors, 401
+#! CURRENTLY NOT WORKING
+# @auth_routes.route('/login', methods=['POST'])
+# def login():
+#     """
+#     Logs a user in
+#     """
+#     form = LoginForm()
+#     # Get the csrf_token from the request cookie and put it into the
+#     # form manually to validate_on_submit can be used
+#     if 'csrf_token' in request.cookies:
+#         form['csrf_token'].data = request.cookies['csrf_token']
+#     else:
+#         # return {'errors': {'message': 'No CSRF token found in cookies'}}, 400
+#         #!new
+#         csrf_token = generate_csrf()
+#         form['csrf_token'].data = csrf_token
+#         response = make_response()
+#         response.set_cookie('csrf_token', csrf_token)
+#     #! form['csrf_token'].data = request.cookies['csrf_token']
+#     if form.validate_on_submit():
+#         # Add the user to the session, we are logged in!
+#         user = User.query.filter(User.email == form.data['email']).first()
+#         if user is None:
+#             return {'errors': {'message': 'No user with this email found'}}, 401
+#         login_user(user)
+#         return user.to_dict(include_reviews=False)
+#     return form.errors, 401
 
 # @auth_routes.route('/login', methods=['POST'])
 # def login():
