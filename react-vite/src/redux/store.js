@@ -10,6 +10,7 @@ import boardsReducer from "./boards";
 import authorsReducer from "./authors";
 import recReducer from "./recommendations";
 import booksReducer from "./books";
+import reviewsReducer from "./reviews";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   authors: authorsReducer,
   recommendations: recReducer,
   books: booksReducer,
+  reviews: reviewsReducer,
 });
 
 let enhancer;

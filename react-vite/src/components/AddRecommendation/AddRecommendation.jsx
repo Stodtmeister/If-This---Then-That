@@ -167,7 +167,14 @@ export default function AddRecommendation() {
     e.preventDefault()
     const bookTitle = bookRef.current.value
     const series = seriesRef.current.value
-    const bookInfo = await fetchBookCover({ title: bookTitle }, authorName, true)
+    let bookInfo
+
+    if (selectedAuthor) {
+      bookInfo = await fetchBookCover({ title: bookTitle }, selectedAuthor.name, true)
+    } else {
+      bookInfo = await fetchBookCover({ title: bookTitle }, authorName, true)
+    }
+
 
     let newBook = {}
     if (foundAuthor) {

@@ -6,6 +6,7 @@ import { thunkGetAllBooks } from '../../redux/books'
 import './Book.css'
 import AddToBoard from '../../components/AddToBoard/AddToBoard'
 import AddRecommendation from '../../components/AddRecommendation/AddRecommendation'
+import BookReviews from '../../components/BookReviews/BookReviews'
 
 export default function Book() {
   const navigate = useNavigate()
@@ -20,6 +21,7 @@ export default function Book() {
   const [clickedBookId, setClickedBookId] = useState(null)
   const [bookCovers, setBookCovers] = useState({})
   const [book, setBook] = useState(null)
+  const [isUpvoted, setIsUpvoted] = useState({})
 
   useEffect(() => {
     const fetchBooksAndRecs = async () => {
@@ -40,7 +42,8 @@ export default function Book() {
           id="chosen-book"
           alt={`Cover of book ${bookId}`}
           onClick={() => navigate(`/books/${bookId}`)}
-        /> */}
+        />
+        <BookReviews bookId={bookId}/> */}
         {recommendations && (
           <div className="first-three-images">
             {recommendations
@@ -79,10 +82,16 @@ export default function Book() {
                       })
                     }
                   />
+                  <BookReviews bookId={rec.recommendationId}/>
                   <div className='voting'>
-                    <i className="fa-solid fa-arrow-up fa-lg"></i>
-                    <div>{rec.votes}</div>
-                    <i className="fa-solid fa-arrow-down fa-lg"></i>
+                    <button
+                      className='vote-button'
+                      title='Upvote this book'
+                      onClick={() => setIsUpvoted(prevState => ({ ...prevState, [rec.recommendationId]: !prevState[rec.recommendationId]}))}
+                    >
+                      <i className={`fa-solid fa-arrow-up fa-lg ${isUpvoted[rec.recommendationId] ? 'upvoted' : ''}`}></i>
+                      {rec.votes}
+                    </button>
                   </div>
                   <button onClick={() => setClickedBookId(rec.recommendationId)}>+</button>
                   {clickedBookId === rec.recommendationId && (
@@ -114,10 +123,11 @@ export default function Book() {
                       })
                     }
                   />
-                  <div className='voting'>
+                  <BookReviews bookId={rec.recommendationId}/>
+                  <div className='voting' onClick={() => setIsUpvoted(!isUpvoted)}>
                     <i className="fa-solid fa-arrow-up fa-lg"></i>
-                    <div>{rec.votes}</div>
-                    <i className="fa-solid fa-arrow-down fa-lg"></i>
+                    <div style={{ color: isUpvoted ? 'red' : 'black'}}>{rec.votes}</div>
+                    {/* <i className="fa-solid fa-arrow-down fa-lg"></i> */}
                   </div>
                   <button onClick={() => setClickedBookId(rec.recommendationId)}>+</button>
                   {clickedBookId === rec.recommendationId && (

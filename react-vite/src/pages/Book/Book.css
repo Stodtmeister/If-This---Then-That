@@ -64,7 +64,13 @@
   width: 180px;
   height: 270px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-  background: linear-gradient( to right, #fff 10%, #f0f0f0 10%, #f0f0f0 90%, #fff 90% );
+  background: linear-gradient(
+    to right,
+    #fff 10%,
+    #f0f0f0 10%,
+    #f0f0f0 90%,
+    #fff 90%
+  );
   transform: perspective(500px) rotateY(-5deg);
   transition: all 0.3s ease;
 }
@@ -78,7 +84,13 @@
   width: 160px;
   height: 240px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-  background: linear-gradient( to right, #fff 10%, #f0f0f0 10%, #f0f0f0 90%, #fff 90% );
+  background: linear-gradient(
+    to right,
+    #fff 10%,
+    #f0f0f0 10%,
+    #f0f0f0 90%,
+    #fff 90%
+  );
   transform: perspective(500px) rotateY(-5deg);
   transition: all 0.3s ease;
 }
@@ -92,7 +104,70 @@
   width: 140px;
   height: 210px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-  background: linear-gradient( to right, #fff 10%, #f0f0f0 10%, #f0f0f0 90%, #fff 90% );
+  background: linear-gradient(
+    to right,
+    #fff 10%,
+    #f0f0f0 10%,
+    #f0f0f0 90%,
+    #fff 90%
+  );
   transform: perspective(500px) rotateY(-5deg);
   transition: all 0.3s ease;
+}
+
+.voting-styling {
+  /* position: relative; */
+  display: flex;
+  flex-direction: column;
+}
+
+.voting {
+  display: flex;
+  width: 100%;
+}
+
+.vote-button {
+  background-color: #4caf50;
+  padding: 3px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.vote-button i {
+  margin-right: 5px;
+}
+
+.vote-button:active {
+  background-color: #45a049;
+  box-shadow: 0 5px #666;
+  transform: translateY(1px);
+}
+
+.vote-button:hover {
+  background-color: white;
+  color: black;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.vote-count {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.vote-button .upvoted {
+  color: red !important;
 }

@@ -1,0 +1,21 @@
+.star-icon {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.star-icon.filled {
+  color: #ffc800; /* Change this to your preferred color */
+}
+
+.star-rating {
+  /* border: 1px solid red; */
+  padding: 0;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.star-container {
+  margin-top: 3px;
+  cursor: pointer;
+}
