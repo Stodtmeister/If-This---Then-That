@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Autosuggest from 'react-autosuggest'
-import './AddRecommendation.css'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { thunkAddAuthor, thunkAddBookToAuthor, thunkGetAuthors } from '../../redux/authors'
 import { thunkAddRec } from '../../redux/recommendations'
 import { useParams } from 'react-router-dom'
 import AddBook from '../AddBook/AddBook'
+import Modal from 'react-modal'
+import './AddRecommendation.css'
 
 export default function AddRecommendation() {
   const { bookId } = useParams()
@@ -28,7 +29,7 @@ export default function AddRecommendation() {
   const [bookCovers, setBookCovers] = useState({})
   const [author, setAuthor] = useState(null)
   const [foundAuthor, setFoundAuthor] = useState(false)
-  console.log('SA', selectedAuthor);
+  const [modalIsOpen, setModalIsOpen] = useState(false)
 
   useEffect(() => {
     dispatch(thunkGetAuthors())
@@ -66,7 +67,7 @@ export default function AddRecommendation() {
   const renderSuggestion = (suggestion) => <div>{suggestion.name}</div>
 
   const inputProps = {
-    placeholder: 'Search for an author',
+    placeholder: 'Search for an author by first name...',
     value: searchTerm,
     onChange: handleSearchChange,
   }
@@ -205,13 +206,38 @@ export default function AddRecommendation() {
   return (
     <>
       {!clicked && !addBook ? (
-        <button className="new-rec-btn" onClick={() => setClicked(!clicked)}>
+        <button
+          className="new-rec-btn"
+          onClick={() => {
+            setClicked(!clicked)
+            setModalIsOpen(true)
+          } }
+        >
           Add a new recommendation
         </button>
       ) : (
+        <Modal
+          appElement={document.getElementById('root')}
+          isOpen={modalIsOpen}
+          className={{
+            base: 'add-rec-modal',
+            afterOpen: 'ReactModal__Content--after-open',
+            beforeClose: 'ReactModal__Content--before-close'
+          }}
+          overlayClassName={{
+            base: 'add-rec-modal-overlay',
+            afterOpen: 'ReactModal__Overlay--after-open',
+            beforeClose: 'ReactModal__Overlay--before-close'
+          }}
+          closeTimeoutMS={400}
+          onRequestClose={() => {
+            setClicked(false)
+            setModalIsOpen(false)
+        } }>
         <>
-          {!addBook && (
+          {!addBook && !addAuthor && (
             <>
+              <h2 className='rec-title'>Add a recommendation</h2>
               <Autosuggest
                 suggestions={suggestions}
                 onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -221,17 +247,17 @@ export default function AddRecommendation() {
                 inputProps={inputProps}
                 theme={theme}
               />
-              <button onClick={() => setClicked(!clicked)}>Cancel</button>
+              {/* <button onClick={() => setClicked(!clicked)}>Cancel</button> */}
             </>
           )}
           {!addBook && !addAuthor && (
             <div className='rec-options'>
               <div className="unfound-author">
-                <p>Cant find author?</p>
+                <p className='search-result'>Cant find author?</p>
                 <button onClick={() => setAddAuthor(true)}>Add Author</button>
               </div>
               <div className='found-author'>
-                <p>Found Author?</p>
+                <p className='search-result'>Found Author?</p>
                 <button onClick={() => (
                   setFoundAuthor(true),
                   setAddBook(true),
@@ -260,11 +286,12 @@ export default function AddRecommendation() {
               setAddBook(true)
             }}>
               {!addBook ? (
-                <>
-                  <input type="text" placeholder="Enter author name" ref={authorRef} />
-                  <button type='submit' required>Add Author</button>
-                  <button type='button' onClick={() => setAddAuthor(false)}>X</button>
-                </>
+                <div className='add-rec-author'>
+                  <h2 className='rec-title'>Add author</h2>
+                  <input className='autosuggestInput' type="text" placeholder="Enter author first and last name..." ref={authorRef} />
+                  <button className='add-new-author-rec' type='submit' required>Add Author</button>
+                  {/* <button type='button' onClick={() => setAddAuthor(false)}>X</button> */}
+                </div>
               ) : (
                 <AddBook
                   authorName={authorName}
@@ -277,7 +304,9 @@ export default function AddRecommendation() {
               )}
             </form>
           )}
+          <button className='cancel-rec' onClick={() => setClicked(!clicked)}>Cancel</button>
         </>
+      </Modal>
       )}
     </>
   )

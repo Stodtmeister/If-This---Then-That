@@ -28,7 +28,7 @@
   justify-content: center;
   gap: 20px;
   margin-top: 20px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .rest-of-images {
@@ -37,9 +37,8 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
-  border: 1px solid blue;
+  /* margin-top: 20px; */
+  /* border: 1px solid blue; */
 }
 
 .voting {
