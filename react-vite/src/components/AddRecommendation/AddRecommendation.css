@@ -74,6 +74,7 @@
   justify-content: center;
 }
 
+.add-author-btn,
 .add-book-rec,
 .add-new-author-rec,
 .rec-options button {
@@ -105,9 +106,14 @@
   width: 100%;
   padding: 5px;
   height: 30px;
-
 }
 
+.add-author-btn {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.add-author-btn:hover,
 .add-book-rec:hover,
 .add-new-author-rec:hover,
 .rec-options button:hover {
@@ -178,7 +184,7 @@
   font-size: 25px;
   width: fit-content;
   padding: 0;
-  margin: -15px 0 0 0;
+  margin: -15px auto 0 auto;
   background: radial-gradient(circle, #b60000, #e17f10);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -239,4 +245,10 @@
 
 .add-rec-modal-overlay.ReactModal__Overlay--before-close {
   opacity: 0;
+}
+
+.unable {
+  color: #aaa;
+  margin: 15px auto 5px auto;
+  font-size: 13px;
 }

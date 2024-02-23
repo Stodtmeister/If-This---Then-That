@@ -119,6 +119,6 @@ def add_book_to_author(authorId):
         db.session.add(book)
         db.session.commit()
 
-        return author.to_dict()
+        return {**author.to_dict(), "bookId": book.id}
 
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401

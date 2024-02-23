@@ -97,7 +97,7 @@ export default function recReducer(state = {}, action) {
     case GET_RECS: {
       const newRec = { ...state.recommendations};
       if (action.recommendations && Array.isArray(action.recommendations.recommendations)) {
-        console.log('FROM REC REDUCER:', action.recommendations.recommendations);
+        // console.log('FROM REC REDUCER:', action.recommendations.recommendations);
         action.recommendations.recommendations.forEach(rec => {
           if (newRec[rec.bookId] && !newRec[rec.bookId].some(existingRec => existingRec.recommendationId === rec.recommendationId)) {
             newRec[rec.bookId].push(rec);

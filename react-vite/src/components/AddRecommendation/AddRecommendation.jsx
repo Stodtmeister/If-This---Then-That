@@ -1,7 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Autosuggest from 'react-autosuggest'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { thunkAddAuthor, thunkAddBookToAuthor, thunkGetAuthors } from '../../redux/authors'
+import {
+  thunkAddAuthor,
+  thunkAddBookToAuthor,
+  thunkGetAuthors,
+} from '../../redux/authors'
 import { thunkAddRec } from '../../redux/recommendations'
 import { useParams } from 'react-router-dom'
 import AddBook from '../AddBook/AddBook'
@@ -30,6 +34,7 @@ export default function AddRecommendation() {
   const [author, setAuthor] = useState(null)
   const [foundAuthor, setFoundAuthor] = useState(false)
   const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [authorHasBook, setAuthorHasBook] = useState({})
 
   useEffect(() => {
     dispatch(thunkGetAuthors())
@@ -80,57 +85,76 @@ export default function AddRecommendation() {
     suggestionHighlighted: 'autosuggestSuggestionHighlighted',
   }
 
-  const fetchBookCover = useCallback(async (book, authorName, fromHandleSubmit = false) => {
-    // const allBooks = author?.series.flatMap((series) => series.books)
-    // if (fromHandleSubmit && allBooks.some(existingBook => existingBook.title === book.title)) {
-    //   setError({ message: 'Author already has this book' })
-    //   throw new Error('Author already has this book')
-    // }
-    if (book.cover) {
-      console.log('Has cover');
-      setBookCovers((prev) => ({ ...prev, [book.id]: book.cover }))
-      return Promise.resolve()
-    } else {
-      console.log('Fetch cover');
-      const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
-          book.title
-        )}+inauthor:${encodeURIComponent(authorName)}`
-      )
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+  const fetchBookCover = useCallback(
+    async (book, authorName, fromHandleSubmit = false) => {
+      const allBooks = selectedAuthor?.series.flatMap((series) => series.books)
+      if (
+        fromHandleSubmit &&
+        allBooks.some((existingBook) => existingBook.title === book.title)
+      ) {
+        setError({ message: 'Author already has this book' })
+        throw new Error('Author already has this book')
       }
-      const data = await response.json()
-      if (!data.items || !data.items.length) {
-        setError({ message: 'No book found with that title' })
-        throw new Error('No book found with that title')
-      }
-      if (data.items) {
-        const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
-        setBookCovers((prev) => ({ ...prev, [book.id]: coverImageLink }))
 
-        if (!fromHandleSubmit) {
-          await fetch(`/api/books/${book.id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ coverImageLink }),
-          })
+      if (book.cover) {
+        console.log('Has cover')
+        setBookCovers((prev) => ({ ...prev, [book.id]: book.cover }))
+        return Promise.resolve()
+      } else {
+        console.log('Fetch cover')
+        const response = await fetch(
+          `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
+            book.title
+          )}+inauthor:${encodeURIComponent(authorName)}`
+        )
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        const data = await response.json()
+        if (!data.items || !data.items.length) {
+          setError({ message: 'No book found with that title' })
+          throw new Error('No book found with that title')
+        }
+        if (data.items) {
+          const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
+          setBookCovers((prev) => ({ ...prev, [book.id]: coverImageLink }))
+
+          if (!fromHandleSubmit) {
+            await fetch(`/api/books/${book.id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ coverImageLink }),
+            })
+          }
+
+          return { cover: coverImageLink }
         }
 
-        return { cover: coverImageLink }
+        return { cover: null }
       }
-
-      return { cover: null }
-    }
-  }, [setBookCovers])
+    },
+    [selectedAuthor, setBookCovers]
+  )
 
   useEffect(() => {
-    if (searchTerm === '' || !authors.some(author => author.name === searchTerm)) {
+    if (
+      searchTerm === '' ||
+      !authors.some((author) => author.name === searchTerm)
+    ) {
       setSelectedAuthor(null)
+    } else {
+      //! added
+      setSelectedAuthor(authors.find((author) => author.name === searchTerm))
     }
   }, [searchTerm, authors])
 
   async function handleAuthorSubmit() {
+    console.log(
+      'FROM HANDLE AUTHOR SUBMIT',
+      selectedAuthor,
+      'found author',
+      foundAuthor
+    )
     let authorName = ''
     if (authorRef.current) {
       authorName = authorRef.current.value.trim()
@@ -142,7 +166,6 @@ export default function AddRecommendation() {
       return
     }
 
-    console.log(selectedAuthor)
     if (!selectedAuthor) {
       setAuthorName(authorName)
       let author = { name: authorName, series: [] }
@@ -165,19 +188,42 @@ export default function AddRecommendation() {
 
   async function handleBookSubmit(e) {
     e.preventDefault()
+
+    // if (authorHasBook) {
+    //   console.log('AUTHOR HAS BOOK', authorHasBook);
+    // } else {
+    //   console.log('AUTHOR HAS NO BOOK', authorHasBook);
+    // }
+
+    if (Object.keys(authorHasBook).length > 0) {
+      try {
+        await dispatch(thunkAddRec({ recommendation_id: authorHasBook.value, book_id: Number(bookId) }))
+
+      } catch (error) {
+        console.error('Exception caught in handleBookSubmit:', error.toString())
+      }
+
+      return
+    }
+
     const bookTitle = bookRef.current.value
     const series = seriesRef.current.value
     let bookInfo
 
     if (selectedAuthor) {
-      bookInfo = await fetchBookCover({ title: bookTitle }, selectedAuthor.name, true)
+      bookInfo = await fetchBookCover(
+        { title: bookTitle },
+        selectedAuthor.name,
+        true
+      )
     } else {
       bookInfo = await fetchBookCover({ title: bookTitle }, authorName, true)
     }
 
-
+    // let newBook = {}
+    // was foundAuthor
     let newBook = {}
-    if (foundAuthor) {
+    if (selectedAuthor) {
       newBook = {
         cover: bookInfo.cover,
         title: bookTitle,
@@ -189,11 +235,13 @@ export default function AddRecommendation() {
         cover: bookInfo.cover,
         title: bookTitle,
         genre: genre,
-        author_id: newAuthorId
+        author_id: newAuthorId,
       }
     }
 
     const result = await dispatch(thunkAddBookToAuthor(newBook))
+
+    // console.log('RESULT', result);
 
     if (typeof result === 'object' && result.message) {
       setError({ formError: result.message })
@@ -202,6 +250,10 @@ export default function AddRecommendation() {
       setNewBookId(result)
     }
 
+    // console.log('TESTING', {
+    //   recommendation_id: result,
+    //   book_id: Number(bookId),
+    // })
     dispatch(thunkAddRec({ recommendation_id: result, book_id: Number(bookId) }))
 
     setClicked(false)
@@ -218,7 +270,7 @@ export default function AddRecommendation() {
           onClick={() => {
             setClicked(!clicked)
             setModalIsOpen(true)
-          } }
+          }}
         >
           Add a new recommendation
         </button>
@@ -229,91 +281,136 @@ export default function AddRecommendation() {
           className={{
             base: 'add-rec-modal',
             afterOpen: 'ReactModal__Content--after-open',
-            beforeClose: 'ReactModal__Content--before-close'
+            beforeClose: 'ReactModal__Content--before-close',
           }}
           overlayClassName={{
             base: 'add-rec-modal-overlay',
             afterOpen: 'ReactModal__Overlay--after-open',
-            beforeClose: 'ReactModal__Overlay--before-close'
+            beforeClose: 'ReactModal__Overlay--before-close',
           }}
           closeTimeoutMS={400}
           onRequestClose={() => {
             setClicked(false)
             setModalIsOpen(false)
-        } }>
-        <>
-          {!addBook && !addAuthor && (
-            <>
-              <h2 className='rec-title'>Add a recommendation</h2>
-              <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={inputProps}
-                theme={theme}
-              />
-              {/* <button onClick={() => setClicked(!clicked)}>Cancel</button> */}
-            </>
-          )}
-          {!addBook && !addAuthor && (
-            <div className='rec-options'>
-              <div className="unfound-author">
-                <p className='search-result'>Cant find author?</p>
-                <button onClick={() => setAddAuthor(true)}>Add Author</button>
-              </div>
-              <div className='found-author'>
-                <p className='search-result'>Found Author?</p>
-                <button onClick={() => (
-                  setFoundAuthor(true),
-                  setAddBook(true),
-                  setAddAuthor(false)
-                )}>Add Book</button>
-              </div>
-            </div>
-          )}
-          {!addAuthor ? (
-            <>
-              {foundAuthor &&
-                <AddBook
-                  authorName={selectedAuthor.name}
-                  bookRef={bookRef}
-                  seriesRef={seriesRef}
-                  genre={genre}
-                  setGenre={setGenre}
-                  handleBookSubmit={handleBookSubmit}
+          }}
+        >
+          <>
+            {!addBook && !addAuthor && (
+              <>
+                <h2 className="rec-title">Add a recommendation</h2>
+                <Autosuggest
+                  suggestions={suggestions}
+                  onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                  onSuggestionsClearRequested={onSuggestionsClearRequested}
+                  getSuggestionValue={getSuggestionValue}
+                  renderSuggestion={renderSuggestion}
+                  inputProps={inputProps}
+                  theme={theme}
                 />
-              }
-            </>
-          ) : (
-            <form onSubmit={async (e) => {
-              e.preventDefault()
-              await handleAuthorSubmit()
-              setAddBook(true)
-            }}>
-              {!addBook ? (
-                <div className='add-rec-author'>
-                  <h2 className='rec-title'>Add author</h2>
-                  <input className='autosuggestInput' type="text" placeholder="Enter author first and last name..." ref={authorRef} />
-                  <button className='add-new-author-rec' type='submit' required>Add Author</button>
-                  {/* <button type='button' onClick={() => setAddAuthor(false)}>X</button> */}
+                {/* <button onClick={() => setClicked(!clicked)}>Cancel</button> */}
+              </>
+            )}
+            {!addBook && !addAuthor && (
+              <div className="rec-options">
+                <div className="unfound-author">
+                  <p className="search-result">Cant find author?</p>
+                  {/* {selectedAuthor && <p className='error'>Add a book</p>} */}
+                  <button
+                    disabled={selectedAuthor}
+                    onClick={() => setAddAuthor(true)}
+                  >
+                    Add Author
+                  </button>
                 </div>
-              ) : (
-                <AddBook
-                  authorName={authorName}
-                  bookRef={bookRef}
-                  seriesRef={seriesRef}
-                  genre={genre}
-                  setGenre={setGenre}
-                  handleBookSubmit={handleBookSubmit}
-                />
-              )}
-            </form>
-          )}
-          <button className='cancel-rec' onClick={() => setClicked(!clicked)}>Cancel</button>
-        </>
-      </Modal>
+                <div className="found-author">
+                  <p className="search-result">Found Author?</p>
+                  <button
+                    onClick={() => (
+                      setFoundAuthor(true),
+                      setAddBook(true),
+                      setAddAuthor(false)
+                    )}
+                  >
+                    Add Book
+                  </button>
+                </div>
+              </div>
+            )}
+            {!addAuthor ? (
+              <>
+                {foundAuthor && (
+                  <AddBook
+                    authorInfo={selectedAuthor}
+                    authorName={selectedAuthor.name}
+                    bookRef={bookRef}
+                    seriesRef={seriesRef}
+                    genre={genre}
+                    setGenre={setGenre}
+                    handleBookSubmit={handleBookSubmit}
+                    error={error}
+                    setAuthorHasBook={setAuthorHasBook}
+                    setModalIsOpen={setModalIsOpen}
+                  />
+                )}
+              </>
+            ) : (
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault()
+                  await handleAuthorSubmit()
+                  setAddBook(true)
+                }}
+              >
+                {!addBook ? (
+                  <div className="add-rec-author">
+                    <h2 className="rec-title">Add author</h2>
+                    <input
+                      className="autosuggestInput"
+                      type="text"
+                      placeholder="Enter author first and last name..."
+                      ref={authorRef}
+                    />
+                    <button
+                      className="add-new-author-rec"
+                      type="submit"
+                      required
+                    >
+                      Add Author
+                    </button>
+                  </div>
+                ) : (
+                  <AddBook
+                    authorInfo={selectedAuthor}
+                    authorName={authorName}
+                    bookRef={bookRef}
+                    seriesRef={seriesRef}
+                    genre={genre}
+                    setGenre={setGenre}
+                    handleBookSubmit={handleBookSubmit}
+                    error={error}
+                    setAuthorHasBook={setAuthorHasBook}
+                    setModalIsOpen={setModalIsOpen}
+                  />
+                )}
+              </form>
+            )}
+            <button
+              className="cancel-rec"
+              onClick={() => {
+                setClicked(false)
+                setFoundAuthor(false)
+                setAddAuthor(false)
+                setSearchTerm('')
+                setGenre('')
+                setModalIsOpen(false)
+                setAddBook(false)
+                setError({})
+              }}
+            >
+              Cancel
+            </button>
+          </>
+        </Modal>
       )}
     </>
   )

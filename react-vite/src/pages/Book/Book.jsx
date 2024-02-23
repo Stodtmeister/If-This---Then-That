@@ -32,7 +32,7 @@ export default function Book() {
     fetchBooksAndRecs();
   }, [dispatch, bookId]);
 
-  console.log('RECOMMENDATIONS:', recommendations);
+  // console.log('RECOMMENDATIONS:', recommendations);
   return (
     <>
       <h2 className="author-title">{bookTitle}</h2>

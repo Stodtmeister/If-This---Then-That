@@ -80,7 +80,8 @@ export const thunkAddBookToAuthor = (book) => async (dispatch) => {
     }
     const data = await response.json()
     dispatch(addBookToAuthor(data))
-    return data.series[0].books[0].id
+    console.log('FROM ADD BOOK TO AUTHOR:', data.series[0].books[0].id, 'DATA:', data);
+    return data.bookId
   } catch (error) {
     console.error('Error adding book to author:', error)
     return error
