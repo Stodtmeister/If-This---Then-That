@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { thunkGetReviews } from '../../redux/reviews'
 import StarRating from '../StarRating/StarRating'
 import { useNavigate } from 'react-router-dom'
-import Modal from 'react-modal'
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import ReviewModal from '../../pages/ReviewModal/ReviewModal'
 
@@ -41,7 +40,7 @@ export default function BookReviews({ bookId }) {
       <StarRating rating={averageRating} />
       <OpenModalButton
         buttonText={'Reviews'}
-        modalComponent={<ReviewModal bookId={bookId}/>}
+        modalComponent={<ReviewModal bookId={bookId} averageRating={averageRating}/>}
       />
     </div>
   )

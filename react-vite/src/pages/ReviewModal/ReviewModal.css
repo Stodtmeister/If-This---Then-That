@@ -1,0 +1,9 @@
+.review-title {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  font-size: 45px;
+  background: radial-gradient(circle, #080c3f, #720975);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

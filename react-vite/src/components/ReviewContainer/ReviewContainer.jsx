@@ -1,16 +1,17 @@
-import OpenModalButton from '../OpenModalButton/OpenModalButton'
-import DeleteModal from '../DeleteModal/DeleteModal'
-import ReviewModal from '../ReviewModal/ReviewModal';
+// import OpenModalButton from '../OpenModalButton/OpenModalButton'
+// import DeleteModal from '../DeleteModal/DeleteModal'
+// import ReviewModal from '../ReviewModal/ReviewModal';
 
 export default function ReviewContainer({ user, rev, spotId, name }) {
   function formatDate(date) {
-    const originalDate = new Date(date);
-    const options = { year: 'numeric', month: 'short' };
-    return originalDate.toLocaleDateString('en-US', options);
+    const originalDate = new Date(date)
+    const options = { year: 'numeric', month: 'short' }
+    return originalDate.toLocaleDateString('en-US', options)
   }
 
+  console.log('REV', rev);
   function randomColor() {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    return '#' + Math.floor(Math.random() * 16777215).toString(16)
   }
 
   return (
@@ -18,17 +19,20 @@ export default function ReviewContainer({ user, rev, spotId, name }) {
       <div className="review-info">
         <div className="user-review">
           <div className="profile">
-            <i style={{ color: randomColor() }} className="fas fa-user-circle fa-2xl" />
+            <i
+              style={{ color: randomColor() }}
+              className="fas fa-user-circle fa-2xl"
+            />
           </div>
           <div>
-            <p className="first-name">{rev.User.firstName}</p>
+            <p className="first-name">{rev.userId}</p>
             <p>{formatDate(rev.createdAt)}</p>
           </div>
         </div>
         <p>{rev.review}</p>
         <div></div>
       </div>
-      {user?.id === rev.userId && (
+      {/* {user?.id === rev.userId && (
         <>
           <OpenModalButton
             id='update-review'
@@ -41,7 +45,7 @@ export default function ReviewContainer({ user, rev, spotId, name }) {
             modalComponent={<DeleteModal reviewId={rev.id} id={spotId} />}
           />
         </>
-      )}
+      )} */}
     </div>
   )
 }

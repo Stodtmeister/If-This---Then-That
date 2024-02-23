@@ -88,6 +88,7 @@ export default function Boards() {
         ))}
       </div>
       <OpenModalButton
+        className='testing-btn'
         buttonText={<i className="fa-solid fa-plus"></i>}
         onItemClick={closeMenu}
         modalComponent={<NewBoardModal />}
