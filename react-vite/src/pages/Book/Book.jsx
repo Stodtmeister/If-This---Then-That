@@ -124,11 +124,20 @@ export default function Book() {
                     }
                   />
                   <BookReviews bookId={rec.recommendationId}/>
-                  <div className='voting' onClick={() => setIsUpvoted(!isUpvoted)}>
+                  <div className='voting'>
+                    <button
+                      className='vote-button'
+                      title='Upvote this book'
+                      onClick={() => setIsUpvoted(prevState => ({ ...prevState, [rec.recommendationId]: !prevState[rec.recommendationId]}))}
+                    >
+                      <i className={`fa-solid fa-arrow-up fa-lg ${isUpvoted[rec.recommendationId] ? 'upvoted' : ''}`}></i>
+                      {rec.votes}
+                    </button>
+                  </div>
+                  {/* <div className='voting' onClick={() => setIsUpvoted(!isUpvoted)}>
                     <i className="fa-solid fa-arrow-up fa-lg"></i>
                     <div style={{ color: isUpvoted ? 'red' : 'black'}}>{rec.votes}</div>
-                    {/* <i className="fa-solid fa-arrow-down fa-lg"></i> */}
-                  </div>
+                  </div> */}
                   <button onClick={() => setClickedBookId(rec.recommendationId)}>+</button>
                   {clickedBookId === rec.recommendationId && (
                     <>

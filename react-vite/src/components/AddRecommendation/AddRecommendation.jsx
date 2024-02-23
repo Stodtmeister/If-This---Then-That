@@ -36,6 +36,7 @@ export default function AddRecommendation() {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [authorHasBook, setAuthorHasBook] = useState({})
 
+
   useEffect(() => {
     dispatch(thunkGetAuthors())
   }, [dispatch])
@@ -220,8 +221,6 @@ export default function AddRecommendation() {
       bookInfo = await fetchBookCover({ title: bookTitle }, authorName, true)
     }
 
-    // let newBook = {}
-    // was foundAuthor
     let newBook = {}
     if (selectedAuthor) {
       newBook = {
@@ -229,6 +228,7 @@ export default function AddRecommendation() {
         title: bookTitle,
         genre: genre,
         author_id: selectedAuthor.id,
+        //? Might need a series_id
       }
     } else {
       newBook = {
@@ -236,13 +236,11 @@ export default function AddRecommendation() {
         title: bookTitle,
         genre: genre,
         author_id: newAuthorId,
+        //? Might need a series_id
       }
     }
 
     const result = await dispatch(thunkAddBookToAuthor(newBook))
-
-    // console.log('RESULT', result);
-
     if (typeof result === 'object' && result.message) {
       setError({ formError: result.message })
       return
@@ -250,10 +248,6 @@ export default function AddRecommendation() {
       setNewBookId(result)
     }
 
-    // console.log('TESTING', {
-    //   recommendation_id: result,
-    //   book_id: Number(bookId),
-    // })
     dispatch(thunkAddRec({ recommendation_id: result, book_id: Number(bookId) }))
 
     setClicked(false)

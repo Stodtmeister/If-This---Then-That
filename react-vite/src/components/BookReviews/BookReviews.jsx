@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react'
 import './BookReviews.css'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { thunkGetReviews } from '../../redux/reviews'
 import StarRating from '../StarRating/StarRating'
+import { useNavigate } from 'react-router-dom'
+import Modal from 'react-modal'
+import OpenModalButton from '../OpenModalButton/OpenModalButton'
+import ReviewModal from '../../pages/ReviewModal/ReviewModal'
 
 export default function BookReviews({ bookId }) {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [reviews, setReviews] = useState([])
   const [averageRating, setAverageRating] = useState(0)
 
@@ -31,13 +36,13 @@ export default function BookReviews({ bookId }) {
     return averageRating
   }
 
-  function openReviews() {
-    console.log('Open reviews')
-  }
-
   return (
-    <div className='star-container' onClick={openReviews}>
+    <div className='star-container'>
       <StarRating rating={averageRating} />
+      <OpenModalButton
+        buttonText={'Reviews'}
+        modalComponent={<ReviewModal bookId={bookId}/>}
+      />
     </div>
   )
 }

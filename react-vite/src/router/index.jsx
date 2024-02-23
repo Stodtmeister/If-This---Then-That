@@ -8,6 +8,7 @@ import SpecificBoard from '../pages/SpecificBoard/SpecificBoard';
 import Book from '../pages/Book/Book';
 import SpecificAuthor from '../pages/Authors/SpecificAuthor';
 import Instructions from '../pages/Instructions/Instructions';
+// import Reviews from '../pages/Reviews/Reviews';
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
         path: "instructions",
         element: <Instructions />
       },
+      // {
+      //   path: "reviews/:reviewId",
+      //   element: <Reviews />
+      // },
     ],
   },
 ]);

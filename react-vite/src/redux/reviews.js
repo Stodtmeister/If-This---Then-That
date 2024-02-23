@@ -15,14 +15,17 @@ export const thunkGetReviews = (bookId) => async (dispatch) => {
     }
 
     const reviews = await response.json();
-    dispatch(getReviews(reviews));
+    dispatch(getReviews({ bookId, reviews }));
     return reviews
 }
 
 export default function reviewsReducer(state = {}, action) {
   switch (action.type) {
     case GET_REVIEWS:
-      return { ...state, reviews: action.reviews.reviews };
+      return {
+        ...state,
+        [action.reviews.bookId]: action.reviews.reviews
+      };
     default:
       return state;
   }
