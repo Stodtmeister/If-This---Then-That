@@ -142,5 +142,6 @@ class Book(db.Model):
             data["book_recommendations"] = [
                 br.recommendation.to_dict(include_books=False)
                 for br in self.book_recommendations
+                if br.recommendation is not None
             ]
         return data

@@ -39,7 +39,7 @@ export default function BookReviews({ bookId }) {
     <div className='star-container'>
       <StarRating rating={averageRating} />
       <OpenModalButton
-        buttonText={'Reviews'}
+        buttonText={''}
         modalComponent={<ReviewModal bookId={bookId} averageRating={averageRating}/>}
       />
     </div>

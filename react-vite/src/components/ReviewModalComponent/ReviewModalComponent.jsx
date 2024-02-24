@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react'
 import { useModal } from '../../context/Modal'
 import { useDispatch } from 'react-redux'
 import './ReviewModalComponent.css'
+import { thunkAddReview } from '../../redux/reviews'
 
-export default function ReviewModalComponent({ bookId }) {
+export default function ReviewModalComponent({ bookId, updating, theReview }) {
   const { closeModal } = useModal()
   const dispatch = useDispatch()
   const [rating, setRating] = useState(0);
@@ -12,7 +13,7 @@ export default function ReviewModalComponent({ bookId }) {
   const [review, setReview] = useState('')
   const [errors, setErrors] = useState({})
   let disabled = true
-
+  
   if (review && !Object.keys(errors).length) disabled = false;
 
   useEffect(() => {
@@ -39,11 +40,13 @@ export default function ReviewModalComponent({ bookId }) {
   }
 
   async function handleSubmit() {
-    // if (updating) {
-    //   await dispatch(editReviewThunk(reviewId, { review, stars: rating } ))
-    // } else {
-    //   await dispatch(addReviewThunk(spotId, { review, stars: rating }))
-    // }
+    if (updating) {
+      console.log('hi');
+      // await dispatch(editReviewThunk(reviewId, { review, stars: rating } ))
+    } else {
+      // console.log('review', { review, stars: rating});
+      await dispatch(thunkAddReview(bookId, { review, stars: rating }))
+    }
 
     closeModal()
   }
@@ -69,16 +72,16 @@ export default function ReviewModalComponent({ bookId }) {
 
   return (
     <>
-      <form id="review-form" onSubmit={handleSubmit}>
-        {/* {updating && <h4>How was your stay at {name1 && name1}{name2 && name2}?</h4>}
-        {!updating && <h4>How was your stay?</h4>} */}
+      <form id="review-form" className='review-modal-content' onSubmit={handleSubmit}>
+        {updating && <h4>Update your review</h4>}
+        {!updating && <h4>Add a review</h4>}
         {errors.error && <div className="msg">{errors}</div>}
         <textarea
           id="review-text"
           cols="30"
           rows="8"
           placeholder="Leave your review here..."
-          value={review}
+          value={theReview}
           onChange={e => setReview(e.target.value)}
         />
         <div className="rating-container">

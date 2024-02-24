@@ -20,8 +20,8 @@
 
 #modal-content {
   position: absolute;
-  background-color: white;
   width: 60%;
   height: 60%;
   overflow-y: auto;
+  z-index: 100;
 }

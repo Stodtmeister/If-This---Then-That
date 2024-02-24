@@ -14,6 +14,8 @@ function ProfileButton() {
   const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
 
+  console.log('USER', user);
+
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
     setShowMenu(!showMenu);
@@ -56,7 +58,7 @@ function ProfileButton() {
       </div>
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
-          {user ? (
+          {user && (
             <>
               <li>{user.username}</li>
               <li>{user.email}</li>
@@ -64,9 +66,13 @@ function ProfileButton() {
                 <button onClick={logout}>Log Out</button>
               </li>
             </>
+
+          )}
+          {/* {user ? (
           ) : (
-            <>
-              <OpenModalMenuItem
+            <> */}
+              {/* <h1>No User</h1> */}
+              {/* <OpenModalMenuItem
                 itemText="Log In"
                 onItemClick={closeMenu}
                 modalComponent={<LoginFormModal />}
@@ -75,9 +81,8 @@ function ProfileButton() {
                 itemText="Sign Up"
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
-              />
-            </>
-          )}
+              /> */}
+            {/* </> */}
         </ul>
       )}
     </>

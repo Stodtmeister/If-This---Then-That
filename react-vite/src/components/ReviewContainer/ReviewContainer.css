@@ -1,0 +1,62 @@
+.review-container {
+  box-shadow: 0px 0px 19px rgb(150, 150, 150);
+  padding: 7px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.review-container button {
+  margin-top: 0px;
+  width: 80px;
+  height: 30px;
+  background: linear-gradient(to right, #4caf50, #8bc34a);
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition: all 0.4s;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  border-radius: 5px;
+}
+
+.review-container button:hover {
+  background: linear-gradient(to right, #8bc34a, #4caf50);
+  transform: translateY(-0.08px);
+}
+
+.review-container button:active {
+  transform: translateY(1px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 3px 3px rgba(0, 0, 0, 0.23);
+}
+
+.review-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-info p {
+  margin: 0;
+}
+
+.review-info .first-name {
+  margin-bottom: -5px;
+}
+
+.user-review {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.user-review .profile {
+  margin-right: 10px;
+  font-size: larger;
+}
+
+.user-review p {
+  font-size: 12px;
+}

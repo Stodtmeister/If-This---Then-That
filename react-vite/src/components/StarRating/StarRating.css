@@ -8,14 +8,16 @@
 }
 
 .star-rating {
-  /* border: 1px solid red; */
+  /* border: 1px solid black; */
+  width: 100px;
   padding: 0;
   height: 20px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
-.star-container {
+/* .star-container {
   margin-top: 3px;
   cursor: pointer;
-}
+} */

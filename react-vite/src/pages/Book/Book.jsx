@@ -82,7 +82,7 @@ export default function Book() {
                       })
                     }
                   />
-                  <BookReviews bookId={rec.recommendationId}/>
+                  <BookReviews bookId={rec.recommendationId} bookTitle={bookTitle}/>
                   <div className='voting'>
                     <button
                       className='vote-button'
@@ -123,7 +123,7 @@ export default function Book() {
                       })
                     }
                   />
-                  <BookReviews bookId={rec.recommendationId}/>
+                  <BookReviews bookId={rec.recommendationId} bookTitle={bookTitle}/>
                   <div className='voting'>
                     <button
                       className='vote-button'

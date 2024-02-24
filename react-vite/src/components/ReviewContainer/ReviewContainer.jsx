@@ -1,15 +1,19 @@
-// import OpenModalButton from '../OpenModalButton/OpenModalButton'
-// import DeleteModal from '../DeleteModal/DeleteModal'
-// import ReviewModal from '../ReviewModal/ReviewModal';
+import { useSelector } from "react-redux"
+import OpenModalButton from "../OpenModalButton/OpenModalButton"
+import ReviewModalComponent from "../ReviewModalComponent/ReviewModalComponent"
+import './ReviewContainer.css'
+import DeleteModal from "../DeleteModal/DeleteModal"
 
-export default function ReviewContainer({ user, rev, spotId, name }) {
+export default function ReviewContainer({ user, rev, bookId, userName }) {
+  const users = useSelector((state) => state.session)
+  // const reviews = useSelector((state) => state.reviews[bookId])
   function formatDate(date) {
     const originalDate = new Date(date)
     const options = { year: 'numeric', month: 'short' }
     return originalDate.toLocaleDateString('en-US', options)
   }
 
-  console.log('REV', rev);
+
   function randomColor() {
     return '#' + Math.floor(Math.random() * 16777215).toString(16)
   }
@@ -24,28 +28,30 @@ export default function ReviewContainer({ user, rev, spotId, name }) {
               className="fas fa-user-circle fa-2xl"
             />
           </div>
-          <div>
-            <p className="first-name">{rev.userId}</p>
+          <div className="name-and-date">
+            <p className="first-name">{userName}</p>
             <p>{formatDate(rev.createdAt)}</p>
           </div>
         </div>
         <p>{rev.review}</p>
         <div></div>
       </div>
-      {/* {user?.id === rev.userId && (
+      {user?.id === rev.userId && (
         <>
+        {/* {console.log('REV REVIEW', rev.review)} */}
           <OpenModalButton
             id='update-review'
             buttonText='Update'
-            modalComponent={<ReviewModal spotId={spotId} updating={true} name1={name} name2={rev.Spot?.name} reviewId={rev.id} />}
+            modalComponent={<ReviewModalComponent bookId={bookId} updating={true} reviewId={rev.id} theReview={rev.review} />}
+            // modalComponent={<ReviewModal spotId={spotId} updating={true} name1={name} name2={rev.Spot?.name} reviewId={rev.id} />}
           />
           <OpenModalButton
             id="delete-review"
             buttonText="Delete"
-            modalComponent={<DeleteModal reviewId={rev.id} id={spotId} />}
+            modalComponent={<DeleteModal bookId={bookId} reviewId={rev.id} />}
           />
         </>
-      )} */}
+      )}
     </div>
   )
 }

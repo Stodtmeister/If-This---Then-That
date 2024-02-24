@@ -39,7 +39,8 @@ export function ModalProvider({ children }) {
 }
 
 export function Modal() {
-  const { modalRef, modalContent, closeModal } = useContext(ModalContext);
+
+  const { modalRef, modalContent, closeModal, isModalOpen } = useContext(ModalContext);
   // If there is no div referenced by the modalRef or modalContent is not a
   // truthy value, render nothing:
   if (!modalRef || !modalRef.current || !modalContent) return null;
@@ -48,7 +49,7 @@ export function Modal() {
   return ReactDOM.createPortal(
     <div id="modal">
       <div id="modal-background" onClick={closeModal} />
-      <div id="modal-content">
+      <div id="modal-content" className={isModalOpen ? 'open' : ''}>
         {modalContent}
       </div>
     </div>,

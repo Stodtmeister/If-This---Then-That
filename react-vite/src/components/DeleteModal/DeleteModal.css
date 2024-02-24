@@ -3,8 +3,8 @@
   flex-direction: column;
   align-items: center;
   height: 190px;
-  text-align: center;
   justify-content: space-around;
+  background-color: grey;
 }
 
 .delete-modal p {
@@ -21,7 +21,7 @@
 .button-container {
   display: flex;
   flex-direction: column;
-  width: 85%;
+  width: 50%;
 }
 
 .delete-modal button {
@@ -37,7 +37,7 @@
 }
 
 button.yes {
-  background-color: #ff385c;
+  background-color: #ff4520;
   color: white;
   border: 1px solid white;
 }
