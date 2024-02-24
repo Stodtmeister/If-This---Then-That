@@ -70,376 +70,378 @@ def seed_books():
         author=tolkien,
         author_id=1,
         genre="Fantasy",
-        cover=fetch_book_cover("The Hobbit", "J.R.R. Tolkien")
+        cover="http://books.google.com/books/content?id=pD6arNyKyi8C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        # cover=fetch_book_cover("The Hobbit", "J.R.R. Tolkien")
     )
-    second = Book(
-        title="The Fellowship of the Ring",
-        series=lotr,
-        author=tolkien,
-        author_id=1,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Fellowship of the Ring", "J.R.R. Tolkien")
-    )
-    third = Book(
-        title="The Two Towers",
-        series=lotr,
-        author=tolkien,
-        author_id=1,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Two Towers", "J.R.R. Tolkien")
-    )
-    fourth = Book(
-        title="The Return of the King",
-        series=lotr,
-        author=tolkien,
-        author_id=1,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Return of the King", "J.R.R. Tolkien")
-    )
-    fifth = Book(
-        title="The Final Empire",
-        series=mistborn,
-        author=sanderson,
-        author_id=4,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Final Empire", "Brandon Sanderson")
-    )
-    sixth = Book(
-        title="The Well of Ascension",
-        series=mistborn,
-        author=sanderson,
-        author_id=4,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Well of Ascension", "Brandon Sanderson")
-    )
-    seventh = Book(
-        title="The Hero of Ages",
-        series=mistborn,
-        author=sanderson,
-        author_id=4,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Hero of Ages", "Brandon Sanderson")
-    )
-    eighth = Book(
-        title="The Way of Kings",
-        series=stormlight,
-        author=sanderson,
-        author_id=4,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Way of Kings", "Brandon Sanderson")
-    )
-    ninth = Book(
-        title="A Game of Thrones",
-        series=thrones,
-        author=martin,
-        author_id=3,
-        genre="Fantasy",
-        cover=fetch_book_cover("A Game of Thrones", "George R.R. Martin")
-    )
-    tenth = Book(
-        title="A Clash of Kings",
-        series=thrones,
-        author=martin,
-        author_id=3,
-        genre="Fantasy",
-        cover=fetch_book_cover("A Clash of Kings", "George R.R. Martin")
-    )
-    eleventh = Book(
-        title="A Storm of Swords",
-        series=thrones,
-        author=martin,
-        author_id=3,
-        genre="Fantasy",
-        cover=fetch_book_cover("A Storm of Swords", "George R.R. Martin")
-    )
-    twelfth = Book(
-        title="A Feast for Crows",
-        series=thrones,
-        author=martin,
-        author_id=3,
-        genre="Fantasy",
-        cover=fetch_book_cover("A Feast for Crows", "George R.R. Martin")
-    )
-    thirdteenth = Book(
-        title="A Dance with Dragons",
-        series=thrones,
-        author=martin,
-        author_id=3,
-        genre="Fantasy",
-        cover=fetch_book_cover("A Dance with Dragons", "George R.R. Martin")
-    )
-    fourteenth = Book(
-        title="The Name of the Wind",
-        series=kingkiller,
-        author=rothfuss,
-        author_id=5,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Name of the Wind", "Patrick Rothfuss")
-    )
-    fifteenth = Book(
-        title="The Wise Man's Fear",
-        series=kingkiller,
-        author=rothfuss,
-        author_id=5,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Wise Man's Fear", "Patrick Rothfuss")
-    )
-    sixteenth = Book(
-        title="The Eye of the World",
-        series=time,
-        author=jordan,
-        author_id=7,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Eye of the World", "Robert Jordan")
-    )
-    seventeenth = Book(
-        title="The Great Hunt",
-        series=time,
-        author=jordan,
-        author_id=7,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Great Hunt", "Robert Jordan")
-    )
-    eighteenth = Book(
-        title="The Dragon Reborn",
-        series=time,
-        author=jordan,
-        author_id=7,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Dragon Reborn", "Robert Jordan")
-    )
-    nintheenth = Book(
-        title="The Shadow Rising",
-        series=time,
-        author=jordan,
-        author_id=7,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Shadow Rising", "Robert Jordan")
-    )
-    twentieth = Book(
-        title="The Fires of Heaven",
-        series=time,
-        author=jordan,
-        author_id=7,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Fires of Heaven", "Robert Jordan")
-    )
-    twentyfirst = Book(
-        title="Harry Potter and the Sorcerer's Stone",
-        series=potter,
-        author=rowling,
-        author_id=2,
-        genre="Fantasy",
-        cover=fetch_book_cover("Harry Potter and the Sorcerer's Stone", "J.K. Rowling")
-    )
-    twentysecond = Book(
-        title="Harry Potter and the Chamber of Secrets",
-        series=potter,
-        author=rowling,
-        author_id=2,
-        genre="Fantasy",
-        cover=fetch_book_cover("Harry Potter and the Chamber of Secrets", "J.K. Rowling")
-    )
-    twentythird = Book(
-        title="Harry Potter and the Prisoner of Azkaban",
-        series=potter,
-        author=rowling,
-        author_id=2,
-        genre="Fantasy",
-        cover=fetch_book_cover("Harry Potter and the Prisoner of Azkaban", "J.K. Rowling")
-    )
-    twentyfourth = Book(
-        title="Harry Potter and the Goblet of Fire",
-        series=potter,
-        author=rowling,
-        author_id=2,
-        genre="Fantasy",
-        cover=fetch_book_cover("Harry Potter and the Goblet of Fire", "J.K. Rowling")
-    )
-    twentyfifth = Book(
-        title="The Blade Itself",
-        series=first_law,
-        author=abercrombie,
-        author_id=17,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Blade Itself", "Joe Abercrombie")
-    )
-    twentysixth = Book(
-        title="Before They Are Hanged",
-        series=first_law,
-        author=abercrombie,
-        author_id=17,
-        genre="Fantasy",
-        cover=fetch_book_cover("Before They Are Hanged", "Joe Abercrombie")
-    )
-    twentyseventh = Book(
-        title="Last Argument of Kings",
-        series=first_law,
-        author=abercrombie,
-        author_id=17,
-        genre="Fantasy",
-        cover=fetch_book_cover("Last Argument of Kings", "Joe Abercrombie")
-    )
-    twentyeigth = Book(
-        title="The Lies of Locke Lamora",
-        series=gentleman,
-        author=lynch,
-        author_id=20,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Lies of Locke Lamora", "Scott Lynch")
-    )
-    twentyninth = Book(
-        title="Red Seas Under Red Skies",
-        series=gentleman,
-        author=lynch,
-        author_id=20,
-        genre="Fantasy",
-        cover=fetch_book_cover("Red Seas Under Red Skies", "Scott Lynch")
-    )
-    thirtyth = Book(
-        title="The Republic of Thieves",
-        series=gentleman,
-        author=lynch,
-        author_id=20,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Republic of Thieves", "Scott Lynch")
-    )
-    thirtyfirst = Book(
-        title="Jade City",
-        series=jade,
-        author=lee,
-        author_id=11,
-        genre="Fantasy",
-        cover=fetch_book_cover("Jade City", "Fonda Lee")
-    )
-    thirtysecond = Book(
-        title="Jade War",
-        series=jade,
-        author=lee,
-        author_id=11,
-        genre="Fantasy",
-        cover=fetch_book_cover("Jade War", "Fonda Lee")
-    )
-    thirtythird = Book(
-        title="Jade Legacy",
-        series=jade,
-        author=lee,
-        author_id=11,
-        genre="Fantasy",
-        cover=fetch_book_cover("Jade Legacy", "Fonda Lee")
-    )
-    thirtyfourth = Book(
-        title="The Fifth Season",
-        series=broken_earth,
-        author=jemisin,
-        author_id=12,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Fifth Season", "N.K. Jemisin")
-    )
-    thirtyfifth = Book(
-        title="The Obelisk Gate",
-        series=broken_earth,
-        author=jemisin,
-        author_id=12,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Obelisk Gate", "N.K. Jemisin")
-    )
-    thirtysixth = Book(
-        title="The Stone Sky",
-        series=broken_earth,
-        author=jemisin,
-        author_id=12,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Stone Sky", "N.K. Jemisin")
-    )
-    thirtyseventh = Book(
-        title="The Black Prism",
-        series=lightbringer,
-        author=weeks,
-        author_id=17,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Black Prism", "Brent Weeks")
-    )
-    thirtyeigth = Book(
-        title="The Blinding Knife",
-        series=lightbringer,
-        author=weeks,
-        author_id=17,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Blinding Knife", "Brent Weeks")
-    )
-    thirtyninth = Book(
-        title="The Broken Eye",
-        series=lightbringer,
-        author=weeks,
-        author_id=17,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Broken Eye", "Brent Weeks")
-    )
-    fourtieth = Book(
-        title="A Wizard of Earthsea",
-        series=earthsea,
-        author=ursula,
-        author_id=36,
-        genre="Fantasy",
-        cover=fetch_book_cover("A Wizard of Earthsea", "Ursula K. Le Guin")
-    )
-    fortyfirst = Book(
-        title="The Tombs of Atuan",
-        series=earthsea,
-        author=ursula,
-        author_id=36,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Tombs of Atuan", "Ursula K. Le Guin")
-    )
-    fortysecond = Book(
-        title="The Farthest Shore",
-        series=earthsea,
-        author=ursula,
-        author_id=36,
-        genre="Fantasy",
-        cover=fetch_book_cover("The Farthest Shore", "Ursula K. Le Guin")
-    )
-    fortythird = Book(
-        title="Storm Front",
-        series=dresden_files,
-        author=butcher,
-        author_id=18,
-        genre="Fantasy",
-        cover=fetch_book_cover("Storm Front", "Jim Butcher")
-    )
-    fortyfourth = Book(
-        title="Fool Moon",
-        series=dresden_files,
-        author=butcher,
-        author_id=18,
-        genre="Fantasy",
-        cover=fetch_book_cover("Fool Moon", "Jim Butcher")
-    )
-    fortyfifth = Book(
-        title="Grave Peril",
-        series=dresden_files,
-        author=butcher,
-        author_id=18,
-        genre="Fantasy",
-        cover=fetch_book_cover("Grave Peril", "Jim Butcher")
-    )
-    fortysixth = Book(
-        title="Summer Knight",
-        series=dresden_files,
-        author=butcher,
-        author_id=18,
-        genre="Fantasy",
-        cover=fetch_book_cover("Summer Knight", "Jim Butcher")
-    )
+    # second = Book(
+    #     title="The Fellowship of the Ring",
+    #     series=lotr,
+    #     author=tolkien,
+    #     author_id=1,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Fellowship of the Ring", "J.R.R. Tolkien")
+    # )
+    # third = Book(
+    #     title="The Two Towers",
+    #     series=lotr,
+    #     author=tolkien,
+    #     author_id=1,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Two Towers", "J.R.R. Tolkien")
+    # )
+    # fourth = Book(
+    #     title="The Return of the King",
+    #     series=lotr,
+    #     author=tolkien,
+    #     author_id=1,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Return of the King", "J.R.R. Tolkien")
+    # )
+    # fifth = Book(
+    #     title="The Final Empire",
+    #     series=mistborn,
+    #     author=sanderson,
+    #     author_id=4,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Final Empire", "Brandon Sanderson")
+    # )
+    # sixth = Book(
+    #     title="The Well of Ascension",
+    #     series=mistborn,
+    #     author=sanderson,
+    #     author_id=4,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Well of Ascension", "Brandon Sanderson")
+    # )
+    # seventh = Book(
+    #     title="The Hero of Ages",
+    #     series=mistborn,
+    #     author=sanderson,
+    #     author_id=4,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Hero of Ages", "Brandon Sanderson")
+    # )
+    # eighth = Book(
+    #     title="The Way of Kings",
+    #     series=stormlight,
+    #     author=sanderson,
+    #     author_id=4,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Way of Kings", "Brandon Sanderson")
+    # )
+    # ninth = Book(
+    #     title="A Game of Thrones",
+    #     series=thrones,
+    #     author=martin,
+    #     author_id=3,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("A Game of Thrones", "George R.R. Martin")
+    # )
+    # tenth = Book(
+    #     title="A Clash of Kings",
+    #     series=thrones,
+    #     author=martin,
+    #     author_id=3,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("A Clash of Kings", "George R.R. Martin")
+    # )
+    # eleventh = Book(
+    #     title="A Storm of Swords",
+    #     series=thrones,
+    #     author=martin,
+    #     author_id=3,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("A Storm of Swords", "George R.R. Martin")
+    # )
+    # twelfth = Book(
+    #     title="A Feast for Crows",
+    #     series=thrones,
+    #     author=martin,
+    #     author_id=3,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("A Feast for Crows", "George R.R. Martin")
+    # )
+    # thirdteenth = Book(
+    #     title="A Dance with Dragons",
+    #     series=thrones,
+    #     author=martin,
+    #     author_id=3,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("A Dance with Dragons", "George R.R. Martin")
+    # )
+    # fourteenth = Book(
+    #     title="The Name of the Wind",
+    #     series=kingkiller,
+    #     author=rothfuss,
+    #     author_id=5,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Name of the Wind", "Patrick Rothfuss")
+    # )
+    # fifteenth = Book(
+    #     title="The Wise Man's Fear",
+    #     series=kingkiller,
+    #     author=rothfuss,
+    #     author_id=5,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Wise Man's Fear", "Patrick Rothfuss")
+    # )
+    # sixteenth = Book(
+    #     title="The Eye of the World",
+    #     series=time,
+    #     author=jordan,
+    #     author_id=7,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Eye of the World", "Robert Jordan")
+    # )
+    # seventeenth = Book(
+    #     title="The Great Hunt",
+    #     series=time,
+    #     author=jordan,
+    #     author_id=7,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Great Hunt", "Robert Jordan")
+    # )
+    # eighteenth = Book(
+    #     title="The Dragon Reborn",
+    #     series=time,
+    #     author=jordan,
+    #     author_id=7,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Dragon Reborn", "Robert Jordan")
+    # )
+    # nintheenth = Book(
+    #     title="The Shadow Rising",
+    #     series=time,
+    #     author=jordan,
+    #     author_id=7,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Shadow Rising", "Robert Jordan")
+    # )
+    # twentieth = Book(
+    #     title="The Fires of Heaven",
+    #     series=time,
+    #     author=jordan,
+    #     author_id=7,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Fires of Heaven", "Robert Jordan")
+    # )
+    # twentyfirst = Book(
+    #     title="Harry Potter and the Sorcerer's Stone",
+    #     series=potter,
+    #     author=rowling,
+    #     author_id=2,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Harry Potter and the Sorcerer's Stone", "J.K. Rowling")
+    # )
+    # twentysecond = Book(
+    #     title="Harry Potter and the Chamber of Secrets",
+    #     series=potter,
+    #     author=rowling,
+    #     author_id=2,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Harry Potter and the Chamber of Secrets", "J.K. Rowling")
+    # )
+    # twentythird = Book(
+    #     title="Harry Potter and the Prisoner of Azkaban",
+    #     series=potter,
+    #     author=rowling,
+    #     author_id=2,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Harry Potter and the Prisoner of Azkaban", "J.K. Rowling")
+    # )
+    # twentyfourth = Book(
+    #     title="Harry Potter and the Goblet of Fire",
+    #     series=potter,
+    #     author=rowling,
+    #     author_id=2,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Harry Potter and the Goblet of Fire", "J.K. Rowling")
+    # )
+    # twentyfifth = Book(
+    #     title="The Blade Itself",
+    #     series=first_law,
+    #     author=abercrombie,
+    #     author_id=17,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Blade Itself", "Joe Abercrombie")
+    # )
+    # twentysixth = Book(
+    #     title="Before They Are Hanged",
+    #     series=first_law,
+    #     author=abercrombie,
+    #     author_id=17,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Before They Are Hanged", "Joe Abercrombie")
+    # )
+    # twentyseventh = Book(
+    #     title="Last Argument of Kings",
+    #     series=first_law,
+    #     author=abercrombie,
+    #     author_id=17,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Last Argument of Kings", "Joe Abercrombie")
+    # )
+    # twentyeigth = Book(
+    #     title="The Lies of Locke Lamora",
+    #     series=gentleman,
+    #     author=lynch,
+    #     author_id=20,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Lies of Locke Lamora", "Scott Lynch")
+    # )
+    # twentyninth = Book(
+    #     title="Red Seas Under Red Skies",
+    #     series=gentleman,
+    #     author=lynch,
+    #     author_id=20,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Red Seas Under Red Skies", "Scott Lynch")
+    # )
+    # thirtyth = Book(
+    #     title="The Republic of Thieves",
+    #     series=gentleman,
+    #     author=lynch,
+    #     author_id=20,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Republic of Thieves", "Scott Lynch")
+    # )
+    # thirtyfirst = Book(
+    #     title="Jade City",
+    #     series=jade,
+    #     author=lee,
+    #     author_id=11,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Jade City", "Fonda Lee")
+    # )
+    # thirtysecond = Book(
+    #     title="Jade War",
+    #     series=jade,
+    #     author=lee,
+    #     author_id=11,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Jade War", "Fonda Lee")
+    # )
+    # thirtythird = Book(
+    #     title="Jade Legacy",
+    #     series=jade,
+    #     author=lee,
+    #     author_id=11,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Jade Legacy", "Fonda Lee")
+    # )
+    # thirtyfourth = Book(
+    #     title="The Fifth Season",
+    #     series=broken_earth,
+    #     author=jemisin,
+    #     author_id=12,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Fifth Season", "N.K. Jemisin")
+    # )
+    # thirtyfifth = Book(
+    #     title="The Obelisk Gate",
+    #     series=broken_earth,
+    #     author=jemisin,
+    #     author_id=12,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Obelisk Gate", "N.K. Jemisin")
+    # )
+    # thirtysixth = Book(
+    #     title="The Stone Sky",
+    #     series=broken_earth,
+    #     author=jemisin,
+    #     author_id=12,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Stone Sky", "N.K. Jemisin")
+    # )
+    # thirtyseventh = Book(
+    #     title="The Black Prism",
+    #     series=lightbringer,
+    #     author=weeks,
+    #     author_id=17,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Black Prism", "Brent Weeks")
+    # )
+    # thirtyeigth = Book(
+    #     title="The Blinding Knife",
+    #     series=lightbringer,
+    #     author=weeks,
+    #     author_id=17,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Blinding Knife", "Brent Weeks")
+    # )
+    # thirtyninth = Book(
+    #     title="The Broken Eye",
+    #     series=lightbringer,
+    #     author=weeks,
+    #     author_id=17,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Broken Eye", "Brent Weeks")
+    # )
+    # fourtieth = Book(
+    #     title="A Wizard of Earthsea",
+    #     series=earthsea,
+    #     author=ursula,
+    #     author_id=36,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("A Wizard of Earthsea", "Ursula K. Le Guin")
+    # )
+    # fortyfirst = Book(
+    #     title="The Tombs of Atuan",
+    #     series=earthsea,
+    #     author=ursula,
+    #     author_id=36,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Tombs of Atuan", "Ursula K. Le Guin")
+    # )
+    # fortysecond = Book(
+    #     title="The Farthest Shore",
+    #     series=earthsea,
+    #     author=ursula,
+    #     author_id=36,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("The Farthest Shore", "Ursula K. Le Guin")
+    # )
+    # fortythird = Book(
+    #     title="Storm Front",
+    #     series=dresden_files,
+    #     author=butcher,
+    #     author_id=18,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Storm Front", "Jim Butcher")
+    # )
+    # fortyfourth = Book(
+    #     title="Fool Moon",
+    #     series=dresden_files,
+    #     author=butcher,
+    #     author_id=18,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Fool Moon", "Jim Butcher")
+    # )
+    # fortyfifth = Book(
+    #     title="Grave Peril",
+    #     series=dresden_files,
+    #     author=butcher,
+    #     author_id=18,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Grave Peril", "Jim Butcher")
+    # )
+    # fortysixth = Book(
+    #     title="Summer Knight",
+    #     series=dresden_files,
+    #     author=butcher,
+    #     author_id=18,
+    #     genre="Fantasy",
+    #     cover=fetch_book_cover("Summer Knight", "Jim Butcher")
+    # )
 
-    db.session.add_all([first, second, third, fourth])
-    db.session.add_all([fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth])
-    db.session.add_all([thirdteenth, fourteenth, fifteenth, sixteenth, seventeenth, eighteenth, nintheenth, twentieth])
-    db.session.add_all([twentyfirst, twentysecond, twentythird, twentyfourth, twentyfifth, twentysixth, twentyseventh, twentyeigth])
-    db.session.add_all([twentyninth, thirtyth, thirtyfirst, thirtysecond, thirtythird, thirtyfourth, thirtyfifth, thirtysixth])
-    db.session.add_all([thirtyseventh, thirtyeigth, thirtyninth, fourtieth, fortyfirst, fortysecond, fortythird, fortyfourth])
-    db.session.add_all([fortyfifth, fortysixth])
+    db.session.add(first)
+    # db.session.add_all([first, second, third, fourth])
+    # db.session.add_all([fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth])
+    # db.session.add_all([thirdteenth, fourteenth, fifteenth, sixteenth, seventeenth, eighteenth, nintheenth, twentieth])
+    # db.session.add_all([twentyfirst, twentysecond, twentythird, twentyfourth, twentyfifth, twentysixth, twentyseventh, twentyeigth])
+    # db.session.add_all([twentyninth, thirtyth, thirtyfirst, thirtysecond, thirtythird, thirtyfourth, thirtyfifth, thirtysixth])
+    # db.session.add_all([thirtyseventh, thirtyeigth, thirtyninth, fourtieth, fortyfirst, fortysecond, fortythird, fortyfourth])
+    # db.session.add_all([fortyfifth, fortysixth])
     db.session.commit()
 
 
