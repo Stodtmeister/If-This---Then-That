@@ -70,7 +70,7 @@ def seed_books():
         author=tolkien,
         author_id=1,
         genre="Fantasy",
-        cover="https://books.google.com/books/content?id=9H6fzQEACAAJ&printsec"
+        cover="http://books.google.com/books/content?id=pD6arNyKyi8C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
     )
 
     # first = Book(
