@@ -70,7 +70,8 @@ def seed_books():
         author=tolkien,
         author_id=1,
         genre="Fantasy",
-        cover=fetch_book_cover("The Hobbit", "J.R.R. Tolkien")
+        cover=None
+        # cover=fetch_book_cover("The Hobbit", "J.R.R. Tolkien")
     )
     # second = Book(
     #     title="The Fellowship of the Ring",
