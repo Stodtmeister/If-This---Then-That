@@ -96,9 +96,9 @@ class Book(db.Model):
         __table_args__ = {"schema": SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    cover = db.Column(db.String(100), nullable=True)
-    genre = db.Column(db.String(50), nullable=False)
+    title = db.Column(db.String(255), nullable=False)
+    cover = db.Column(db.String(255), nullable=True)
+    genre = db.Column(db.String(255), nullable=False)
     author_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("authors.id")), nullable=False
     )
