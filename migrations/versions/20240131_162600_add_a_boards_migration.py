@@ -45,17 +45,17 @@ def upgrade():
     sa.Column('author_id', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('books',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('title', sa.String(length=255), nullable=False),
-    sa.Column('cover', sa.String(length=255), nullable=True),
-    sa.Column('genre', sa.String(length=255), nullable=False),
-    sa.Column('votes', sa.Integer(), nullable=True, default=0),
-    sa.Column('author_id', sa.Integer(), nullable=False),
-    sa.Column('series_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['author_id'], ['authors.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
+    # op.create_table('books',
+    # sa.Column('id', sa.Integer(), nullable=False),
+    # sa.Column('title', sa.String(length=255), nullable=False),
+    # sa.Column('cover', sa.String(length=255), nullable=True),
+    # sa.Column('genre', sa.String(length=255), nullable=False),
+    # sa.Column('votes', sa.Integer(), nullable=True, default=0),
+    # sa.Column('author_id', sa.Integer(), nullable=False),
+    # sa.Column('series_id', sa.Integer(), nullable=True),
+    # sa.ForeignKeyConstraint(['author_id'], ['authors.id'], ),
+    # sa.PrimaryKeyConstraint('id')
+    # )
     op.create_table('board_book',
     sa.Column('board_id', sa.Integer(), nullable=False),
     sa.Column('book_id', sa.Integer(), nullable=False),
