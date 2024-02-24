@@ -1,0 +1,156 @@
+.author-title {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  top: 10px;
+  font-size: 45px;
+  width: fit-content;
+  height: fit-content;
+  padding: 0;
+  /* background: linear-gradient(to right, #f12711, #f8b500); */
+  background: radial-gradient(circle, #080c3f, #720975);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sorted {
+  text-align: center;
+  font-size: 12px;
+  margin-bottom: 5px;
+  text-decoration: underline;
+  margin-top: -20px;
+}
+
+.letter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.letter-button {
+  padding: 13px;
+  background: linear-gradient(to right, #0072ff, #00c6ff);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  color: #fff;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.letter-button:hover {
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  transform: translateY(-2px);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.authors-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0px;
+  place-items: center;
+  grid-auto-flow: row;
+  border-radius: 5px;
+  width: 80%;
+  margin: 0 auto;
+  box-shadow: inset 0 0 12px 1px #080c3f;
+  padding: 15px 0;
+}
+
+.letter-header {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.author-card {
+  display: flex;
+  padding: 10px;
+  margin: 10px 0;
+  list-style-type: none;
+  border: 1px solid #ddd;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  border-radius: 5px;
+  font-size: 15px;
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  width: 88%;
+  justify-content: space-between;
+}
+
+.author-card:hover {
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transform: translateY(-1px);
+}
+
+.add-author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-author button {
+  padding: 10px;
+  background: linear-gradient(to right, #0072ff, #00c6ff);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  color: #fff;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.no-author {
+  margin-bottom: 10px;
+}
+
+/* .new-author-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 0 7px 1px #080c3f;
+  padding: 20px;
+  width: 40%;
+  margin-top: 20px;
+}
+
+.new-author-form input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+
+  &:focus {
+    outline: none;
+    border: 1px solid #080c3f;
+  }
+}
+
+.new-author-form label {
+  font-size: 20px;
+}
+
+.new-author-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 0;
+} */

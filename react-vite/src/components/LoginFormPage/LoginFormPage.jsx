@@ -1,66 +1,93 @@
-import { useState } from "react";
-import { thunkLogin } from "../../redux/session";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
-import "./LoginForm.css";
+import { useState } from 'react'
+import { thunkLogin } from '../../redux/session'
+import { useDispatch, useSelector } from 'react-redux'
+import { Navigate, useNavigate } from 'react-router-dom'
+import './LoginForm.css'
 
 function LoginFormPage() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const sessionUser = useSelector((state) => state.session.user)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState({})
 
-  if (sessionUser) return <Navigate to="/" replace={true} />;
+  if (sessionUser) return <Navigate to="/" replace={true} />
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  function signUp() {
+    navigate('/signup')
+  }
 
-    const serverResponse = await dispatch(
-      thunkLogin({
-        email,
-        password,
-      })
-    );
+  const handleSubmit = async (e, demo) => {
+    e.preventDefault()
+
+    let serverResponse
+    if (demo) {
+      serverResponse = await dispatch(
+        thunkLogin({
+          email: 'science@aa.io',
+          password: 'password',
+        })
+      )
+    } else {
+      serverResponse = await dispatch(
+        thunkLogin({
+          email,
+          password,
+        })
+      )
+    }
 
     if (serverResponse) {
-      setErrors(serverResponse);
+      setErrors(serverResponse)
     } else {
-      navigate("/");
+      navigate('/boards')
     }
-  };
+  }
 
   return (
-    <>
-      <h1>Log In</h1>
+    <div className='login-background'>
+      <h1 className="site-title">If This Then That</h1>
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+      <form onSubmit={handleSubmit} className="login-form">
+        <fieldset>
+          <legend>Log In</legend>
+          <label className="signup-label">
+            Email:
+            <br />
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="form-input"
+              required
+            />
+          </label>
+          {errors.email && <p>{errors.email}</p>}
+          <label className="signup-label">
+            Password:
+            <br />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="form-input"
+              required
+            />
+          </label>
+          {errors.password && <p>{errors.password}</p>}
+          <button className='login-btn' type="submit">Submit</button>
+          <div className='note-container'>
+            <p className='signup-note'>Note: Sign up to create an account.</p>
+            <button className='signup-btn' onClick={signUp}>Sign up</button>
+            <button className='signup-btn' type='button' onClick={(e) => handleSubmit(e, true)}>Demo User</button>
+
+          </div>
+        </fieldset>
       </form>
-    </>
-  );
+    </div>
+  )
 }
 
-export default LoginFormPage;
+export default LoginFormPage

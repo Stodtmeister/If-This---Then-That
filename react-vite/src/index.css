@@ -1,1 +1,52 @@
-/* TODO: Add sitewide styles */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 16px;
+  --text-primary: #b6b6b6;
+  --text-secondary: #ececec;
+  --bg-primary: #23232e;
+  --bg-secondary: #141418;
+  --background-color: #f9f9f9;
+  --text-color: black
+}
+
+.main-content {
+  margin-left: 5rem;
+  /* padding: 1rem; */
+}
+
+/* @font-face {
+  font-family: 'Aniron';
+  src: url('../../fonts/fonts') format('truetype');
+} */
+@font-face {
+  font-family: 'Aniron';
+  src: url('../../fonts/anirm___.ttf') format('truetype');
+}
+
+body {
+  font-family: 'Aniron', sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+}
+
+body::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+body::-webkit-scrollbar-track {
+  background: #1e1e24;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #6649b8;
+}
+
+.dark-theme {
+  --background-color: hsl(240, 14%, 21%);
+  --text-color: #ececec;
+}

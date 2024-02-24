@@ -7,6 +7,27 @@ from .auth_routes import validation_errors_to_error_messages
 
 review_routes = Blueprint('review', __name__)
 
+@review_routes.route('/', methods=['GET'])
+def get_books():
+    books = Book.query.all()
+    return {"books": [book.to_dict(include_boards=False, include_reviews=False, include_author=False, include_recommendations=False) for book in books]}
+
+
+@review_routes.route("/<int:bookId>", methods=["PUT"])
+@login_required
+def add_cover_to_book(bookId):
+    book = Book.query.get(bookId)
+
+    if book is None:
+        return {"errors": ["Book not found"]}, 404
+
+    data = request.get_json()
+    book.cover = data['coverImageLink']
+
+    db.session.commit()
+    return book.to_dict(include_boards=False, include_reviews=False, include_author=False), 200
+
+
 
 """
 Get all reviews for a book.
@@ -172,8 +193,7 @@ def submit_recommendation(bookId):
         return {"errors": ["Book not found"]}
 
     data = request.get_json()
-    recommendationId = data['recommendationId']
-
+    recommendationId = data['recommendation_id']
     recommendation = Book.query.get(recommendationId)
 
     if recommendation is None:

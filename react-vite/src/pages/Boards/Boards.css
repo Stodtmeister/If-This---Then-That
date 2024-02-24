@@ -1,0 +1,135 @@
+.boards-container {
+  padding: 20px;
+}
+
+.boards-grid {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.board {
+  position: relative;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background: linear-gradient(to right, rgb(180, 180, 180), rgb(120, 120, 120));
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: rgb(60, 60, 60);
+  cursor: pointer;
+}
+
+.board:hover {
+  box-shadow: 0px 12px 20px 0px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+.fa-ellipsis-vertical {
+  float: right;
+  margin-top: -20px;
+  margin-right: -15px;
+  padding: 10px;
+  cursor: pointer;
+  color: white;
+}
+
+.board-headers {
+  display: flex;
+  font-size: 25px;
+  justify-content: center;
+  background: radial-gradient(circle, #f12711, #f8b500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  white-space: nowrap;
+}
+
+.new-board-btn-container button {
+  margin-top: 20px !important;
+  padding: 10px 20px !important;
+  border: 1px solid #eee !important;
+  border-radius: 4px !important;
+  background: linear-gradient(to right, rgb(251, 141, 51), rgb(241, 90, 36)) !important;
+  background: radial-gradient(circle, #f8b500 #f12711) !important;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  margin: 20px auto !important;
+  color: white !important;
+  text-align: center !important;
+  transition: all 0.3s ease !important;
+}
+
+.new-board-btn-container button:hover {
+  box-shadow: 0px 12px 20px 0px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+.fa-ellipsis-vertical:hover {
+  color: rgb(251, 141, 51);
+}
+
+.board-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.board-options button {
+  margin: 10px 10px;
+  padding: 4px;
+  width: 60px;
+  border: 2px solid #eee;
+  background: rgb(45, 134, 251);
+  border-radius: 10px;
+  /* background: linear-gradient(to right, rgb(251, 141, 51), rgb(241, 90, 36)); */
+  /* background: linear-gradient(to right, rgb(51, 251, 141), rgb(141, 51, 251)); */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  color: white;
+  text-align: center;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+#save-board-btn {
+  background: rgb(141, 51, 251);
+}
+
+#save-board-btn:hover {
+  background: rgb(115, 42, 204);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.edit-board-btn:hover,
+.delete-board-btn:hover {
+  background: rgb(25, 114, 231);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.form-input2 {
+  margin-top: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #bababa;
+  font-size: 1rem;
+  box-shadow: inset 0 0 10px #001c34;
+  background-color: #cfcfcf;
+}
+
+.form-input2:hover {
+  box-shadow: inset 0 0 15px #001c34;
+  background-color: #e1e8ff;
+}
+
+.form-input2:focus {
+  box-shadow: inset 0 0 15px #001c34;
+  /* background-color: #e1e8ff; */
+  outline: none;
+}
+
+.form-input:focus {
+  outline: none;
+}

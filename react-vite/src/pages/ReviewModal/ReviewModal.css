@@ -1,0 +1,62 @@
+.review-modal-content {
+  background-color: #f4f4f4;
+  padding: 10px;
+}
+
+.review-header {
+  /* border: 1px solid red; */
+  text-align: center;
+  text-align: center;
+}
+
+.spot-review {
+  background-color: #f4f4f4;
+}
+
+.review-title {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  font-size: 45px;
+  background: radial-gradient(circle, #080c3f, #720975);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hide {
+  display: none;
+}
+
+.review-dot {
+  margin-left: 5px;
+  margin-right: 8px;
+}
+
+.spot-review button {
+  background-color: rgb(156, 156, 156);
+  font-weight: 500;
+  color: white;
+  width: 160px;
+  height: 35px;
+  border: 1px solid rgb(141, 141, 141);
+  border-radius: 10px;
+  margin: 8px 7px 8px 0;
+}
+
+.spot-review button:hover {
+  box-shadow: 0px 0px 19px rgb(209, 209, 209);
+}
+
+.star-icon {
+  margin-right: 4px;
+  color: goldenrod;
+}
+
+.logged-out,
+.notFirst {
+  display: none;
+}
+
+.owner {
+  display: none;
+}

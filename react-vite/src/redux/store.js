@@ -6,9 +6,19 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
+import boardsReducer from "./boards";
+import authorsReducer from "./authors";
+import recReducer from "./recommendations";
+import booksReducer from "./books";
+import reviewsReducer from "./reviews";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  boards: boardsReducer,
+  authors: authorsReducer,
+  recommendations: recReducer,
+  books: booksReducer,
+  reviews: reviewsReducer,
 });
 
 let enhancer;

@@ -1,9 +1,10 @@
 from flask import Blueprint, request, abort
 from flask_login import login_required
-from app.models import Author, db
-from app.forms import AuthorForm
+from app.models import Author, Book, Series, db
+from app.forms import AuthorForm, BookForm
 from .auth_routes import validation_errors_to_error_messages
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import func
 
 
 author_routes = Blueprint("author", __name__)
@@ -19,6 +20,7 @@ each representing an author.
 @author_routes.route("/", methods=["GET"])
 def get_authors():
     authors = Author.query.all()
+    authors.sort(key=lambda author: author.name.split(' ')[-1])
     return {"authors": [author.to_dict() for author in authors]}
 
 
@@ -69,3 +71,54 @@ def create_author():
             return {"errors": "An author with this name already exists."}, 400
     else:
         return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+
+
+"""
+Add a new book to an author.
+
+Parameters:
+authorId (int): The ID of the author to whom the book will be added.
+
+Returns:
+dict: A dictionary representation of the author if the book is successfully added,
+or a dictionary containing form validation error messages if the form data is invalid.
+"""
+@author_routes.route("/<int:authorId>/books", methods=["POST"])
+@login_required
+def add_book_to_author(authorId):
+    author = Author.query.get(authorId)
+    if not author:
+        return abort(404, {"message": "Author not found"})
+
+    form = BookForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+
+    if form.validate_on_submit():
+        series_id = form.data.get("series_id")
+        series = Series.query.get(series_id) if series_id else None
+
+        if not series:
+            standalone_series_id = -authorId
+            standalone_series = Series.query.get(standalone_series_id)
+            if not standalone_series:
+                standalone_series = Series(id=standalone_series_id, name="stand-alone", author_id=authorId)
+                db.session.add(standalone_series)
+                db.session.commit()
+
+            series_id = standalone_series_id
+
+        book = Book(
+            title=form.data["title"],
+            genre=form.data["genre"],
+            cover=form.data["cover"],
+            author_id=authorId,
+            series_id=series_id,
+        )
+
+        author.books.append(book)
+        db.session.add(book)
+        db.session.commit()
+
+        return {**author.to_dict(), "bookId": book.id}
+
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401

@@ -1,4 +1,5 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify, make_response
+from flask_wtf.csrf import generate_csrf
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
@@ -16,7 +17,6 @@ def validation_errors_to_error_messages(validation_errors):
             errorMessages.append(f'{field} : {error}')
     return errorMessages
 
-
 @auth_routes.route('/')
 def authenticate():
     """
@@ -26,7 +26,34 @@ def authenticate():
         return current_user.to_dict()
     return {'errors': {'message': 'Unauthorized'}}, 401
 
+# @auth_routes.route('/')
+# def authenticate():
+#     """
+#     Authenticates a user.
+#     """
+#     try:
+#         if current_user.is_authenticated:
+#             return current_user.to_dict()
+#         return {'errors': {'message': 'Unauthorized'}}, 401
+#     except Exception as e:
+#         return jsonify(error=str(e)), 500
 
+
+# @auth_routes.route('/login', methods=['POST'])
+# def login():
+#     """
+#     Logs a user in
+#     """
+#     form = LoginForm()
+#     # Get the csrf_token from the request cookie and put it into the
+#     # form manually to validate_on_submit can be used
+#     form['csrf_token'].data = request.cookies['csrf_token']
+#     if form.validate_on_submit():
+#         # Add the user to the session, we are logged in!
+#         user = User.query.filter(User.email == form.data['email']).first()
+#         login_user(user)
+#         return user.to_dict()
+#     return form.errors, 401
 @auth_routes.route('/login', methods=['POST'])
 def login():
     """
@@ -35,7 +62,13 @@ def login():
     form = LoginForm()
     # Get the csrf_token from the request cookie and put it into the
     # form manually to validate_on_submit can be used
-    form['csrf_token'].data = request.cookies['csrf_token']
+    if 'csrf_token' in request.cookies:
+        form['csrf_token'].data = request.cookies['csrf_token']
+    else:
+        csrf_token = generate_csrf()
+        form['csrf_token'].data = csrf_token
+        response = make_response()
+        response.set_cookie('csrf_token', csrf_token)
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
