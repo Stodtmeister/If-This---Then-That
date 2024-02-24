@@ -15,7 +15,7 @@ class Review(db.Model):
     book_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("books.id")), nullable=False
     )
-    review = db.Column(db.String(250), nullable=False)
+    review = db.Column(db.String(255), nullable=False)
     stars = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)

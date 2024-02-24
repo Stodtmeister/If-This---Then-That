@@ -86,7 +86,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('book_id', sa.Integer(), nullable=False),
-    sa.Column('review', sa.String(length=250), nullable=False),
+    sa.Column('review', sa.String(length=255), nullable=False),
     sa.Column('stars', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
