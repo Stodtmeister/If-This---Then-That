@@ -96,7 +96,7 @@ export default function Book() {
                   <button onClick={() => setClickedBookId(rec.recommendationId)}>+</button>
                   {clickedBookId === rec.recommendationId && (
                     <>
-                      <AddToBoard />
+                      <AddToBoard bookId={clickedBookId} setClickedBookId={setClickedBookId} />
                       <button onClick={() => setClickedBookId(null)}>
                         -
                       </button>

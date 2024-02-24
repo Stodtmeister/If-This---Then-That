@@ -1,6 +1,7 @@
 const GET_REVIEWS = 'GET_REVIEWS'
 const ADD_REVIEW = 'ADD_REVIEW'
 const DELETE_REVIEW = 'DELETE_REVIEW'
+const EDIT_REVIEW = 'EDIT_REVIEW'
 
 export const getReviews = (reviews) => {
   return {
@@ -12,6 +13,14 @@ export const getReviews = (reviews) => {
 export const addReview = (review) => {
   return {
     type: ADD_REVIEW,
+    review,
+  }
+}
+
+export const editReview = (bookId, review) => {
+  return {
+    type: EDIT_REVIEW,
+    bookId,
     review,
   }
 }
@@ -54,6 +63,24 @@ export const thunkAddReview = (bookId, review) => async (dispatch) => {
   return newReview
 }
 
+export const thunkEditReview = (bookId, review) => async (dispatch) => {
+  const response = await fetch(`/api/books/${bookId}/reviews/${review.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(review),
+  })
+
+  if (!response.ok) {
+    throw response
+  }
+
+  const updatedReview = await response.json()
+  dispatch(editReview(bookId, updatedReview))
+  return updatedReview
+}
+
 export const thunkDeleteReview = (bookId, reviewId) => async (dispatch) => {
   const response = await fetch(`/api/books/${bookId}/reviews/${reviewId}`, {
     method: 'DELETE',
@@ -77,6 +104,16 @@ export default function reviewsReducer(state = {}, action) {
       return {
         ...state,
         [action.review.bookId]: [...state[action.review.bookId], action.review],
+      }
+    case EDIT_REVIEW:
+      return {
+        ...state,
+        [action.bookId]: {
+          ...state[action.bookId],
+          reviews: state[action.bookId].reviews.map((review) =>
+            review.id === action.review.id ? action.review : review
+          ),
+        },
       }
     // case DELETE_REVIEW:
     //   return {

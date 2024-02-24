@@ -41,6 +41,10 @@
   margin: 0;
 }
 
+.review-info .review-text {
+  margin-bottom: 5px;
+}
+
 .review-info .first-name {
   margin-bottom: -5px;
 }
@@ -59,4 +63,19 @@
 
 .user-review p {
   font-size: 12px;
+}
+
+.review-star-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.review-stars {
+  margin-right: 4px;
+  color: goldenrod;
+}
+
+.review-text {
+  margin-bottom: 5px;
 }

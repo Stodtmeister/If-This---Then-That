@@ -7,17 +7,7 @@
   color: #ffc800; /* Change this to your preferred color */
 }
 
-.star-rating {
-  /* border: 1px solid black; */
-  width: 100px;
-  padding: 0;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* .star-container {
-  margin-top: 3px;
+.star-ratings {
+  margin-right: 5px;
   cursor: pointer;
-} */
+}

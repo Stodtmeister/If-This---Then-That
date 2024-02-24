@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 export default function AddToBoard({ bookId, setClickedBookId }) {
+  // console.log(bookId, 'BOOKID');
   const dispatch = useDispatch()
   const boards = useSelector((state) => state.boards.boards)
 

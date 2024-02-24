@@ -3,17 +3,17 @@ import { useEffect, useState } from 'react'
 import { useModal } from '../../context/Modal'
 import { useDispatch } from 'react-redux'
 import './ReviewModalComponent.css'
-import { thunkAddReview } from '../../redux/reviews'
+import { thunkAddReview, thunkEditReview } from '../../redux/reviews'
 
-export default function ReviewModalComponent({ bookId, updating, theReview }) {
+export default function ReviewModalComponent({ bookId, updating, reviewId, theReview }) {
   const { closeModal } = useModal()
   const dispatch = useDispatch()
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
-  const [review, setReview] = useState('')
+  const [review, setReview] = useState(theReview || '')
   const [errors, setErrors] = useState({})
   let disabled = true
-  
+
   if (review && !Object.keys(errors).length) disabled = false;
 
   useEffect(() => {
@@ -26,6 +26,10 @@ export default function ReviewModalComponent({ bookId, updating, theReview }) {
     }
     setErrors(validation)
   }, [review, rating])
+
+  // useEffect(() => {
+  //   setReview(theReview);
+  // }, [theReview]);
 
   function handleStarClick(clickedRating) {
     setRating(clickedRating);
@@ -41,7 +45,8 @@ export default function ReviewModalComponent({ bookId, updating, theReview }) {
 
   async function handleSubmit() {
     if (updating) {
-      console.log('hi');
+      const updated = dispatch(thunkEditReview(bookId, { id: reviewId, review, stars: rating }))
+      console.log("updated", updated);
       // await dispatch(editReviewThunk(reviewId, { review, stars: rating } ))
     } else {
       // console.log('review', { review, stars: rating});
@@ -81,11 +86,11 @@ export default function ReviewModalComponent({ bookId, updating, theReview }) {
           cols="30"
           rows="8"
           placeholder="Leave your review here..."
-          value={theReview}
+          value={review}
           onChange={e => setReview(e.target.value)}
         />
         <div className="rating-container">
-          <div className="star-rating" onMouseLeave={handleMouseLeave}>
+          <div className="star-ratings" onMouseLeave={handleMouseLeave}>
             {renderStars()}
           </div>
           <p>Stars</p>

@@ -13,7 +13,6 @@ export default function ReviewContainer({ user, rev, bookId, userName }) {
     return originalDate.toLocaleDateString('en-US', options)
   }
 
-
   function randomColor() {
     return '#' + Math.floor(Math.random() * 16777215).toString(16)
   }
@@ -33,7 +32,10 @@ export default function ReviewContainer({ user, rev, bookId, userName }) {
             <p>{formatDate(rev.createdAt)}</p>
           </div>
         </div>
-        <p>{rev.review}</p>
+        <div className="review-star-container">
+          {[...Array(rev.stars)].map((e, i) => <span key={i} className="review-stars">&#9733;</span>)}
+        </div>
+        <p className="review-text">{rev.review}</p>
         <div></div>
       </div>
       {user?.id === rev.userId && (
@@ -43,7 +45,6 @@ export default function ReviewContainer({ user, rev, bookId, userName }) {
             id='update-review'
             buttonText='Update'
             modalComponent={<ReviewModalComponent bookId={bookId} updating={true} reviewId={rev.id} theReview={rev.review} />}
-            // modalComponent={<ReviewModal spotId={spotId} updating={true} name1={name} name2={rev.Spot?.name} reviewId={rev.id} />}
           />
           <OpenModalButton
             id="delete-review"
