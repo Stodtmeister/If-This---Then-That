@@ -33,10 +33,10 @@ export const router = createBrowserRouter([
         path: "authors/:authorId",
         element: <SpecificAuthor />
       },
-      {
-        path: "signup",
-        element: <SignupFormPage />,
-      },
+      // {
+      //   path: "signup",
+      //   element: <SignupFormPage />,
+      // },
       {
         path: "boards/:boardId",
         element: <SpecificBoard />,
@@ -45,10 +45,10 @@ export const router = createBrowserRouter([
         path: "books/:bookId",
         element: <Book />
       },
-      {
-        path: "instructions",
-        element: <Instructions />
-      },
+      // {
+      //   path: "instructions",
+      //   element: <Instructions />
+      // },
       // {
       //   path: "reviews/:reviewId",
       //   element: <Reviews />

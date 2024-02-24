@@ -15,10 +15,10 @@ function Navigation() {
     <nav className="navbar">
       <ul className="navbar-nav">
         <li className="logo">
-          <NavLink className="nav-link" to="/instructions">
+          <div className="nav-link">
             <span className="link-text">If/Then</span>
             <i className="fa-solid fa-angles-right fa-xl"></i>
-          </NavLink>
+          </div>
         </li>
         <li className="nav-item">
           <NavLink className="nav-link" to="/boards">
