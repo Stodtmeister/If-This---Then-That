@@ -70,7 +70,7 @@ def seed_books():
         author=tolkien,
         author_id=1,
         genre="Fantasy",
-        cover=None
+        cover='http://books.google.com/books/content?id=pD6arNyKyi8C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
         # cover=fetch_book_cover("The Hobbit", "J.R.R. Tolkien")
     )
     # second = Book(
