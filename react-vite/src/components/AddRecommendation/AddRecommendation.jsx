@@ -91,7 +91,7 @@ export default function AddRecommendation() {
       const allBooks = selectedAuthor?.series.flatMap((series) => series.books)
       if (
         fromHandleSubmit &&
-        allBooks.some((existingBook) => existingBook.title === book.title)
+        allBooks?.some((existingBook) => existingBook.title === book.title)
       ) {
         setError({ message: 'Author already has this book' })
         throw new Error('Author already has this book')
@@ -158,6 +158,7 @@ export default function AddRecommendation() {
     )
     let authorName = ''
     if (authorRef.current) {
+      console.log('authorref current?');
       authorName = authorRef.current.value.trim()
     }
     const nameParts = authorName.split(' ')
@@ -180,6 +181,7 @@ export default function AddRecommendation() {
       }
     }
 
+    setAuthor(authorRef.current.value)
     if (authorRef.current) {
       authorRef.current.value = ''
     }
@@ -384,6 +386,7 @@ export default function AddRecommendation() {
                     error={error}
                     setAuthorHasBook={setAuthorHasBook}
                     setModalIsOpen={setModalIsOpen}
+                    addedAuthor={author}
                   />
                 )}
               </form>

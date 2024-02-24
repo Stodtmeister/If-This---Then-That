@@ -12,11 +12,12 @@ export default function AddBook({
   error,
   setAuthorHasBook,
   setModalIsOpen,
+  addedAuthor
 }) {
   const [foundBook, setFoundBook] = useState(false)
   const [newBook, setNewBook] = useState(false)
 
-  const options = authorInfo.series.flatMap((series) =>
+  const options = authorInfo?.series.flatMap((series) =>
     series.books.map((book) => ({
       value: book.id,
       label: book.title,
@@ -58,7 +59,6 @@ export default function AddBook({
 
   return (
     <>
-      {/* {console.log('AUTHOR INFO', authorInfo.series)} */}
       <div className="new-book-rec">
         <div className="book-rec-title">
           <h2 className="rec-title">Add a recommendation</h2>
@@ -74,7 +74,7 @@ export default function AddBook({
                   setAuthorHasBook(selectedOption)
                 }
               }}
-              placeholder={`Select a book from ${authorInfo.name}...`}
+              placeholder={`Select a book from ${authorInfo?.name || addedAuthor}...`}
             />
           )}
           {foundBook ? (
