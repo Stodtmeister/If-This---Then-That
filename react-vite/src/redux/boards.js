@@ -4,6 +4,7 @@ const BOARD_BY_ID = 'BOARD_BY_ID'
 const EDIT_BOARD = 'EDIT_BOARD'
 const DELETE_BOARD = 'DELETE_BOARD'
 const DELETE_BOOK = 'DELETE_BOOK'
+const ADD_BOOK = 'ADD_BOOK'
 
 export const getBoards = (boards) => {
   return {
@@ -37,6 +38,14 @@ export const getBoardById = (books, boardId) => {
   return {
     type: BOARD_BY_ID,
     books,
+    boardId,
+  }
+}
+
+export const addBook = (book, boardId) => {
+  return {
+    type: ADD_BOOK,
+    book,
     boardId,
   }
 }
@@ -129,6 +138,19 @@ export const thunkDeleteBoard = (id) => async (dispatch) => {
   }
 }
 
+export const thunkAddBook = (boardId, bookId) => async (dispatch) => {
+  const response = await fetch(`/api/boards/${boardId}/books/${bookId}`, {
+    method: 'POST',
+  })
+
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(addBook(data, boardId))
+  } else {
+    console.log('ERROR (thunkAddBook)')
+  }
+}
+
 const initialState = { boards: [], boardBooks: {} }
 
 export default function boardsReducer(state = initialState, action) {
@@ -170,6 +192,21 @@ export default function boardsReducer(state = initialState, action) {
       return {
         ...state,
         boards: state.boards.filter((board) => board.id !== action.boardId),
+      }
+    case ADD_BOOK:
+      if (state.boardBooks[action.boardId]) {
+        return {
+          ...state,
+          boardBooks: {
+            ...state.boardBooks,
+            [action.boardId]: {
+              ...state.boardBooks[action.boardId],
+              books: [...state.boardBooks[action.boardId].books, action.book],
+            },
+          },
+        }
+      } else {
+        return state
       }
     case DELETE_BOOK:
       if (state.boardBooks[action.boardId]) {

@@ -18,15 +18,25 @@ function LoginFormPage() {
     navigate('/signup')
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, demo) => {
     e.preventDefault()
 
-    const serverResponse = await dispatch(
-      thunkLogin({
-        email,
-        password,
-      })
-    )
+    let serverResponse
+    if (demo) {
+      serverResponse = await dispatch(
+        thunkLogin({
+          email: 'science@aa.io',
+          password: 'password',
+        })
+      )
+    } else {
+      serverResponse = await dispatch(
+        thunkLogin({
+          email,
+          password,
+        })
+      )
+    }
 
     if (serverResponse) {
       setErrors(serverResponse)
@@ -71,6 +81,8 @@ function LoginFormPage() {
           <div className='note-container'>
             <p className='signup-note'>Note: Sign up to create an account.</p>
             <button className='signup-btn' onClick={signUp}>Sign up</button>
+            <button className='signup-btn' type='button' onClick={(e) => handleSubmit(e, true)}>Demo User</button>
+
           </div>
         </fieldset>
       </form>
