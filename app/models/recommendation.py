@@ -15,11 +15,15 @@ class Recommendation(db.Model):
     def __repr__(self):
         return f"<Recommendation {self.id}>"
 
-    def to_dict(self):
-        return {
+    def to_dict(self, include_books=True):
+        data = {
             "id": self.id,
-            "books": [
-                br.book.to_dict(include_boards=False, include_recommendations=False)
-                for br in self.book_recommendations
-            ],
+            # "books": [
+            #     br.book.to_dict(include_boards=False, include_recommendations=False)
+            #     for br in self.book_recommendations
+            # ],
         }
+
+        if include_books:
+            data["books"] = [br.book.to_dict(include_boards=False, include_recommendations=False) for br in self.book_recommendations]
+        return data
