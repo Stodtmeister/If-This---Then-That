@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 board_book = db.Table(
-    "board_book",
+    add_prefix_for_prod("board_book"),
     db.Column(
         "board_id",
         db.Integer,
