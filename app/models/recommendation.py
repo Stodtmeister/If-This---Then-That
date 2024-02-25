@@ -10,9 +10,7 @@ class Recommendation(db.Model):
         __table_args__ = {"schema": SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    book_recommendations = db.relationship(
-        "BookRecommendation", back_populates="recommendation"
-    )
+    book_recommendations = db.relationship("BookRecommendation", back_populates="recommendation")
 
     def __repr__(self):
         return f"<Recommendation {self.id}>"

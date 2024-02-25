@@ -13,19 +13,12 @@ class BookRecommendation(db.Model):
         __table_args__ = (UniqueConstraint('book_id', 'recommendation_id', name='uix_1'), {"schema": SCHEMA})
 
     bookRecommendation_id = db.Column(db.Integer, primary_key=True)
-    book_id = db.Column(
-        db.Integer, db.ForeignKey(add_prefix_for_prod("books.id"))
-    )
-    recommendation_id = db.Column(
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("recommendations.id"))
-    )
+    book_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("books.id")))
+    recommendation_id = db.Column(db.Integer,db.ForeignKey(add_prefix_for_prod("recommendations.id")))
     votes = db.Column(db.Integer, nullable=True, default=1)
 
     book = db.relationship("Book", back_populates="book_recommendations")
-    recommendation = db.relationship(
-        "Recommendation", back_populates="book_recommendations"
-    )
+    recommendation = db.relationship("Recommendation", back_populates="book_recommendations")
 
     def to_dict(self, include_books=True, include_recommendations=True):
         data = {
