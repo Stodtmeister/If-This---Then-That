@@ -8,6 +8,7 @@ from .auth_routes import validation_errors_to_error_messages
 review_routes = Blueprint('review', __name__)
 
 @review_routes.route('/', methods=['GET'])
+@login_required
 def get_books():
     books = Book.query.all()
     return {"books": [book.to_dict(include_boards=False, include_reviews=False, include_author=False, include_recommendations=False) for book in books]}
@@ -40,6 +41,7 @@ dict: A dictionary with a key 'reviews' and a value that is a list of dictionari
 each representing a review for the book.
 """
 @review_routes.route('/<int:bookId>/reviews', methods=['GET'])
+@login_required
 def get_reviews(bookId):
     book = Book.query.get(bookId)
 
@@ -162,6 +164,7 @@ Returns:
     If the book is not found, returns a dictionary with an error message.
 """
 @review_routes.route('/<int:bookId>/recommendations', methods=["GET"])
+@login_required
 def get_recommendations(bookId):
     book = Book.query.get(bookId)
 

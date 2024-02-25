@@ -18,6 +18,7 @@ dict: A dictionary with a key 'authors' and a value being a list of dictionaries
 each representing an author.
 """
 @author_routes.route("/", methods=["GET"])
+@login_required
 def get_authors():
     authors = Author.query.all()
     authors.sort(key=lambda author: author.name.split(' ')[-1])
@@ -35,6 +36,7 @@ dict: A dictionary representation of the author if found.
 abort: A 404 error if the author is not found.
 """
 @author_routes.route("/<int:authorId>", methods=["GET"])
+@login_required
 def get_author_by_id(authorId):
     author = Author.query.get(authorId)
 

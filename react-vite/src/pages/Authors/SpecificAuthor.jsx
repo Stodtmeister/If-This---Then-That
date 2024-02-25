@@ -28,7 +28,7 @@ export default function SpecificAuthor() {
   }, [dispatch, authors, refresh])
 
   const fetchBookCover = useCallback(async (book, authorName, fromHandleSubmit = false) => {
-    const allBooks = author?.series.flatMap((series) => series.books)
+    const allBooks = author?.series?.flatMap((series) => series.books)
     if (fromHandleSubmit && allBooks.some(existingBook => existingBook.title === book.title)) {
       setError({ message: 'Author already has this book' })
       throw new Error('Author already has this book')
@@ -112,7 +112,7 @@ export default function SpecificAuthor() {
           <div key={series.id} className="series">
             {series.name}
             <div className="books">
-              {series.books.map((book) => (
+              {series?.books?.map((book) => (
                 <img
                   key={book.id}
                   className="cover-img"
@@ -169,7 +169,7 @@ export default function SpecificAuthor() {
                 Click to select the series (optional)
               </div>
               <div className="series-container">
-                {isOpen && author.series.map((series, index) => (
+                {isOpen && author?.series?.map((series, index) => (
                   <React.Fragment key={index}>
                     <div
                       className="series-title"
