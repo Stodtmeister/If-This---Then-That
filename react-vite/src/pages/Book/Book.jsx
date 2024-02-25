@@ -95,15 +95,6 @@ export default function Book() {
                   </div>
                   <button className='add-to-board-btn' onClick={() => setClickedBookId(rec.recommendationId)}>Add to board</button>
                   {clickedBookId === rec.recommendationId && (<AddToBoard bookId={rec.recommendationId} setClickedBookId={setClickedBookId} />)}
-                  {/* <button className='add-to-board-btn' onClick={() => setClickedBookId(rec.recommendationId)}>Add to board</button>
-                  {clickedBookId === rec.recommendationId && (
-                    <>
-                      <AddToBoard bookId={clickedBookId} setClickedBookId={setClickedBookId} />
-                      <button onClick={() => setClickedBookId(null)}>
-                        -
-                      </button>
-                    </>
-                  )} */}
                 </div>
               ) : null
             })}
