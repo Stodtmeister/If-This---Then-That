@@ -139,6 +139,7 @@ export const thunkDeleteBoard = (id) => async (dispatch) => {
 }
 
 export const thunkAddBook = (boardId, bookId) => async (dispatch) => {
+  console.log('BOARDID:', boardId, 'BOOKID:', bookId);
   const response = await fetch(`/api/boards/${boardId}/books/${bookId}`, {
     method: 'POST',
   })
