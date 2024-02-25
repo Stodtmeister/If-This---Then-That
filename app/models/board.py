@@ -2,20 +2,45 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 
 
-board_book = db.Table(
+#! original
+# board_book = db.Table(
+#     add_prefix_for_prod("board_book"),
+#     db.Column(
+#         "board_id",
+#         db.Integer,
+#         db.ForeignKey(add_prefix_for_prod("boards.id")),
+#         primary_key=True,
+#     ),
+#     db.Column(
+#         "book_id",
+#         db.Integer,
+#         db.ForeignKey(add_prefix_for_prod("books.id")),
+#         primary_key=True,
+#     ),
+# )
+
+from sqlalchemy import Table, Column, Integer, ForeignKey, MetaData
+
+metadata = MetaData()
+
+schema = SCHEMA if environment == "production" else None
+
+board_book = Table(
     add_prefix_for_prod("board_book"),
-    db.Column(
+    metadata,
+    Column(
         "board_id",
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("boards.id")),
+        Integer,
+        ForeignKey(add_prefix_for_prod("boards.id")),
         primary_key=True,
     ),
-    db.Column(
+    Column(
         "book_id",
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("books.id")),
+        Integer,
+        ForeignKey(add_prefix_for_prod("books.id")),
         primary_key=True,
     ),
+    schema=schema
 )
 
 
