@@ -2,8 +2,8 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { thunkDeleteBook, thunkGetBoardById } from '../../redux/boards'
+import { defaultCover } from '../../../images/defaultBookCover.png'
 import './SpecificBoard.css'
-import Book from '../Book/Book'
 
 export default function SpecificBoard() {
   const { boardId } = useParams()
@@ -39,7 +39,7 @@ export default function SpecificBoard() {
       }
       const data = await response.json()
       if (data.items) {
-        const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
+        const coverImageLink = data.items[0].volumeInfo.imageLinks?.thumbnail || defaultCover
         setBookCovers((prev) => ({ ...prev, [book.id]: coverImageLink }))
         await fetch(`/api/books/${book.id}`, {
           method: 'PUT',

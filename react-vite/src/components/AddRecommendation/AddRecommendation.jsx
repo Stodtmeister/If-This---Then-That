@@ -1,15 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Autosuggest from 'react-autosuggest'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import {
-  thunkAddAuthor,
-  thunkAddBookToAuthor,
-  thunkGetAuthors,
-} from '../../redux/authors'
+import { thunkAddAuthor, thunkAddBookToAuthor, thunkGetAuthors } from '../../redux/authors'
 import { thunkAddRec } from '../../redux/recommendations'
 import { useParams } from 'react-router-dom'
 import AddBook from '../AddBook/AddBook'
 import Modal from 'react-modal'
+import { defaultCover } from '../../../images/defaultBookCover.png'
 import './AddRecommendation.css'
 
 export default function AddRecommendation() {
@@ -117,7 +114,7 @@ export default function AddRecommendation() {
           throw new Error('No book found with that title')
         }
         if (data.items) {
-          const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
+          const coverImageLink = data.items[0].volumeInfo.imageLinks?.thumbnail || defaultCover
           setBookCovers((prev) => ({ ...prev, [book.id]: coverImageLink }))
 
           if (!fromHandleSubmit) {
