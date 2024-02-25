@@ -5,7 +5,7 @@ from datetime import datetime
 schema = SCHEMA if environment == "production" else None
 
 board_book = db.Table(
-    "boardbook",
+    "board_book",
     db.Model.metadata,
     db.Column(
         "board_id",
