@@ -2,6 +2,26 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 
 
+schema = SCHEMA if environment == "production" else None
+
+board_book = db.Table(
+    "boardbook",
+    db.Model.metadata,
+    db.Column(
+        "board_id",
+        db.Integer,
+        db.ForeignKey(add_prefix_for_prod("boards.id")),
+        primary_key=True,
+    ),
+    db.Column(
+        "book_id",
+        db.Integer,
+        db.ForeignKey(add_prefix_for_prod("books.id")),
+        primary_key=True,
+    ),
+    schema=schema,
+)
+
 #! original
 # board_book = db.Table(
 #     add_prefix_for_prod("board_book"),
@@ -19,30 +39,6 @@ from datetime import datetime
 #     ),
 # )
 
-from sqlalchemy import Table, Column, Integer, ForeignKey, MetaData
-
-metadata = MetaData()
-
-schema = SCHEMA if environment == "production" else None
-
-board_book = Table(
-    add_prefix_for_prod("board_book"),
-    metadata,
-    Column(
-        "board_id",
-        Integer,
-        ForeignKey(add_prefix_for_prod("boards.id")),
-        primary_key=True,
-    ),
-    Column(
-        "book_id",
-        Integer,
-        ForeignKey(add_prefix_for_prod("books.id")),
-        primary_key=True,
-    ),
-    schema=schema
-)
-
 
 class Board(db.Model):
     __tablename__ = "boards"
@@ -52,7 +48,9 @@ class Board(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False
+    )
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
