@@ -2,8 +2,11 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 
 
+schema = SCHEMA if environment == "production" else None
+
 board_book = db.Table(
-    add_prefix_for_prod("board_book"),
+    "board_book",
+    db.Model.metadata,
     db.Column(
         "board_id",
         db.Integer,
@@ -16,7 +19,25 @@ board_book = db.Table(
         db.ForeignKey(add_prefix_for_prod("books.id")),
         primary_key=True,
     ),
+    schema=schema,
 )
+
+#! original
+# board_book = db.Table(
+#     add_prefix_for_prod("board_book"),
+#     db.Column(
+#         "board_id",
+#         db.Integer,
+#         db.ForeignKey(add_prefix_for_prod("boards.id")),
+#         primary_key=True,
+#     ),
+#     db.Column(
+#         "book_id",
+#         db.Integer,
+#         db.ForeignKey(add_prefix_for_prod("books.id")),
+#         primary_key=True,
+#     ),
+# )
 
 
 class Board(db.Model):
@@ -27,7 +48,9 @@ class Board(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False
+    )
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 

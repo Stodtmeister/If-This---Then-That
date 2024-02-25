@@ -1,10 +1,36 @@
-.new-rec-btn {
+/* .new-rec-btn {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
   border: 1px solid #aaa;
   border-radius: 4px;
   cursor: pointer;
+} */
+
+.new-rec-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(45deg, #430b80, #13408d);
+  color: white;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.new-rec-btn:hover {
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+  outline: 2px solid #7b15e8;
+}
+
+.new-rec-btn:active {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  transform: scale(0.95);
 }
 
 .autosuggest {

@@ -48,6 +48,7 @@
 }
 
 .recommendations {
+  position: relative;
   display: flex;
   flex-direction: column;
   /* border: 1px solid green; */
@@ -170,4 +171,16 @@
 
 .vote-button .upvoted {
   color: red !important;
+}
+
+.add-to-board-btn {
+  border: none;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.add-to-board-btn:hover {
+  color: #ff6347;
 }

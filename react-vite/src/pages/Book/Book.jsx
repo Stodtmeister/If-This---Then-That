@@ -93,15 +93,8 @@ export default function Book() {
                       {rec.votes}
                     </button>
                   </div>
-                  <button onClick={() => setClickedBookId(rec.recommendationId)}>+</button>
-                  {clickedBookId === rec.recommendationId && (
-                    <>
-                      <AddToBoard bookId={clickedBookId} setClickedBookId={setClickedBookId} />
-                      <button onClick={() => setClickedBookId(null)}>
-                        -
-                      </button>
-                    </>
-                  )}
+                  <button className='add-to-board-btn' onClick={() => setClickedBookId(rec.recommendationId)}>Add to board</button>
+                  {clickedBookId === rec.recommendationId && (<AddToBoard bookId={rec.recommendationId} setClickedBookId={setClickedBookId} />)}
                 </div>
               ) : null
             })}
@@ -138,15 +131,9 @@ export default function Book() {
                     <i className="fa-solid fa-arrow-up fa-lg"></i>
                     <div style={{ color: isUpvoted ? 'red' : 'black'}}>{rec.votes}</div>
                   </div> */}
-                  <button onClick={() => setClickedBookId(rec.recommendationId)}>+</button>
-                  {clickedBookId === rec.recommendationId && (
-                    <>
-                      <AddToBoard bookId={rec.recommendationId} setClickedBookId={setClickedBookId} />
-                      <button onClick={() => setClickedBookId(null)}>
-                        -
-                      </button>
-                    </>
-                  )}
+
+                  <button className='add-to-board-btn' onClick={() => setClickedBookId(rec.recommendationId)}>Add to board</button>
+                  {clickedBookId === rec.recommendationId && (<AddToBoard bookId={rec.recommendationId} setClickedBookId={setClickedBookId} />)}
                 </div>
               ) : null
             })}
