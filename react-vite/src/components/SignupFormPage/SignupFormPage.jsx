@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { thunkSignup } from '../../redux/session'
 import './SignupForm.css'
+import LoginFormPage from '../LoginFormPage/LoginFormPage'
 
 function SignupFormPage() {
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ function SignupFormPage() {
   const [errors, setErrors] = useState({})
   const firstNameRef = useRef(null)
   const lastNameRef = useRef(null)
+  const [clicked, setClicked] = useState(false)
 
   if (sessionUser) return <Navigate to="/" replace={true} />
 
@@ -46,9 +48,12 @@ function SignupFormPage() {
   }
 
   return (
-    <div className="login-background">
-      <h1 className="site-title">If This Then That</h1>
-      {errors.server && <p>{errors.server}</p>}
+    <>
+      {/* <h1 className="site-title">If This Then That</h1> */}
+      {clicked && <LoginFormPage />}
+      {!clicked && (
+        <>
+      {errors.server && <p className='error'>{errors.server}</p>}
       <form onSubmit={handleSubmit} className="login-form">
         <fieldset>
           <legend>Sign Up</legend>
@@ -62,7 +67,7 @@ function SignupFormPage() {
                 required
               />
             </label>
-            <label className='signup-label'>
+            <label className='signup-label last'>
               Last Name:
               <input
                 type="text"
@@ -82,7 +87,7 @@ function SignupFormPage() {
               required
             />
           </label>
-          {errors.email && <p>{errors.email}</p>}
+          {errors.email && <p className='error'>{errors.email}</p>}
           <label className="signup-label">
             Username:
             <input
@@ -93,7 +98,7 @@ function SignupFormPage() {
               required
             />
           </label>
-          {errors.username && <p>{errors.username}</p>}
+          {errors.username && <p className='error'>{errors.username}</p>}
           <label className="signup-label">
             Password:
             <input
@@ -104,7 +109,7 @@ function SignupFormPage() {
               required
             />
           </label>
-          {errors.password && <p>{errors.password}</p>}
+          {errors.password && <p className='error'>{errors.password}</p>}
           <label className="signup-label">
             Confirm Password:
             <input
@@ -115,15 +120,18 @@ function SignupFormPage() {
               required
             />
           </label>
-          {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+          {errors.confirmPassword && <p className='error'>{errors.confirmPassword}</p>}
           <button type="submit" className="login-btn">Submit</button>
           <div className='note-container'>
             <p className='signup-note'>Note: Already have an account?</p>
-            <button className='signup-btn' onClick={() => navigate('/')}>Log in</button>
+            <button className='signup-btn' onClick={() => setClicked(true)}>Log in</button>
           </div>
         </fieldset>
       </form>
-    </div>
+        </>
+
+      )}
+    </>
   )
 }
 

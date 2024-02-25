@@ -4,7 +4,12 @@
   justify-content: space-between;
 }
 
-.form-input.last-name,
-.form-input.first-name {
-  width: 416px;
+.signup-label {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.signup-label.last {
+  margin-left: 20px;
 }

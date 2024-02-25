@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { thunkLogin } from '../../redux/session'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { Parallax, ParallaxLayer } from '@react-spring/parallax'
+import SignupFormPage from '../SignupFormPage/SignupFormPage'
 import './LoginForm.css'
 
 function LoginFormPage() {
@@ -11,6 +13,7 @@ function LoginFormPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
+  const [clicked, setClicked] = useState(false)
 
   if (sessionUser) return <Navigate to="/" replace={true} />
 
@@ -46,47 +49,138 @@ function LoginFormPage() {
   }
 
   return (
-    <div className='login-background'>
-      <h1 className="site-title">If This Then That</h1>
-      {errors.length > 0 &&
-        errors.map((message) => <p key={message}>{message}</p>)}
-      <form onSubmit={handleSubmit} className="login-form">
-        <fieldset>
-          <legend>Log In</legend>
-          <label className="signup-label">
-            Email:
-            <br />
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="form-input"
-              required
-            />
-          </label>
-          {errors.email && <p>{errors.email}</p>}
-          <label className="signup-label">
-            Password:
-            <br />
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="form-input"
-              required
-            />
-          </label>
-          {errors.password && <p>{errors.password}</p>}
-          <button className='login-btn' type="submit">Submit</button>
-          <div className='note-container'>
-            <p className='signup-note'>Note: Sign up to create an account.</p>
-            <button className='signup-btn' onClick={signUp}>Sign up</button>
-            <button className='signup-btn' type='button' onClick={(e) => handleSubmit(e, true)}>Demo User</button>
-
+    <>
+      <Parallax pages={3}>
+        <ParallaxLayer
+          offset={0}
+          speed={1}
+          factor={5}
+          style={{
+            backgroundColor: 'black',
+            backgroundSize: 'cover',
+          }}
+        />
+        <ParallaxLayer
+          offset={0}
+          speed={1}
+          factor={3}
+          style={{
+            backgroundImage: "url('../../../images/pexels-pixabay-256477.jpg')",
+            backgroundSize: 'contain',
+          }}
+        />
+        {/* <ParallaxLayer
+        offset={2.4}
+        speed={2}
+        // factor={1}
+        style={{
+          backgroundImage: "url('../../../images/pexels-pixabay-207636.jpg')",
+          backgroundSize: 'contain',
+        }}
+      /> */}
+        <ParallaxLayer
+          offset={2}
+          speed={2}
+          // factor={1}
+          style={{
+            backgroundImage: "url('../../../images/pexels-pixabay-207636.jpg')",
+            backgroundSize: 'cover',
+          }}
+        />
+        <ParallaxLayer offset={0.1} factor={2} speed={0.2}>
+          <h1 className="site-title">If This Then That</h1>
+        </ParallaxLayer>
+        <ParallaxLayer offset={1.1} speed={0.5}>
+          <div>
+            <h2 className="website-description">
+              Having trouble knowing what to read next?
+              <br />
+              Discover a new favorite based on a book that you{"'"}ve enjoyed in
+              the past.
+              <br />
+              <br />
+              <span className="this-that">
+                <i className="fa-solid fa-arrows-rotate"></i>
+                If you liked this, then you{"'"}ll like that
+              </span>
+              <br />
+              <br />
+              Or make a recommendation that you think other readers will enjoy
+              based on their enjoyment of a different book.
+            </h2>
           </div>
-        </fieldset>
-      </form>
-    </div>
+        </ParallaxLayer>
+        <ParallaxLayer offset={2.03} speed={0.01}>
+          {/* <div className='login-background'> */}
+          {/* <Parallax pages={4}>
+          <ParllaxLayer offset={0} speed={0.5} style={{ backgroundColor: '#f5f5f5' }}>
+            <h2>Testing</h2>
+          </ParllaxLayer>
+          <ParllaxLayer>
+            <h1 className="site-title">If This Then That</h1>
+
+          </ParllaxLayer> */}
+          {errors.length > 0 &&
+            errors.map((message) => <p className='error' key={message}>{message}</p>)}
+          {!clicked ? (
+            <form onSubmit={handleSubmit} className="login-form">
+              <fieldset>
+                <legend>Log In</legend>
+                <label className="signup-label">
+                  Email:
+                  <br />
+                  <input
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="form-input"
+                    required
+                  />
+                </label>
+                {errors.email && <p className='error'>{errors.email}</p>}
+                <label className="signup-label">
+                  Password:
+                  <br />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="form-input"
+                    required
+                  />
+                </label>
+                {errors.password && <p className='error'>{errors.password}</p>}
+                <button className="login-btn" type="submit">
+                  Submit
+                </button>
+                <div className="note-container">
+                  <p className="signup-note">
+                    Note: Sign up to create an account.
+                  </p>
+                  {/* <button className='signup-btn' onClick={signUp}>Sign up</button> */}
+                  <button
+                    className="signup-btn"
+                    onClick={() => setClicked(true)}
+                  >
+                    Sign up
+                  </button>
+                  <button
+                    className="signup-btn"
+                    type="button"
+                    onClick={(e) => handleSubmit(e, true)}
+                  >
+                    Demo User
+                  </button>
+                </div>
+              </fieldset>
+            </form>
+          ) : (
+            <SignupFormPage />
+          )}
+          {/* </div> */}
+        </ParallaxLayer>
+      </Parallax>
+    </>
   )
 }
 
