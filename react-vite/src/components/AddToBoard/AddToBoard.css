@@ -18,4 +18,9 @@
 
 .cancel-choices {
   background-color: rgb(189, 94, 94);
+  cursor: pointer;
+}
+
+.cancel-choices:hover {
+  background-color: rgb(255, 46, 46);
 }
