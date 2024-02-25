@@ -1,0 +1,21 @@
+.board-choices {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  width: 105%;
+  overflow: hidden;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  bottom: 3px;
+  left: 0;
+}
+
+.the-select {
+  height: 23px;
+}
+
+.cancel-choices {
+  background-color: rgb(189, 94, 94);
+}
