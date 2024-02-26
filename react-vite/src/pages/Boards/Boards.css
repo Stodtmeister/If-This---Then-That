@@ -71,18 +71,47 @@
 
 .new-board-btn-container button {
   margin-top: 20px;
+  padding: 1em 2em;
   padding: 15px 30px;
   border: 1px solid #eee;
+  margin: 20px auto;
   border-radius: 10px;
   background: linear-gradient(to right, rgb(251, 141, 51), rgb(241, 90, 36));
   box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 40%);
   cursor: pointer;
   display: flex;
-  margin: 20px auto;
   color: white;
   text-align: center;
   transition: all 0.3s ease;
+
+  /* background-color: #010029;
+  border-radius: 1rem;
+  font-size: 24px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s ease-in-out;
+  z-index: 2; */
 }
+
+/* .new-board-btn-container button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  transform: scale(1.05);
+  border-radius: 1rem;
+  background: linear-gradient(to top right, #00fff7, #ff00f7);
+  z-index: -1;
+} */
+
+/* .new-board-btn-container button:hover {
+  z-index: 0;
+  box-shadow: 25px 0 100px #e100ff, -25px 0 100px #008cff;
+} */
 
 .new-board-btn-container button:hover {
   box-shadow: 0px 12px 20px 0px rgba(0, 0, 0, 0.25);

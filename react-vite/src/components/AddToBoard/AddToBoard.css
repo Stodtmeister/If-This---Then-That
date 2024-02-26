@@ -10,6 +10,9 @@
   transition: all 0.3s ease;
   bottom: 3px;
   left: 0;
+  box-shadow: 0 0 7px black;
+  border: 1px solid black;
+  border-radius: 4px;
 }
 
 .board-choices.main-book {
@@ -23,13 +26,24 @@
   background-color: transparent;
 }
 
+.board-choices.top-3 {
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+  border: 1px solid black;
+  left: 19px;
+  border-radius: 7px;
+  box-shadow: 0 0 6px black;
+  bottom: 1px;
+}
+
 .the-select {
   height: 23px;
 }
 
-/* .the-select.main-book {
+.the-select.main-book {
   background-color: blue;
-} */
+}
 
 .cancel-choices {
   background-color: rgb(189, 94, 94);

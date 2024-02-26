@@ -141,6 +141,7 @@ export default function Book() {
                       <AddToBoard
                         bookId={rec.recommendationId}
                         setClickedBookId={setClickedBookId}
+                        top3={true}
                       />
                     )}
                   </div>

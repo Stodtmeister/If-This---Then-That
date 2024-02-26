@@ -184,7 +184,20 @@ export default function AddRecommendation() {
     if (Object.keys(authorHasBook).length > 0) {
       try {
         await dispatch(thunkAddRec({ recommendation_id: authorHasBook.value, book_id: Number(bookId) }))
-
+        //!new
+        setGenre('')
+        setModalIsOpen(false)
+        setAddBook(false)
+        setAuthorHasBook({})
+        setAuthor(null)
+        setClicked(false)
+        setAddAuthor(false)
+        setSearchTerm('')
+        setError({})
+        setSelectedAuthor(null)
+        setFoundAuthor(false)
+        setNewBookId(null)
+        setNewAuthorId(null)
       } catch (error) {
         console.error('Exception caught in handleBookSubmit:', error.toString())
       }
@@ -244,6 +257,20 @@ export default function AddRecommendation() {
     if (seriesRef.current) {
       seriesRef.current.value = ''
     }
+    //!new
+    setGenre('')
+    setModalIsOpen(false)
+    setAddBook(false)
+    setAuthorHasBook({})
+    setAuthor(null)
+    setClicked(false)
+    setAddAuthor(false)
+    setSearchTerm('')
+    setError({})
+    setSelectedAuthor(null)
+    setFoundAuthor(false)
+    setNewBookId(null)
+    setNewAuthorId(null)
   }
 
   return (

@@ -8,6 +8,37 @@
 } */
 
 .new-rec-btn {
+  margin-top: 25px;
+  margin-bottom: 50px;
+  padding: 15px 35px;
+  background-color: #010029;
+  border-radius: 1rem;
+  font-size: 22px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s ease-in-out;
+}
+
+.new-rec-btn::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -6px;
+  right: 9px;
+  height: 65px;
+  width: 356px;
+  border-radius: 1rem;
+  background: linear-gradient(to top right, #00fff7, #ff00f7);
+  z-index: -1;
+}
+
+.new-rec-btn:hover {
+  z-index: 0;
+  box-shadow: 25px 0 100px #e100ff, -25px 0 100px #008cff;
+}
+/* .new-rec-btn {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
@@ -32,7 +63,7 @@
 .new-rec-btn:active {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   transform: scale(0.95);
-}
+} */
 
 .autosuggest {
   position: relative;

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import './AddToBoard.css'
 
-export default function AddToBoard({ bookId, setClickedBookId, mainBook }) {
+export default function AddToBoard({ bookId, setClickedBookId, mainBook, top3 }) {
   // console.log(bookId, 'BOOKID');
   const dispatch = useDispatch()
   const boards = useSelector((state) => state.boards.boards)
@@ -19,9 +19,10 @@ export default function AddToBoard({ bookId, setClickedBookId, mainBook }) {
     toast.success(`Book added to your board: ${name}!`)
   }
 
+  console.log('Main book:', mainBook);
   return (
-    <div className={`board-choices ${mainBook ? 'main-book': ''}`}>
-      <select className={`the-select ${mainBook ? 'main-book' : ''}`} onChange={(e) => {
+    <div className={`board-choices ${mainBook ? 'main-book': '', top3 ? 'top-3': ''}`}>
+      <select className={`the-select ${mainBook ? 'main-book' : '', top3 ? 'top-3': ''}`} onChange={(e) => {
         const selectedBoardId = Number(e.target.value);
         const selectedBoard = boards.find(board => board.id === selectedBoardId);
         if (selectedBoard) {
