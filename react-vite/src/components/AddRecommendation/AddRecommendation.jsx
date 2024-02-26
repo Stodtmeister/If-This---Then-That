@@ -141,21 +141,13 @@ export default function AddRecommendation() {
     ) {
       setSelectedAuthor(null)
     } else {
-      //! added
       setSelectedAuthor(authors.find((author) => author.name === searchTerm))
     }
   }, [searchTerm, authors])
 
   async function handleAuthorSubmit() {
-    console.log(
-      'FROM HANDLE AUTHOR SUBMIT',
-      selectedAuthor,
-      'found author',
-      foundAuthor
-    )
     let authorName = ''
     if (authorRef.current) {
-      console.log('authorref current?');
       authorName = authorRef.current.value.trim()
     }
     const nameParts = authorName.split(' ')
@@ -188,12 +180,6 @@ export default function AddRecommendation() {
 
   async function handleBookSubmit(e) {
     e.preventDefault()
-
-    // if (authorHasBook) {
-    //   console.log('AUTHOR HAS BOOK', authorHasBook);
-    // } else {
-    //   console.log('AUTHOR HAS NO BOOK', authorHasBook);
-    // }
 
     if (Object.keys(authorHasBook).length > 0) {
       try {

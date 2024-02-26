@@ -33,7 +33,7 @@ export default function Book() {
     fetchBooksAndRecs()
   }, [dispatch, bookId])
 
-  console.log('VOTED:', isUpvoted);
+
   return (
     <>
       <Helmet><title>{`ITTT: ${bookTitle}`}</title></Helmet>

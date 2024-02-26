@@ -102,7 +102,7 @@ function LoginFormPage() {
             </h2>
           </div>
         </ParallaxLayer>
-        <ParallaxLayer offset={2.03} speed={0.01}>
+        <ParallaxLayer offset={2.15} speed={0.01}>
           {errors.length > 0 &&
             errors.map((message) => <p className='error' key={message}>{message}</p>)}
           {!clicked ? (

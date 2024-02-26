@@ -1,6 +1,6 @@
 from flask import Blueprint, request, abort, jsonify
 from flask_login import login_required, current_user
-from app.models import Review, Book, BookRecommendation, db
+from app.models import Review, Book, BookRecommendation, db, Recommendation
 from app.forms import ReviewForm
 from .auth_routes import validation_errors_to_error_messages
 
@@ -198,6 +198,10 @@ def submit_recommendation(bookId):
 
     if recommendation is None:
         return {"errors": ["Recommendation not found"]}, 404
+
+    new_recommendation = Recommendation()
+    db.session.add(new_recommendation)
+    db.session.commit()
 
     existing_recommendation = BookRecommendation.query.filter_by(
         book_id=bookId,
