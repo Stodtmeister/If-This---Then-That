@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { Parallax, ParallaxLayer } from '@react-spring/parallax'
 import SignupFormPage from '../SignupFormPage/SignupFormPage'
+import library from '../../../images/pexels-pixabay-256477.jpg'
+import books from '../../../images/pexels-pixabay-207636.jpg'
 import './LoginForm.css'
 
 function LoginFormPage() {
@@ -65,25 +67,15 @@ function LoginFormPage() {
           speed={1}
           factor={3}
           style={{
-            backgroundImage: "url('../../../images/pexels-pixabay-256477.jpg')",
+            backgroundImage: `url(${library})`,
             backgroundSize: 'contain',
           }}
         />
-        {/* <ParallaxLayer
-        offset={2.4}
-        speed={2}
-        // factor={1}
-        style={{
-          backgroundImage: "url('../../../images/pexels-pixabay-207636.jpg')",
-          backgroundSize: 'contain',
-        }}
-      /> */}
         <ParallaxLayer
           offset={2}
           speed={2}
-          // factor={1}
           style={{
-            backgroundImage: "url('../../../images/pexels-pixabay-207636.jpg')",
+            backgroundImage: `url(${books})`,
             backgroundSize: 'cover',
           }}
         />
@@ -111,15 +103,6 @@ function LoginFormPage() {
           </div>
         </ParallaxLayer>
         <ParallaxLayer offset={2.03} speed={0.01}>
-          {/* <div className='login-background'> */}
-          {/* <Parallax pages={4}>
-          <ParllaxLayer offset={0} speed={0.5} style={{ backgroundColor: '#f5f5f5' }}>
-            <h2>Testing</h2>
-          </ParllaxLayer>
-          <ParllaxLayer>
-            <h1 className="site-title">If This Then That</h1>
-
-          </ParllaxLayer> */}
           {errors.length > 0 &&
             errors.map((message) => <p className='error' key={message}>{message}</p>)}
           {!clicked ? (
@@ -177,7 +160,6 @@ function LoginFormPage() {
           ) : (
             <SignupFormPage />
           )}
-          {/* </div> */}
         </ParallaxLayer>
       </Parallax>
     </>
