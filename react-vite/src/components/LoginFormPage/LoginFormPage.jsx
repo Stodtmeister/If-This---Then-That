@@ -6,6 +6,7 @@ import { Parallax, ParallaxLayer } from '@react-spring/parallax'
 import SignupFormPage from '../SignupFormPage/SignupFormPage'
 import library from '../../../images/pexels-pixabay-256477.jpg'
 import books from '../../../images/pexels-pixabay-207636.jpg'
+import { Helmet } from 'react-helmet'
 import './LoginForm.css'
 
 function LoginFormPage() {
@@ -52,6 +53,7 @@ function LoginFormPage() {
 
   return (
     <>
+      <Helmet><title>If This Then That</title></Helmet>
       <Parallax pages={3}>
         <ParallaxLayer
           offset={0}
