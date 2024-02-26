@@ -32,12 +32,12 @@ function Navigation() {
             <span className="link-text">Authors</span>
           </NavLink>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <div className="nav-link" onClick={toggleTheme}>
             <i className={`fa-solid fa-${isDark ? 'moon' : 'sun'} fa-xl`}></i>
             <span className="link-text">Mode</span>
           </div>
-        </li>
+        </li> */}
         <li className="nav-item">
           <ProfileButton />
         </li>

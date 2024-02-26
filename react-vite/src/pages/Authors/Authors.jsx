@@ -63,7 +63,7 @@ export default function Authors() {
   })
 
   return (
-    <>
+    <div className='author-page'>
       <Helmet><title>ITTT: Authors</title></Helmet>
       <h2 className="author-title" style={{ borderbottom: 'none' }}>
         Authors
@@ -134,6 +134,6 @@ export default function Authors() {
           </div>
         </>
       )}
-    </>
+    </div>
   )
 }

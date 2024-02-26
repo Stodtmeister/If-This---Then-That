@@ -8,6 +8,7 @@ import AddRecommendation from '../../components/AddRecommendation/AddRecommendat
 import BookReviews from '../../components/BookReviews/BookReviews'
 import { Helmet } from 'react-helmet'
 import './Book.css'
+import RippleButton from '../../components/RippleButton/RippleButton'
 
 export default function Book() {
   const navigate = useNavigate()
@@ -35,7 +36,7 @@ export default function Book() {
 
 
   return (
-    <>
+    <div className='book-page-container'>
       <Helmet><title>{`ITTT: ${bookTitle}`}</title></Helmet>
       <h2 className="author-title book" style={{ textDecoration: 'underline'}}>Recommendations based on:<br /> {bookTitle}</h2>
       <div className="rec-container">
@@ -130,12 +131,12 @@ export default function Book() {
                       {rec.votes}
                     </button>
                     </div>
-                    <button
+                    <RippleButton
                       className="add-to-board-btn"
                       onClick={() => setClickedBookId(rec.recommendationId)}
                     >
                       Add to board
-                    </button>
+                    </RippleButton>
                     {clickedBookId === rec.recommendationId && (
                       <AddToBoard
                         bookId={rec.recommendationId}
@@ -190,12 +191,12 @@ export default function Book() {
                     {rec.votes}
                   </button>
                   </div>
-                  <button
+                  <RippleButton
                     className="add-to-board-btn"
                     onClick={() => setClickedBookId(rec.recommendationId)}
                   >
                     Add to board
-                  </button>
+                  </RippleButton>
                   {clickedBookId === rec.recommendationId && (
                     <AddToBoard
                       bookId={rec.recommendationId}
@@ -209,6 +210,6 @@ export default function Book() {
         )}
         <AddRecommendation />
       </div>
-    </>
+    </div>
   )
 }
