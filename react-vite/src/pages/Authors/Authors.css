@@ -4,7 +4,7 @@
   justify-content: center;
   margin: 20px auto;
   top: 10px;
-  font-size: 45px;
+  font-size: 40px;
   width: fit-content;
   height: fit-content;
   padding: 0;
@@ -12,6 +12,8 @@
   background: radial-gradient(circle, #080c3f, #720975);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  text-align: center;
 }
 
 .sorted {

@@ -2,7 +2,8 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { thunkDeleteBook, thunkGetBoardById } from '../../redux/boards'
-import { defaultCover } from '../../../images/defaultBookCover.png'
+import defaultCover from '../../../images/defaultBookCover.png'
+import { Helmet } from 'react-helmet'
 import './SpecificBoard.css'
 
 export default function SpecificBoard() {
@@ -67,6 +68,7 @@ export default function SpecificBoard() {
 
   return (
     <div className="page">
+      <Helmet><title>ITTT: {boardName}</title></Helmet>
       {isLoading ? (
         <div className="loader">
           <span></span>

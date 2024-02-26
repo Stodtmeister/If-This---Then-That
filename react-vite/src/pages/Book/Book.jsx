@@ -1,12 +1,13 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { thunkGetRecs } from '../../redux/recommendations'
+import { thunkGetRecs, thunkUpvoteRecommendation } from '../../redux/recommendations'
 import { thunkGetAllBooks } from '../../redux/books'
-import './Book.css'
 import AddToBoard from '../../components/AddToBoard/AddToBoard'
 import AddRecommendation from '../../components/AddRecommendation/AddRecommendation'
 import BookReviews from '../../components/BookReviews/BookReviews'
+import { Helmet } from 'react-helmet'
+import './Book.css'
 
 export default function Book() {
   const navigate = useNavigate()
@@ -15,7 +16,7 @@ export default function Book() {
   const location = useLocation()
   const coverImage = location.state?.coverImage
   const bookTitle = location.state?.bookTitle
-  const recommendations = useSelector((state) => state.recommendations.recommendations ? state.recommendations.recommendations[bookId] : undefined);
+  const recommendations = useSelector(state => state.recommendations?.recommendations ? state.recommendations.recommendations[bookId] : []);
   const { books } = useSelector((state) => state.books)
   const [loading, setLoading] = useState(true)
   const [clickedBookId, setClickedBookId] = useState(null)
@@ -25,79 +26,125 @@ export default function Book() {
 
   useEffect(() => {
     const fetchBooksAndRecs = async () => {
-      await dispatch(thunkGetAllBooks());
-      await dispatch(thunkGetRecs(bookId));
-    };
+      await dispatch(thunkGetAllBooks())
+      await dispatch(thunkGetRecs(bookId))
+    }
 
-    fetchBooksAndRecs();
-  }, [dispatch, bookId]);
+    fetchBooksAndRecs()
+  }, [dispatch, bookId])
 
-  // console.log('RECOMMENDATIONS:', recommendations);
+  console.log('VOTED:', isUpvoted);
   return (
     <>
-      <h2 className="author-title">{bookTitle}</h2>
+      <Helmet><title>{`ITTT: ${bookTitle}`}</title></Helmet>
+      <h2 className="author-title book" style={{ textDecoration: 'underline'}}>Recommendations based on:<br /> {bookTitle}</h2>
       <div className="rec-container">
-        {/* <img
-          src={coverImage}
-          id="chosen-book"
-          alt={`Cover of book ${bookId}`}
-          onClick={() => navigate(`/books/${bookId}`)}
-        />
-        <BookReviews bookId={bookId}/> */}
+        <div className='main-img-container'>
+          <img
+            src={coverImage}
+            id="chosen-book"
+            alt={`Cover of book ${bookId}`}
+            onClick={() => navigate(`/books/${bookId}`)}
+            />
+          <BookReviews bookId={bookId}/>
+          <button
+            className="add-to-board-btn"
+            onClick={() => setClickedBookId(bookId)}
+            >
+            Add to board
+          </button>
+          {clickedBookId === bookId && (
+            <AddToBoard
+              bookId={bookId}
+              setClickedBookId={setClickedBookId}
+              mainBook={true}
+            />
+            )}
+          </div>
         {recommendations && (
           <div className="first-three-images">
             {recommendations
               .sort((a, b) => b.votes - a.votes)
-              .slice(0, 3).map((rec, index) => {
-              const book = books[rec.recommendationId]
+              .slice(0, 3)
+              .map((rec, index) => {
+                const book = books[rec.recommendationId]
+                if (!book) {return null}
 
-              if(!book) {
-                return null;
-              }
+                let crownColorClass = ''
+                let order = 0
 
-              let crownColorClass = ''
-              let order = 0
+                if (index === 0) {
+                  crownColorClass = 'gold-crown'
+                  order = 2
+                } else if (index === 1) {
+                  crownColorClass = 'silver-crown'
+                  order = 1
+                } else if (index === 2) {
+                  crownColorClass = 'bronze-crown'
+                  order = 3
+                }
 
-              if (index === 0) {
-                crownColorClass = 'gold-crown';
-                order = 2
-              } else if (index === 1) {
-                crownColorClass = 'silver-crown';
-                order = 1
-              } else if (index === 2) {
-                crownColorClass = 'bronze-crown';
-                order = 3
-              }
-
-              return book ? (
-                <div key={rec.recommendationId} className="recommendations" style={{ order: order }}>
-                  <i className={`fa-solid fa-crown ${crownColorClass} fa-2xl`}></i>
-                  <img
-                    src={book.cover}
-                    className="cover-img"
-                    alt={`Cover of book ${rec.recommendationId}`}
-                    onClick={() =>
-                      navigate(`/books/${book.id}`, {
-                        state: { coverImage: bookCovers[book.id] || book.cover, bookTitle: book.title},
-                      })
-                    }
-                  />
-                  <BookReviews bookId={rec.recommendationId} bookTitle={bookTitle}/>
-                  <div className='voting'>
+                return book ? (
+                  <div
+                    key={rec.recommendationId}
+                    className="recommendations"
+                    style={{ order: order }}
+                  >
+                    <i className={`fa-solid fa-crown ${crownColorClass} fa-2xl`}></i>
+                    <img
+                      src={book.cover}
+                      className="cover-img"
+                      alt={`Cover of book ${rec.recommendationId}`}
+                      onClick={() =>
+                        navigate(`/books/${book.id}`, {
+                          state: {
+                            coverImage: bookCovers[book.id] || book.cover,
+                            bookTitle: book.title,
+                          },
+                        })
+                      }
+                    />
+                    <BookReviews
+                      bookId={rec.recommendationId}
+                      bookTitle={bookTitle}
+                    />
+                    <div className="voting">
                     <button
-                      className='vote-button'
-                      title='Upvote this book'
-                      onClick={() => setIsUpvoted(prevState => ({ ...prevState, [rec.recommendationId]: !prevState[rec.recommendationId]}))}
+                      className={`vote-button ${isUpvoted[rec.recommendationId] ? 'upvoted' : ''}`}
+                      title="Upvote this book"
+                      onClick={() => {
+                        if (!isUpvoted[rec.recommendationId]) {
+                          dispatch(thunkUpvoteRecommendation(bookId, rec.recommendationId));
+                          setIsUpvoted((prevState) => ({
+                            ...prevState,
+                            [rec.recommendationId]: true,
+                          }));
+                        }
+                      }}
                     >
-                      <i className={`fa-solid fa-arrow-up fa-lg ${isUpvoted[rec.recommendationId] ? 'upvoted' : ''}`}></i>
+                      <i
+                        className={`fa-solid fa-arrow-up fa-lg ${
+                          isUpvoted[rec.recommendationId] ? 'upvoted' : ''
+                        }`}
+                      ></i>
                       {rec.votes}
                     </button>
+                    </div>
+                    <button
+                      className="add-to-board-btn"
+                      onClick={() => setClickedBookId(rec.recommendationId)}
+                    >
+                      Add to board
+                    </button>
+                    {clickedBookId === rec.recommendationId && (
+                      <AddToBoard
+                        bookId={rec.recommendationId}
+                        setClickedBookId={setClickedBookId}
+                      />
+                    )}
                   </div>
-                  <button className='add-to-board-btn' onClick={() => setClickedBookId(rec.recommendationId)}>Add to board</button>
-                  {clickedBookId === rec.recommendationId && (<AddToBoard bookId={rec.recommendationId} setClickedBookId={setClickedBookId} />)}
-                </div>
-              ) : null
-            })}
+                ) : null
+              })}
           </div>
         )}
         {recommendations && (
@@ -112,28 +159,49 @@ export default function Book() {
                     alt={`Cover of book ${rec.recommendationId}`}
                     onClick={() =>
                       navigate(`/books/${book.id}`, {
-                        state: { coverImage: bookCovers[book.id] || book.cover, bookTitle: book.title},
+                        state: {
+                          coverImage: bookCovers[book.id] || book.cover,
+                          bookTitle: book.title,
+                        },
                       })
                     }
                   />
-                  <BookReviews bookId={rec.recommendationId} bookTitle={bookTitle}/>
-                  <div className='voting'>
-                    <button
-                      className='vote-button'
-                      title='Upvote this book'
-                      onClick={() => setIsUpvoted(prevState => ({ ...prevState, [rec.recommendationId]: !prevState[rec.recommendationId]}))}
-                    >
-                      <i className={`fa-solid fa-arrow-up fa-lg ${isUpvoted[rec.recommendationId] ? 'upvoted' : ''}`}></i>
-                      {rec.votes}
-                    </button>
+                  <BookReviews
+                    bookId={rec.recommendationId}
+                    bookTitle={bookTitle}
+                  />
+                  <div className="voting">
+                  <button
+                    className={`vote-button ${isUpvoted[rec.recommendationId] ? 'upvoted' : ''}`}
+                    title="Upvote this book"
+                    onClick={() => {
+                      if (!isUpvoted[rec.recommendationId]) {
+                        dispatch(thunkUpvoteRecommendation(bookId, rec.recommendationId));
+                        setIsUpvoted((prevState) => ({
+                          ...prevState,
+                          [rec.recommendationId]: true,
+                        }));
+                      }
+                    }}
+                  >
+                    <i
+                      className={`fa-solid fa-arrow-up fa-lg`}
+                    ></i>
+                    {rec.votes}
+                  </button>
                   </div>
-                  {/* <div className='voting' onClick={() => setIsUpvoted(!isUpvoted)}>
-                    <i className="fa-solid fa-arrow-up fa-lg"></i>
-                    <div style={{ color: isUpvoted ? 'red' : 'black'}}>{rec.votes}</div>
-                  </div> */}
-
-                  <button className='add-to-board-btn' onClick={() => setClickedBookId(rec.recommendationId)}>Add to board</button>
-                  {clickedBookId === rec.recommendationId && (<AddToBoard bookId={rec.recommendationId} setClickedBookId={setClickedBookId} />)}
+                  <button
+                    className="add-to-board-btn"
+                    onClick={() => setClickedBookId(rec.recommendationId)}
+                  >
+                    Add to board
+                  </button>
+                  {clickedBookId === rec.recommendationId && (
+                    <AddToBoard
+                      bookId={rec.recommendationId}
+                      setClickedBookId={setClickedBookId}
+                    />
+                  )}
                 </div>
               ) : null
             })}

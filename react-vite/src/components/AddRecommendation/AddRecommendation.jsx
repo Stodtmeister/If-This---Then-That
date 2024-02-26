@@ -6,7 +6,7 @@ import { thunkAddRec } from '../../redux/recommendations'
 import { useParams } from 'react-router-dom'
 import AddBook from '../AddBook/AddBook'
 import Modal from 'react-modal'
-import { defaultCover } from '../../../images/defaultBookCover.png'
+import defaultCover from '../../../images/defaultBookCover.png'
 import './AddRecommendation.css'
 
 export default function AddRecommendation() {
@@ -248,11 +248,16 @@ export default function AddRecommendation() {
     }
 
     dispatch(thunkAddRec({ recommendation_id: result, book_id: Number(bookId) }))
-
     setClicked(false)
-    bookRef.current.value = ''
-    seriesRef.current.value = ''
-    setAddBook(false)
+    if (authorRef.current) {
+      authorRef.current.value = ''
+    }
+    if (bookRef.current) {
+      bookRef.current.value = ''
+    }
+    if (seriesRef.current) {
+      seriesRef.current.value = ''
+    }
   }
 
   return (
@@ -343,6 +348,8 @@ export default function AddRecommendation() {
                     error={error}
                     setAuthorHasBook={setAuthorHasBook}
                     setModalIsOpen={setModalIsOpen}
+                    setAddBook={setAddBook}
+                    setClicked={setClicked}
                   />
                 )}
               </>
@@ -384,6 +391,8 @@ export default function AddRecommendation() {
                     setAuthorHasBook={setAuthorHasBook}
                     setModalIsOpen={setModalIsOpen}
                     addedAuthor={author}
+                    setClicked={setClicked}
+                    setAddBook={setAddBook}
                   />
                 )}
               </form>

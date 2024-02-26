@@ -1,8 +1,8 @@
 const GET_RECS = "GET_RECS"
 const ADD_REC = "ADD_REC"
 const GET_RECS_ERROR = "GET_RECS_ERROR"
-export const UPVOTE_RECOMMENDATION = 'UPVOTE_RECOMMENDATION';
-export const DOWNVOTE_RECOMMENDATION = 'DOWNVOTE_RECOMMENDATION';
+const UPVOTE_RECOMMENDATION = 'UPVOTE_RECOMMENDATION';
+
 
 const getRecsError = (error) => {
   return {
@@ -18,8 +18,21 @@ const getRecs = (recommendations) => {
   }
 }
 
+const addRec = (recommendation) => {
+  return {
+    type: ADD_REC,
+    recommendation
+  }
+}
+
+const upvoteRecommendation = (recId) => {
+  return {
+    type: UPVOTE_RECOMMENDATION,
+    recId,
+  }
+}
+
 export const thunkAddRec = (data) => async (dispatch) => {
-  console.log('THUNK DATA:', data);
   try {
     const response = await fetch(`/api/books/${data.book_id}/recommendations`, {
       method: 'POST',
@@ -28,7 +41,7 @@ export const thunkAddRec = (data) => async (dispatch) => {
     });
     if (response.ok) {
       const data = await response.json();
-      dispatch(getRecs(data));
+      dispatch(addRec(data));
     }
   }
   catch (error) {
@@ -36,45 +49,21 @@ export const thunkAddRec = (data) => async (dispatch) => {
   }
 }
 
-// export const upvoteRecommendation = (recId) => ({
-//   type: UPVOTE_RECOMMENDATION,
-//   payload: recId,
-// });
-
-// export const downvoteRecommendation = (recId) => ({
-//   type: DOWNVOTE_RECOMMENDATION,
-//   payload: recId,
-// });
-
-// export const thunkUpvoteRecommendation = (bookId, recId) => async (dispatch) => {
-//   try {
-//     const response = await fetch(`/api/books/${bookId}/recommendations/${recId}`, {
-//       method: 'PUT',
-//     });
-//     if (response.ok) {
-//       dispatch(upvoteRecommendation(recId));
-//     } else {
-//       console.error('Failed to upvote recommendation:', response.statusText);
-//     }
-//   } catch (error) {
-//     console.error('Exception caught in thunkUpvoteRecommendation:', error.toString());
-//   }
-// }
-
-// export const thunkDownvoteRecommendation = (recId) => async (dispatch) => {
-//   try {
-//     const response = await fetch(`/api/recommendations/${recId}/downvote`, {
-//       method: 'PUT',
-//     });
-//     if (response.ok) {
-//       dispatch(downvoteRecommendation(recId));
-//     } else {
-//       console.error('Failed to downvote recommendation:', response.statusText);
-//     }
-//   } catch (error) {
-//     console.error('Exception caught in thunkDownvoteRecommendation:', error.toString());
-//   }
-// }
+export const thunkUpvoteRecommendation = (bookId, recId) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/books/${bookId}/recommendations/${recId}`, {
+      method: 'PUT',
+    });
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(upvoteRecommendation(recId, data.new_vote_count));
+    } else {
+      console.error('Failed to upvote recommendation:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Exception caught in thunkUpvoteRecommendation:', error.toString());
+  }
+}
 
 export const thunkGetRecs = (bookId) => async (dispatch) => {
   try {
@@ -95,7 +84,6 @@ export default function recReducer(state = {}, action) {
     case GET_RECS: {
       const newRec = { ...state.recommendations};
       if (action.recommendations && Array.isArray(action.recommendations.recommendations)) {
-        // console.log('FROM REC REDUCER:', action.recommendations.recommendations);
         action.recommendations.recommendations.forEach(rec => {
           if (newRec[rec.bookId] && !newRec[rec.bookId].some(existingRec => existingRec.recommendationId === rec.recommendationId)) {
             newRec[rec.bookId].push(rec);
@@ -109,42 +97,44 @@ export default function recReducer(state = {}, action) {
     }
     case GET_RECS_ERROR:
       return { ...state, error: action.error }
-      case ADD_REC: {
-        const newRec = { ...state.recommendations };
-        if (newRec[action.payload.bookId]) {
-          // Check if the recommendation already exists
-          const existingRec = newRec[action.payload.bookId].find(rec => rec.recommendationId === action.payload.recommendationId);
-          if (!existingRec) {
-            // If it doesn't exist, add it
-            newRec[action.payload.bookId].push(action.payload);
-          }
-        } else {
-          newRec[action.payload.bookId] = [action.payload];
-        }
-        return { ...state, recommendations: newRec }
+    case ADD_REC: {
+      const newRec = state.recommendations ? { ...state.recommendations } : {};
+      if (newRec[action.recommendation.bookId]) {
+        newRec[action.recommendation.bookId] = [...newRec[action.recommendation.bookId], action.recommendation];
+      } else {
+        newRec[action.recommendation.bookId] = [action.recommendation];
       }
-    // case ADD_REC: {
-    //   const newRec = { ...state.recommendations};
-    //   if (newRec[action.payload.bookId]) {
-    //     newRec[action.payload.bookId].push(action.payload);
-    //   } else {
-    //     newRec[action.payload.bookId] = [action.payload];
-    //   }
+      return { ...state, recommendations: newRec }
+    }
+    case UPVOTE_RECOMMENDATION: {
+      const newRec = { ...state.recommendations };
+      const bookId = Object.keys(newRec).find(bookId => newRec[bookId].some(rec => rec.recommendationId === action.recId));
+      const recIndex = newRec[bookId].findIndex(rec => rec.recommendationId === action.recId);
+      newRec[bookId] = [
+        ...newRec[bookId].slice(0, recIndex),
+        {
+          ...newRec[bookId][recIndex],
+          votes: newRec[bookId][recIndex].votes + 1,
+          hasUpvoted: true,
+        },
+        ...newRec[bookId].slice(recIndex + 1)
+      ];
+      return { ...state, recommendations: newRec }
+    }
+    // case UPVOTE_RECOMMENDATION: {
+    //   const newRec = { ...state.recommendations };
+    //   const bookId = Object.keys(newRec).find(bookId => newRec[bookId].some(rec => rec.recommendationId === action.recId));
+    //   const recIndex = newRec[bookId].findIndex(rec => rec.recommendationId === action.recId);
+    //   newRec[bookId] = [
+    //     ...newRec[bookId].slice(0, recIndex),
+    //     {
+    //       ...newRec[bookId][recIndex],
+    //       votes: newRec[bookId][recIndex].votes + 1
+    //     },
+    //     ...newRec[bookId].slice(recIndex + 1)
+    //   ];
     //   return { ...state, recommendations: newRec }
     // }
-    case UPVOTE_RECOMMENDATION: {
-      const rec = state.recommendations[action.payload];
-      return {
-        ...state,
-        recommendations: {
-          ...state.recommendations,
-          [action.payload]: {
-            ...rec,
-            votes: rec.votes + 1,
-          },
-        },
-      };
-    }
     default:
       return state
   }

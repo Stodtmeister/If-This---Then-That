@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { thunkGetBoards, thunkEditBoard, thunkDeleteBoard } from '../../redux/boards'
 import OpenModalButton from '../../components/OpenModalButton/OpenModalButton'
 import NewBoardModal from '../../components/NewBoardModal/NewBoardModal'
-import './Boards.css'
 import { thunkGetAllBooks } from '../../redux/books'
+import { Helmet } from 'react-helmet'
+import './Boards.css'
 
 export default function Boards() {
   const dispatch = useDispatch()
@@ -39,6 +40,7 @@ export default function Boards() {
 
   return (
     <div className="boards-container">
+      <Helmet><title>ITTT: My boards</title></Helmet>
       <h2 className='board-headers'>My Boards</h2>
       <div className="boards-grid">
         {boards?.map((board) => (
