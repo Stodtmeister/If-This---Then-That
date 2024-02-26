@@ -6,16 +6,28 @@
 .site-title {
   margin: 0 auto;
   width: 100%;
-  font-size: 4vw;
-  color: #4b0082;
+  font-size: 5vw;
   text-align: center;
   position: relative;
   z-index: 2;
   top: 25px;
   background: radial-gradient(circle, #f12711, #f8b500);
+  background: radial-gradient(circle, #ff0000, #ffdd00);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   white-space: nowrap;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 2.5s ease-in-out;
+  overflow: visible;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 600px) {
@@ -24,10 +36,39 @@
   }
 }
 
+.website-description {
+  width: 60%;
+  margin: 0 auto;
+  font-size: 1.5vw;
+  text-align: center;
+  position: relative;
+  color: white;
+}
+
+.this-that {
+  position: relative;
+  background: radial-gradient(circle, #f12711, #f8b500);
+  /* background: radial-gradient(circle, #ff0000, #ffdd00); */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.this-that i {
+  background: radial-gradient(circle, #f1271138, #f8b5005e);
+  /* z-index: -1; */
+  left: 43%;
+  top: -27px;
+  position: absolute;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 120px;
+  transform: rotate(90deg);
+}
+
 .login-form {
   display: flex;
   flex-direction: column;
-  margin: 2rem auto;
+  margin: 0 auto;
   padding: 2rem;
   width: 50%;
   /* border: 1px solid transparent;

@@ -12,9 +12,24 @@
   left: 0;
 }
 
+.board-choices.main-book {
+  left: 24px;
+  justify-content: space-around;
+  bottom: -9px;
+  display: flex;
+  align-items: center;
+  margin-right: 3px;
+  width: 151px;
+  background-color: transparent;
+}
+
 .the-select {
   height: 23px;
 }
+
+/* .the-select.main-book {
+  background-color: blue;
+} */
 
 .cancel-choices {
   background-color: rgb(189, 94, 94);

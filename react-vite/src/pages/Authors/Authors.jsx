@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { thunkAddAuthor, thunkGetAuthors } from '../../redux/authors'
 import { useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 import './Authors.css'
 
 export default function Authors() {
@@ -41,7 +42,7 @@ export default function Authors() {
 
     const result = await dispatch(thunkAddAuthor(author))
 
-    if (typeof result === 'object' && result.message) { 
+    if (typeof result === 'object' && result.message) {
       setError({ formError: result.message })
       return
     }
@@ -62,7 +63,8 @@ export default function Authors() {
   })
 
   return (
-    <>
+    <div className='author-page'>
+      <Helmet><title>ITTT: Authors</title></Helmet>
       <h2 className="author-title" style={{ borderbottom: 'none' }}>
         Authors
       </h2>
@@ -132,6 +134,6 @@ export default function Authors() {
           </div>
         </>
       )}
-    </>
+    </div>
   )
 }

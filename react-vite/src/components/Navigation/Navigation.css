@@ -52,12 +52,12 @@
 
 .nav-link:hover {
   filter: grayscale(0%) opacity(1);
-  background: black;
-  color: rgb(141, 51, 251);
+  background: radial-gradient(circle, #f12711, #f8b500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .nav-link i {
-  color: rgb(51, 251, 141);
   min-width: 2rem;
   margin: 0 1.5rem;
 }

@@ -17,11 +17,7 @@ class Recommendation(db.Model):
 
     def to_dict(self, include_books=True):
         data = {
-            "id": self.id,
-            # "books": [
-            #     br.book.to_dict(include_boards=False, include_recommendations=False)
-            #     for br in self.book_recommendations
-            # ],
+            "id": self.id
         }
 
         if include_books:

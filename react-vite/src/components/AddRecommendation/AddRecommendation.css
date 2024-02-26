@@ -20,6 +20,7 @@
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
   cursor: pointer;
+  margin-bottom: 50px;
 }
 
 .new-rec-btn:hover {

@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 import { thunkAddBookToAuthor, thunkGetAuthors } from '../../redux/authors'
+import defaultCover from '../../../images/defaultBookCover.png'
+import { Helmet } from 'react-helmet'
 import './SpecificAuthor.css'
 
 export default function SpecificAuthor() {
@@ -53,7 +55,7 @@ export default function SpecificAuthor() {
         throw new Error('No book found with that title')
       }
       if (data.items) {
-        const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
+        const coverImageLink = data.items[0].volumeInfo.imageLinks?.thumbnail || defaultCover
         setBookCovers((prev) => ({ ...prev, [book.id]: coverImageLink }))
 
         if (!fromHandleSubmit) {
@@ -90,6 +92,8 @@ export default function SpecificAuthor() {
     const bookTitle = bookRef.current.value
     const bookInfo = await fetchBookCover({title: bookTitle}, author.name, true)
 
+    console.log('COVER:', bookInfo.cover);
+
     const newBook = {
       cover: bookInfo.cover,
       title: bookTitle,
@@ -106,6 +110,7 @@ export default function SpecificAuthor() {
 
   return (
     <>
+      <Helmet><title>{`ITTT: ${author?.name}`}</title></Helmet>
       <h2 className="author-title">{author?.name}</h2>
       <div className="author-books-container">
         {author?.series?.map((series) => (

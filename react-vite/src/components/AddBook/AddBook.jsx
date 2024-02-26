@@ -12,7 +12,9 @@ export default function AddBook({
   error,
   setAuthorHasBook,
   setModalIsOpen,
-  addedAuthor
+  addedAuthor,
+  setClicked,
+  setAddBook
 }) {
   const [foundBook, setFoundBook] = useState(false)
   const [newBook, setNewBook] = useState(false)
@@ -74,14 +76,20 @@ export default function AddBook({
                   setAuthorHasBook(selectedOption)
                 }
               }}
-              placeholder={`Select a book from ${authorInfo?.name || addedAuthor}...`}
+              placeholder={`Select a book from ${
+                authorInfo?.name || addedAuthor
+              }...`}
             />
           )}
           {foundBook ? (
             <button
-              className='add-book-rec'
+              className="add-book-rec"
               onClick={(e) => {
                 handleBookSubmit(e)
+                setGenre('')
+                setAddBook(false)
+                setClicked(false)
+                setModalIsOpen(false)
               }}
             >
               Add book
@@ -95,8 +103,10 @@ export default function AddBook({
                   </p>
                   <button
                     className="add-book-rec"
-                    onClick={() => setNewBook(!newBook)}
-                    >
+                    onClick={() => {
+                      setNewBook(!newBook)
+                    }}
+                  >
                     {' '}
                     Add Book
                   </button>
@@ -143,6 +153,10 @@ export default function AddBook({
                 className="add-book-rec"
                 onClick={(e) => {
                   handleBookSubmit(e)
+                  setGenre('')
+                  setClicked(false)
+                  setAddBook(false)
+                  setModalIsOpen(false)
                 }}
                 type="button"
               >

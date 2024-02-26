@@ -1,15 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Autosuggest from 'react-autosuggest'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import {
-  thunkAddAuthor,
-  thunkAddBookToAuthor,
-  thunkGetAuthors,
-} from '../../redux/authors'
+import { thunkAddAuthor, thunkAddBookToAuthor, thunkGetAuthors } from '../../redux/authors'
 import { thunkAddRec } from '../../redux/recommendations'
 import { useParams } from 'react-router-dom'
 import AddBook from '../AddBook/AddBook'
 import Modal from 'react-modal'
+import defaultCover from '../../../images/defaultBookCover.png'
 import './AddRecommendation.css'
 
 export default function AddRecommendation() {
@@ -117,7 +114,7 @@ export default function AddRecommendation() {
           throw new Error('No book found with that title')
         }
         if (data.items) {
-          const coverImageLink = data.items[0].volumeInfo.imageLinks.thumbnail
+          const coverImageLink = data.items[0].volumeInfo.imageLinks?.thumbnail || defaultCover
           setBookCovers((prev) => ({ ...prev, [book.id]: coverImageLink }))
 
           if (!fromHandleSubmit) {
@@ -144,21 +141,13 @@ export default function AddRecommendation() {
     ) {
       setSelectedAuthor(null)
     } else {
-      //! added
       setSelectedAuthor(authors.find((author) => author.name === searchTerm))
     }
   }, [searchTerm, authors])
 
   async function handleAuthorSubmit() {
-    console.log(
-      'FROM HANDLE AUTHOR SUBMIT',
-      selectedAuthor,
-      'found author',
-      foundAuthor
-    )
     let authorName = ''
     if (authorRef.current) {
-      console.log('authorref current?');
       authorName = authorRef.current.value.trim()
     }
     const nameParts = authorName.split(' ')
@@ -191,12 +180,6 @@ export default function AddRecommendation() {
 
   async function handleBookSubmit(e) {
     e.preventDefault()
-
-    // if (authorHasBook) {
-    //   console.log('AUTHOR HAS BOOK', authorHasBook);
-    // } else {
-    //   console.log('AUTHOR HAS NO BOOK', authorHasBook);
-    // }
 
     if (Object.keys(authorHasBook).length > 0) {
       try {
@@ -251,11 +234,16 @@ export default function AddRecommendation() {
     }
 
     dispatch(thunkAddRec({ recommendation_id: result, book_id: Number(bookId) }))
-
     setClicked(false)
-    bookRef.current.value = ''
-    seriesRef.current.value = ''
-    setAddBook(false)
+    if (authorRef.current) {
+      authorRef.current.value = ''
+    }
+    if (bookRef.current) {
+      bookRef.current.value = ''
+    }
+    if (seriesRef.current) {
+      seriesRef.current.value = ''
+    }
   }
 
   return (
@@ -346,6 +334,8 @@ export default function AddRecommendation() {
                     error={error}
                     setAuthorHasBook={setAuthorHasBook}
                     setModalIsOpen={setModalIsOpen}
+                    setAddBook={setAddBook}
+                    setClicked={setClicked}
                   />
                 )}
               </>
@@ -387,6 +377,8 @@ export default function AddRecommendation() {
                     setAuthorHasBook={setAuthorHasBook}
                     setModalIsOpen={setModalIsOpen}
                     addedAuthor={author}
+                    setClicked={setClicked}
+                    setAddBook={setAddBook}
                   />
                 )}
               </form>

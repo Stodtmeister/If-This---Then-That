@@ -1,6 +1,6 @@
 from flask import Blueprint, request, abort, jsonify
 from flask_login import login_required, current_user
-from app.models import Review, Book, BookRecommendation, db
+from app.models import Review, Book, BookRecommendation, db, Recommendation
 from app.forms import ReviewForm
 from .auth_routes import validation_errors_to_error_messages
 
@@ -202,6 +202,10 @@ def submit_recommendation(bookId):
     if recommendation is None:
         return {"errors": ["Recommendation not found"]}, 404
 
+    new_recommendation = Recommendation()
+    db.session.add(new_recommendation)
+    db.session.commit()
+
     existing_recommendation = BookRecommendation.query.filter_by(
         book_id=bookId,
         recommendation_id=recommendationId
@@ -224,3 +228,25 @@ def submit_recommendation(bookId):
     book_recommendations_dicts = [br.to_dict(include_books=False, include_recommendations=False) for br in book.book_recommendations]
 
     return {"book_recommendations": book_recommendations_dicts}, 201
+
+
+@review_routes.route('/<int:bookId>/recommendations/<int:recommendationId>', methods=["PUT"])
+@login_required
+def edit_recommendation(bookId, recommendationId):
+    book = Book.query.get(bookId)
+
+    if book is None:
+        return {"errors": ["Book not found"]}
+
+    recommendation = BookRecommendation.query.filter_by(
+        book_id=bookId,
+        recommendation_id=recommendationId
+    ).first()
+
+    if recommendation is None:
+        return {"errors": ["Recommendation not found"]}
+
+    recommendation.votes += 1
+    db.session.commit()
+
+    return {"new_vote_count": recommendation.votes}, 201

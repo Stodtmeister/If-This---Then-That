@@ -1,18 +1,29 @@
+.author-page {
+  width: 100%;
+  height: 100vh;
+  margin-top: -20px;
+  background-color: #fff8f0;
+}
+
 .author-title {
   position: relative;
   display: flex;
   justify-content: center;
   margin: 20px auto;
   top: 10px;
-  font-size: 45px;
+  font-size: 40px;
   width: fit-content;
   height: fit-content;
   padding: 0;
   /* background: linear-gradient(to right, #f12711, #f8b500); */
-  background: radial-gradient(circle, #080c3f, #720975);
+  background: radial-gradient(circle, #009e9c, #0e802f);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 5px rgb(0 0 0 / 36%);
+  text-align: center;
 }
+
+
 
 .sorted {
   text-align: center;
@@ -69,7 +80,7 @@
 .author-card {
   display: flex;
   padding: 10px;
-  margin: 10px 0;
+  margin: 5px 0;
   list-style-type: none;
   border: 1px solid #ddd;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
