@@ -23,13 +23,18 @@
   background-color: transparent;
 }
 
+.board-choices.top-3 {
+  display: flex;
+  justify-content: center;
+}
+
 .the-select {
   height: 23px;
 }
 
-/* .the-select.main-book {
+.the-select.main-book {
   background-color: blue;
-} */
+}
 
 .cancel-choices {
   background-color: rgb(189, 94, 94);
