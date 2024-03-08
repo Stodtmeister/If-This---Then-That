@@ -4,7 +4,13 @@
   height: 100vh;
 }
 
+@font-face {
+  font-family: 'Ringbearer';
+  src: url('../../../../fonts/RINGM___.TTF') format('truetype');
+}
+
 .github-title {
+  font-family: 'Ringbearer';
   position: relative;
   display: flex;
   flex-direction: column;
@@ -17,10 +23,10 @@
   width: fit-content;
   height: fit-content;
   padding: 0;
-  background-image: radial-gradient(circle, #d4af37, #b8860b, #d4af37);
+  /* background-image: radial-gradient(circle, #d4af37, #b8860b, #d4af37);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    /* color: #ffd700; */
-  text-shadow: 2px 2px 5px rgb(0 0 0 / 36%);
+    -webkit-text-fill-color: transparent; */
+    color: #ffd700;
+  /* text-shadow: 2px 2px 5px rgb(0 0 0 / 36%); */
   text-align: center;
 }
