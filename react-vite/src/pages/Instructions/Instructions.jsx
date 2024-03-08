@@ -2,6 +2,8 @@ import "./Instructions.css"
 
 export default function Instructions() {
   return (
-    <h3>Instructions</h3>
+    <div className="github">
+      <h1 className="github-title">The Lord of the Codes</h1>
+    </div>
   )
 }

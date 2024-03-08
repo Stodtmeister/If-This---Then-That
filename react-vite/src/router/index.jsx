@@ -45,10 +45,10 @@ export const router = createBrowserRouter([
         path: "books/:bookId",
         element: <Book />
       },
-      // {
-      //   path: "instructions",
-      //   element: <Instructions />
-      // },
+      {
+        path: "instructions",
+        element: <Instructions />
+      },
       // {
       //   path: "reviews/:reviewId",
       //   element: <Reviews />
